@@ -29,8 +29,8 @@ export default function Input({
       )}
       <div
         className={cn(
-          "flex items-center gap-2 rounded-md border bg-surface px-3 transition-colors duration-150",
-          "focus-within:ring-[3px] focus-within:ring-brand-ring",
+          "flex items-center gap-2 rounded-md border bg-surface-subtle px-3 transition-colors duration-150",
+          "focus-within:border-brand hover:focus-within:border-brand",
           error ? "border-danger" : "border-line hover:border-line-strong"
         )}
       >
@@ -40,7 +40,7 @@ export default function Input({
           aria-invalid={error ? true : undefined}
           aria-describedby={describedBy}
           className={cn(
-            "h-10 w-full bg-transparent text-body-sm text-ink outline-none placeholder:text-ink-muted",
+            "h-10 w-full bg-transparent text-body-sm text-ink outline-none focus:outline-none focus:ring-0 focus-visible:outline-none placeholder:text-ink-muted",
             inputClassName
           )}
           {...props}

@@ -1,4 +1,4 @@
-import { X } from "lucide-react";
+import { ChevronsLeft } from "lucide-react";
 import { Search } from "lucide-react";
 import Input from "../ui/Input";
 import Badge from "../ui/Badge";
@@ -20,9 +20,9 @@ function PanelShell({ title, onClose, children }) {
       className={`${PANEL_WIDTH} flex shrink-0 flex-col border-r border-line bg-surface-subtle`}
     >
       <div className="flex h-12 shrink-0 items-center justify-between border-b border-line px-4">
-        <h2 className="text-label font-semibold uppercase tracking-wide text-ink-muted">{title}</h2>
+        <h2 className="text-[15px] font-medium capitalize tracking-wide text-ink-muted">{title}</h2>
         <IconButton label="Close panel" size="sm" onClick={onClose}>
-          <X size={15} aria-hidden />
+          <ChevronsLeft size={18} aria-hidden />
         </IconButton>
       </div>
       <div className="scroll-thin flex-1 overflow-y-auto p-4">{children}</div>

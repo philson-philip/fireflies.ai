@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
-import { Search, Maximize2, Copy, Sparkles, Send, ChevronRight, X, Bot } from "lucide-react";
+import { Search, Maximize2, Copy, Sparkles, Send, ChevronRight, X, Link } from "lucide-react";
+import askFredIconUrl from "../../assets/brand/ask-fred.svg";
 import Avatar from "../ui/Avatar";
 import Card from "../ui/Card";
 import IconButton from "../ui/IconButton";
@@ -10,20 +11,11 @@ import { transcript } from "../../data/meeting";
 
 const TABS = [
   { key: "transcript", label: "Transcript" },
-  { key: "askfred", label: "AskFred", icon: Bot },
+  { key: "askfred", label: "AskFred", customIcon: askFredIconUrl },
   { key: "skills", label: "AI Skills" },
 ];
 
-// Group consecutive turns by the same speaker so the header isn't repeated.
-function groupTurns(turns) {
-  const groups = [];
-  for (const t of turns) {
-    const last = groups[groups.length - 1];
-    if (last && last.speaker === t.speaker) last.lines.push(t);
-    else groups.push({ speaker: t.speaker, lines: [t] });
-  }
-  return groups;
-}
+
 
 // Highlight query matches without dangerouslySetInnerHTML.
 function withMatches(text, query) {
@@ -43,7 +35,6 @@ function withMatches(text, query) {
 function TranscriptTab({ currentSeconds, onSeek }) {
   const [query, setQuery] = useState("");
   const [focused, setFocused] = useState(false);
-  const groups = useMemo(() => groupTurns(transcript), []);
 
   // The active line is the last line whose timestamp is at or before the
   // playhead — exactly one line, the one being spoken now.
@@ -82,45 +73,47 @@ function TranscriptTab({ currentSeconds, onSeek }) {
           }
         />
       </div>
-      <div className="scroll-thin flex-1 overflow-y-auto px-4 pb-6">
-        {groups.map((group, gi) => (
-          <div key={gi} className="mb-5">
-            <div className="mb-1.5 flex items-center gap-2">
-              <Avatar name={group.speaker} size="sm" />
-              <span className="text-body-sm font-semibold text-ink">{group.speaker}</span>
-            </div>
-            {/* min-w-0 + normal wrapping = text never clips, and re-justifies
-                automatically when the pane is resized. */}
-            <div className="ml-9 flex min-w-0 flex-col gap-1.5">
-              {group.lines.map((line) => {
-                const active = line.id === activeId;
-                return (
-                  <div
-                    key={line.id}
+      <div className="scroll-thin flex-1 overflow-y-auto px-4 pb-6 pt-2">
+        {transcript.map((line) => {
+          const active = line.id === activeId;
+          return (
+            <div
+              key={line.id}
+              className={cn(
+                "group/chat mb-3 flex gap-2.5 rounded-md p-2 -mx-2 transition-colors",
+                active ? "bg-playing" : "hover:bg-surface-subtle"
+              )}
+            >
+              <Avatar name={line.speaker} size="sm" className="shrink-0 mt-0.5" />
+              <div className="min-w-0 flex-1">
+                <div className="mb-1 flex items-center gap-2">
+                  <span className="text-body-sm font-semibold text-ink">{line.speaker}</span>
+                  <span className="text-caption text-ink-muted">·</span>
+                  <button
+                    type="button"
+                    onClick={() => onSeek?.(toSeconds(line.at))}
                     className={cn(
-                      "group/line -ml-3 flex gap-2.5 rounded-md py-1 pl-3 pr-2 transition-colors",
-                      active ? "bg-playing" : "hover:bg-surface-subtle"
+                      "text-body-sm tabular-nums transition-colors",
+                      active ? "text-brand" : "text-info hover:underline"
                     )}
                   >
-                    <button
-                      type="button"
-                      onClick={() => onSeek?.(toSeconds(line.at))}
-                      className={cn(
-                        "shrink-0 pt-0.5 text-caption font-medium tabular-nums",
-                        active ? "text-brand" : "text-ink-muted hover:text-brand"
-                      )}
-                    >
-                      {line.at}
-                    </button>
-                    <p className="min-w-0 text-body text-ink-secondary">
-                      {withMatches(line.text, query)}
-                    </p>
-                  </div>
-                );
-              })}
+                    {line.at}
+                  </button>
+                  <IconButton
+                    label="Copy link"
+                    size="sm"
+                    className="opacity-0 group-hover/chat:opacity-100 transition-opacity h-6 w-6"
+                  >
+                    <Link size={13} aria-hidden />
+                  </IconButton>
+                </div>
+                <p className="min-w-0 text-body text-ink-secondary">
+                  {withMatches(line.text, query)}
+                </p>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </>
   );
@@ -200,10 +193,10 @@ export default function TranscriptPane({ currentSeconds, onSeek, onExpand }) {
   return (
     <section
       aria-label="Transcript and AI tools"
-      className="flex h-full min-w-0 flex-1 flex-col border-l border-line bg-surface"
+      className="flex h-full min-w-0 flex-1 flex-col bg-surface"
     >
       <div className="flex h-14 shrink-0 items-center justify-between gap-2 border-b border-line pl-2 pr-3">
-        <div role="tablist" aria-label="Transcript views" className="flex items-center">
+        <div role="tablist" aria-label="Transcript views" className="flex h-full">
           {TABS.map((t) => {
             const Icon = t.icon;
             const isActive = tab === t.key;
@@ -214,19 +207,21 @@ export default function TranscriptPane({ currentSeconds, onSeek, onExpand }) {
                 aria-selected={isActive}
                 onClick={() => setTab(t.key)}
                 className={cn(
-                  "relative flex items-center gap-1.5 px-3 py-2 text-body-sm font-medium transition-colors",
+                  "relative flex items-center gap-1.5 px-3 h-full text-body-sm font-medium transition-colors",
                   isActive ? "text-brand" : "text-ink-muted hover:text-ink"
                 )}
               >
-                {Icon && (
+                {t.customIcon ? (
+                  <img src={t.customIcon} alt="" className="h-7 w-7" />
+                ) : Icon ? (
                   <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-brand text-white">
                     <Icon size={16} aria-hidden />
                   </span>
-                )}
+                ) : null}
                 <span>{t.label}</span>
                 {isActive && (
                   <span
-                    className="absolute inset-x-2 -bottom-px h-[2px] rounded-full bg-brand"
+                    className="absolute inset-x-2 -bottom-px h-[2px] bg-brand"
                     aria-hidden
                   />
                 )}
@@ -235,10 +230,10 @@ export default function TranscriptPane({ currentSeconds, onSeek, onExpand }) {
           })}
         </div>
         <div className="flex items-center gap-0.5">
-          <IconButton label="Copy transcript" size="sm">
+          <IconButton label="Copy transcript" size="sm" side="left">
             <Copy size={15} aria-hidden />
           </IconButton>
-          <IconButton label="Expand" size="sm" onClick={onExpand}>
+          <IconButton label="Expand" size="sm" onClick={onExpand} side="left">
             <Maximize2 size={15} aria-hidden />
           </IconButton>
         </div>

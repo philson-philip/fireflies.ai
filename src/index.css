@@ -23,7 +23,7 @@
   /* Surfaces */
   --canvas: #ffffff;
   --surface: #ffffff;
-  --surface-subtle: #f9fafb;
+  --surface-subtle: #fafafa;
   --surface-muted: #f3f5fc;
 
   /* Text */
@@ -87,20 +87,24 @@ body {
   scrollbar-width: thin;
   scrollbar-color: var(--line-strong) transparent;
 }
+
 .scroll-thin::-webkit-scrollbar {
   width: 10px;
   height: 10px;
 }
+
 .scroll-thin::-webkit-scrollbar-thumb {
   background: var(--line-strong);
   border-radius: 9999px;
   border: 3px solid var(--canvas);
 }
+
 .scroll-thin::-webkit-scrollbar-track {
   background: transparent;
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {

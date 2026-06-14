@@ -11,12 +11,21 @@ const SIDE = {
 // Lightweight tooltip. Appears on hover AND keyboard focus (a11y), with a
 // short, responsive delay — the live app's tooltips feel laggy, so this
 // opens in 120ms and closes immediately.
-export default function Tooltip({ label, side = "bottom", children, className }) {
+export default function Tooltip({ label, shortcut, side = "auto", children, className }) {
   const [open, setOpen] = useState(false);
+  const [computedSide, setComputedSide] = useState(side === "auto" ? "top" : side);
   const timer = useRef(null);
   const id = useId();
 
-  const show = () => {
+  const show = (e) => {
+    if (side === "auto" && e.currentTarget) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      if (rect.top > window.innerHeight / 2) {
+        setComputedSide("top");
+      } else {
+        setComputedSide("bottom");
+      }
+    }
     clearTimeout(timer.current);
     timer.current = setTimeout(() => setOpen(true), 120);
   };
@@ -40,12 +49,17 @@ export default function Tooltip({ label, side = "bottom", children, className })
         role="tooltip"
         id={id}
         className={cn(
-          "pointer-events-none absolute z-50 whitespace-nowrap rounded-md bg-ink px-2 py-1 text-caption font-medium text-ink-inverse shadow-lifted transition duration-150 ease-out-soft",
-          SIDE[side],
+          "pointer-events-none absolute z-50 flex items-center gap-2 whitespace-nowrap rounded-md bg-surface border border-line px-2.5 py-1.5 text-body-sm text-ink shadow-subtle transition duration-150 ease-out-soft",
+          SIDE[side === "auto" ? computedSide : side],
           open ? "opacity-100" : "opacity-0"
         )}
       >
-        {label}
+        <span>{label}</span>
+        {shortcut && (
+          <kbd className="flex h-5 min-w-[20px] items-center justify-center rounded border border-line bg-transparent px-1 font-sans text-caption text-ink-muted">
+            {shortcut}
+          </kbd>
+        )}
       </span>
     </span>
   );

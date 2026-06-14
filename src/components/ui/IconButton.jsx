@@ -12,7 +12,8 @@ const SIZES = {
 // for "icon buttons have no label / no tooltip" from the audit.
 export default function IconButton({
   label,
-  side = "bottom",
+  shortcut,
+  side = "auto",
   size = "md",
   active = false,
   className,
@@ -20,7 +21,7 @@ export default function IconButton({
   ...props
 }) {
   return (
-    <Tooltip label={label} side={side}>
+    <Tooltip label={label} shortcut={shortcut} side={side}>
       <button
         type="button"
         aria-label={label}

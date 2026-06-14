@@ -1,5 +1,7 @@
 import { Play, Pause, RotateCcw, RotateCw, Download, Star, ListChecks, ThumbsUp, ThumbsDown } from "lucide-react";
 import IconButton from "../ui/IconButton";
+import Tooltip from "../ui/Tooltip";
+import ProgressBar from "./ProgressBar";
 import { formatClock } from "../../lib/utils";
 import { meeting } from "../../data/meeting";
 
@@ -8,25 +10,28 @@ export default function PlayerBar({ playing, onTogglePlay, currentSeconds, onScr
   const pct = Math.min(100, (currentSeconds / total) * 100);
 
   return (
-    <footer className="relative z-30 flex h-16 shrink-0 items-center gap-3 border-t border-line bg-surface px-3 sm:px-5">
-      <span className="hidden w-28 shrink-0 text-caption tabular-nums text-ink-muted sm:block">
-        {formatClock(currentSeconds)} / {meeting.duration}
+    <footer className="relative z-30 flex h-16 shrink-0 items-center gap-3 bg-surface px-3 sm:px-5">
+      <span className="hidden w-32 shrink-0 text-caption tabular-nums sm:block">
+        <span className="text-ink font-medium">{formatClock(currentSeconds)}</span>
+        <span className="text-ink-muted font-medium"> / {meeting.duration}</span>
       </span>
 
       <div className="flex flex-1 items-center justify-center gap-1 sm:gap-2">
         <span className="mr-1 hidden text-caption font-medium text-ink-muted sm:inline">1×</span>
-        <IconButton label="Back 15s" onClick={() => onScrub(Math.max(0, currentSeconds - 15))}>
+        <IconButton label="Skip 5 seconds backward" shortcut="←" onClick={() => onScrub(Math.max(0, currentSeconds - 5))}>
           <RotateCcw size={17} aria-hidden />
         </IconButton>
-        <button
-          type="button"
-          aria-label={playing ? "Pause" : "Play"}
-          onClick={onTogglePlay}
-          className="flex h-11 w-11 items-center justify-center rounded-full bg-brand text-ink-inverse shadow-subtle transition-colors hover:bg-brand-hover active:bg-brand-active"
-        >
-          {playing ? <Pause size={20} aria-hidden /> : <Play size={20} aria-hidden className="ml-0.5" />}
-        </button>
-        <IconButton label="Forward 15s" onClick={() => onScrub(Math.min(total, currentSeconds + 15))}>
+        <Tooltip label={playing ? "Pause" : "Play"} shortcut="Space">
+          <button
+            type="button"
+            aria-label={playing ? "Pause" : "Play"}
+            onClick={onTogglePlay}
+            className="flex h-11 w-11 items-center justify-center rounded-full bg-brand text-ink-inverse shadow-subtle transition-colors hover:bg-brand-hover active:bg-brand-active focus-visible:rounded-full"
+          >
+            {playing ? <Pause size={20} aria-hidden /> : <Play size={20} aria-hidden className="ml-0.5" />}
+          </button>
+        </Tooltip>
+        <IconButton label="Skip 5 seconds forward" shortcut="→" onClick={() => onScrub(Math.min(total, currentSeconds + 5))}>
           <RotateCw size={17} aria-hidden />
         </IconButton>
         <IconButton label="Download" className="hidden sm:inline-flex">
@@ -41,10 +46,12 @@ export default function PlayerBar({ playing, onTogglePlay, currentSeconds, onScr
         <IconButton label="Needs work" className="hidden sm:inline-flex"><ThumbsDown size={16} aria-hidden /></IconButton>
       </div>
 
-      {/* progress sits on the top border of the bar */}
-      <div className="absolute inset-x-0 -top-px h-0.5 bg-line">
-        <div className="h-full bg-brand transition-[width] duration-150" style={{ width: `${pct}%` }} />
-      </div>
+      {/* Interactive Progress Bar */}
+      <ProgressBar 
+        currentSeconds={currentSeconds} 
+        totalSeconds={total} 
+        onScrub={onScrub} 
+      />
     </footer>
   );
 }

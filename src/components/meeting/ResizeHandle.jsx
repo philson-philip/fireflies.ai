@@ -41,9 +41,10 @@ export default function ResizeHandle({ onResize }) {
         if (e.key === "ArrowLeft") onResize(16);
         if (e.key === "ArrowRight") onResize(-16);
       }}
-      className="group relative z-10 hidden w-1.5 shrink-0 cursor-col-resize items-center justify-center lg:flex"
+      className="group relative z-10 hidden w-px shrink-0 cursor-col-resize lg:block"
     >
-      <span className="h-10 w-1 rounded-full bg-line transition-colors group-hover:bg-brand group-focus-visible:bg-brand" />
+      <div className="absolute inset-y-0 right-0 w-px bg-line transition-all group-hover:w-[2px] group-hover:bg-brand group-focus-visible:w-[2px] group-focus-visible:bg-brand" />
+      <div className="absolute inset-y-0 -left-1 w-3" />
     </div>
   );
 }

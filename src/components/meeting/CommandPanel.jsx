@@ -16,12 +16,14 @@ function PanelShell({ title, onClose, children }) {
   return (
     <aside
       aria-label={`${title} panel`}
-      className={`${PANEL_WIDTH} group flex shrink-0 flex-col border-r border-line bg-surface-subtle`}
+      className={`${PANEL_WIDTH} group relative flex shrink-0 flex-col border-r border-line bg-surface-subtle`}
     >
-      <div className="flex h-12 shrink-0 items-center justify-between border-b border-line px-4">
-        <h2 className="text-[15px] font-medium capitalize tracking-wide text-ink-muted">{title}</h2>
-        <IconButton label="Close panel" size="sm" onClick={onClose} className="opacity-0 group-hover:opacity-100 transition-opacity">
-          <ChevronsLeft size={18} aria-hidden />
+      <div className="flex h-12 shrink-0 items-center border-b border-line px-4">
+        <h2 className="text-[15px] font-semibold capitalize tracking-wide text-ink-muted">{title}</h2>
+      </div>
+      <div className="absolute -right-4 top-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+        <IconButton label="Close panel" onClick={onClose} className="!h-8 !w-8 rounded-[8px] border border-line bg-surface shadow-sm hover:bg-surface-subtle">
+          <ChevronsLeft size={16} aria-hidden />
         </IconButton>
       </div>
       <div className="scroll-thin flex-1 overflow-y-auto p-4">{children}</div>
@@ -81,10 +83,18 @@ const BORDER_STYLES = {
 };
 
 function Overview() {
-  const [selectedFilters, setSelectedFilters] = useState({});
+  const [selectedFilters, setSelectedFilters] = useState({ [insights.filters[0].label]: true });
+  const [selectedSentiments, setSelectedSentiments] = useState({ [insights.sentiments[0].label]: true });
 
   const toggleFilter = (label) => {
     setSelectedFilters((prev) => ({
+      ...prev,
+      [label]: !prev[label],
+    }));
+  };
+
+  const toggleSentiment = (label) => {
+    setSelectedSentiments((prev) => ({
       ...prev,
       [label]: !prev[label],
     }));
@@ -97,9 +107,9 @@ function Overview() {
           {insights.filters.map((f) => {
             const isSelected = selectedFilters[f.label];
             return (
-              <Card 
-                key={f.label} 
-                interactive 
+              <Card
+                key={f.label}
+                interactive
                 className={`!rounded-md !border-0 !border-l-2 shadow-subtle flex items-center justify-between !p-3 ${isSelected ? SELECTED_STYLES[f.tone] : 'bg-surface'} ${BORDER_STYLES[f.tone]}`}
                 onClick={() => toggleFilter(f.label)}
               >
@@ -118,18 +128,25 @@ function Overview() {
 
       <Section title="Sentiments">
         <div className="flex flex-col gap-2">
-          {insights.sentiments.map((s) => (
-            <Card 
-              key={s.label} 
-              interactive 
-              className={`!rounded-md !border-0 !border-l-2 shadow-subtle flex items-center justify-between !p-3 bg-surface ${BORDER_STYLES[s.tone]}`}
-            >
-              <div className="flex items-center gap-2">
-                <span className="text-caption text-ink-secondary">{s.label}</span>
-              </div>
-              <span className="text-body-sm font-semibold text-ink-muted">{s.value}%</span>
-            </Card>
-          ))}
+          {insights.sentiments.map((s) => {
+            const isSelected = selectedSentiments[s.label];
+            return (
+              <Card
+                key={s.label}
+                interactive
+                className={`!rounded-md !border-0 !border-l-2 shadow-subtle flex items-center justify-between !p-3 ${isSelected ? SELECTED_STYLES[s.tone] : 'bg-surface'} ${BORDER_STYLES[s.tone]}`}
+                onClick={() => toggleSentiment(s.label)}
+              >
+                <div className="flex items-center gap-2">
+                  {isSelected && (
+                    <Check size={14} className={DOT[s.tone].replace('bg-', 'text-')} />
+                  )}
+                  <span className={`text-caption ${isSelected ? '' : 'text-ink-secondary'}`}>{s.label}</span>
+                </div>
+                <span className={`text-body-sm font-semibold ${isSelected ? '' : 'text-ink-muted'}`}>{s.value}%</span>
+              </Card>
+            );
+          })}
         </div>
       </Section>
 

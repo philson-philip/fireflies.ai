@@ -2,19 +2,19 @@
 // so the UI reads like a genuine Fireflies workspace rather than lorem.
 
 export const meeting = {
-  title: "Philson K Philip and Venu Madhav Ravi",
+  title: "Philson K Philip and John Doe",
   channel: "My Meetings",
   date: "Jun 09 2026, 3:01 PM",
   language: "English (US)",
   source: "Google Meet",
   duration: "01:15:53",
   durationSeconds: 4553,
-  host: { name: "Venu Madhav Ravi" },
+  host: { name: "John Doe" },
   otherCount: 1,
 };
 
 export const participants = [
-  { name: "Venu Madhav Ravi", role: "Host", imageUrl: "https://api.dicebear.com/7.x/notionists/svg?seed=Venu&backgroundColor=ecfdf3" },
+  { name: "John Doe", role: "Host", imageUrl: "https://api.dicebear.com/7.x/notionists/svg?seed=John&backgroundColor=ecfdf3" },
   { name: "Philson Philip", role: "Guest", imageUrl: "https://api.dicebear.com/7.x/notionists/svg?seed=Philson&backgroundColor=f1edff" },
 ];
 
@@ -64,18 +64,18 @@ export const notes = [
 // Transcript turns. Consecutive turns by the same speaker are grouped in the
 // UI so the speaker header is not repeated for every line.
 export const transcript = [
-  { id: 1, speaker: "Venu Madhav Ravi", at: "00:01", text: "Hello. Hi. Yeah, how are you?" },
+  { id: 1, speaker: "John Doe", at: "00:01", text: "Hello. Hi. Yeah, how are you?" },
   { id: 2, speaker: "Philson Philip", at: "00:04", text: "Yeah, I'm doing great." },
   {
     id: 3,
-    speaker: "Venu Madhav Ravi",
+    speaker: "John Doe",
     at: "00:05",
     text: "Just a second, let me get our credit side. Okay, good. Thank you for joining. And is it Philson? Am I pronouncing your name right?",
   },
   { id: 4, speaker: "Philson Philip", at: "00:17", text: "Yeah, my name is." },
   {
     id: 5,
-    speaker: "Venu Madhav Ravi",
+    speaker: "John Doe",
     at: "00:17",
     text: "Fantastic. So before we start, I want to bring your attention to the third participant in the call, Fred. Our bot has just joined and Fred is going to listen to the call. At the end, both of us get the summary and the transcript. Are you okay with Fred being on the call?",
   },
@@ -85,9 +85,9 @@ export const transcript = [
     at: "00:35",
     text: "Totally. Yeah. I used this tool in my previous company during Zoom meetings. We have used Fireflies.",
   },
-  { id: 7, speaker: "Venu Madhav Ravi", at: "00:48", text: "Got it. Thank you. Welcome. So Philson, where are you calling from today?" },
+  { id: 7, speaker: "John Doe", at: "00:48", text: "Got it. Thank you. Welcome. So Philson, where are you calling from today?" },
   { id: 8, speaker: "Philson Philip", at: "00:54", text: "Yeah, I'm calling from Bangalore." },
-  { id: 9, speaker: "Venu Madhav Ravi", at: "00:55", text: "You're in Bangalore? I'm calling from Hyderabad, just an hour away." },
+  { id: 9, speaker: "John Doe", at: "00:55", text: "You're in Bangalore? I'm calling from Hyderabad, just an hour away." },
   {
     id: 10,
     speaker: "Philson Philip",
@@ -102,7 +102,7 @@ export const transcript = [
   },
   {
     id: 12,
-    speaker: "Venu Madhav Ravi",
+    speaker: "John Doe",
     at: "10:03",
     text: "So your undergrad was computer science, and you went mostly into UI/UX. How did you get interested in design out of a CS background?",
   },
@@ -141,6 +141,6 @@ export const insights = {
   ],
   talktime: [
     { name: "Philson Philip", wpm: 175, pct: 69 },
-    { name: "Venu Madhav Ravi", wpm: 250, pct: 31 },
+    { name: "John Doe", wpm: 250, pct: 31 },
   ],
 };

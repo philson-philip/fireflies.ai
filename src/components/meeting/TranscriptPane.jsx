@@ -212,7 +212,7 @@ export default function TranscriptPane({ currentSeconds, onSeek, onExpand }) {
                 )}
               >
                 {t.customIcon ? (
-                  <img src={t.customIcon} alt="" className="h-7 w-7" />
+                  <img src={t.customIcon} alt="" className="h-6 w-6" />
                 ) : Icon ? (
                   <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-brand text-white">
                     <Icon size={16} aria-hidden />

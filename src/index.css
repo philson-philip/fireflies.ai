@@ -1,0 +1,108 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   Design tokens
+   Anchored in the Fireflies brand (purple #7A5AF8, DM Sans +
+   Inter, 4px rhythm), but owned by this system. Semantic colors
+   are tuned for WCAG AA — the live app uses teal for "success"
+   which fails contrast as text, so success/warning/danger/info
+   here are readable on white and paired with soft tint surfaces.
+   Structured as variables so a dark theme is a drop-in later.
+   ============================================================ */
+:root {
+  /* Brand */
+  --brand: #7a5af8;
+  --brand-hover: #6938ef;
+  --brand-active: #5b2fb0;
+  --brand-soft: #f1edff;
+
+  /* Surfaces */
+  --canvas: #ffffff;
+  --surface: #ffffff;
+  --surface-subtle: #f9fafb;
+  --surface-muted: #f3f5fc;
+
+  /* Text */
+  --ink: #101828;
+  --ink-secondary: #475467;
+  --ink-muted: #667085;
+  --ink-inverse: #ffffff;
+
+  /* Lines */
+  --line: #eaecf0;
+  --line-strong: #d0d5dd;
+
+  /* Semantic (accessible) */
+  --success: #067647;
+  --success-soft: #ecfdf3;
+  --warning: #b54708;
+  --warning-soft: #fffaeb;
+  --danger: #b42318;
+  --danger-soft: #fef3f2;
+  --info: #175cd3;
+  --info-soft: #eff8ff;
+
+  /* Transcript "now playing" — brand tint, never red */
+  --playing: #f1edff;
+
+  /* Motion */
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+
+  color-scheme: light;
+}
+
+* {
+  border-color: var(--line);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Visible, consistent keyboard focus everywhere (fixes the non-focusable
+   nav we found in the audit). Mouse users don't see it; keyboard users do. */
+:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Quiet, themeable scrollbars for the scroll regions */
+.scroll-thin {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
+}
+.scroll-thin::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+.scroll-thin::-webkit-scrollbar-thumb {
+  background: var(--line-strong);
+  border-radius: 9999px;
+  border: 3px solid var(--canvas);
+}
+.scroll-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}

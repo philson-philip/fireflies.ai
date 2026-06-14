@@ -65,13 +65,13 @@ export default function ProgressBar({ currentSeconds, totalSeconds, onScrub }) {
       {/* Visual track container, centered vertically within the 12px hit area */}
       <div className="absolute inset-x-0 top-1/2 -translate-y-1/2">
         {/* Background track */}
-        <div 
+        <div
           className={cn(
-            "w-full bg-gradient-to-r from-line to-transparent transition-all duration-150",
+            "w-full bg-[#f2f4f7] transition-all duration-150",
             isHovering || isDragging ? "h-1" : "h-0.5"
-          )} 
+          )}
         />
-        
+
         {/* Filled track */}
         <div
           className={cn(

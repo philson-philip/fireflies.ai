@@ -2,9 +2,9 @@ import { cn } from "../../lib/utils";
 import Tooltip from "./Tooltip";
 
 const SIZES = {
-  sm: "h-8 w-8",
-  md: "h-9 w-9",
-  lg: "h-10 w-10",
+  sm: "h-7 w-7 p-1.5",
+  md: "h-8 w-8 p-1.5",
+  lg: "h-10 w-10 p-2",
 };
 
 // Every icon control routes through here, so it is guaranteed to have an
@@ -27,9 +27,9 @@ export default function IconButton({
         aria-label={label}
         aria-pressed={active || undefined}
         className={cn(
-          "inline-flex items-center justify-center rounded-md text-ink-secondary transition-colors duration-150 ease-out-soft",
-          "hover:bg-surface-subtle hover:text-ink active:bg-surface-muted",
-          active && "bg-brand-soft text-brand hover:bg-brand-soft hover:text-brand",
+          "inline-flex items-center justify-center rounded-[5px] text-ink-secondary transition-colors duration-150 ease-out-soft",
+          "hover:bg-surface-secondary hover:text-ink active:bg-surface-muted",
+          active && "bg-brand-soft text-brand hover:!bg-[#e6ddfe] hover:text-brand",
           SIZES[size],
           className
         )}

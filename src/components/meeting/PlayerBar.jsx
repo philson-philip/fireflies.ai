@@ -1,4 +1,4 @@
-import { Play, Pause, RotateCcw, RotateCw, Download, Star, ListChecks, ThumbsUp, ThumbsDown } from "lucide-react";
+import { Play, Pause, RotateCcw, RotateCw, Star, ListChecks, ThumbsUp, ThumbsDown } from "lucide-react";
 import IconButton from "../ui/IconButton";
 import Tooltip from "../ui/Tooltip";
 import ProgressBar from "./ProgressBar";
@@ -33,9 +33,6 @@ export default function PlayerBar({ playing, onTogglePlay, currentSeconds, onScr
         </Tooltip>
         <IconButton label="Skip 5 seconds forward" shortcut="→" onClick={() => onScrub(Math.min(total, currentSeconds + 5))}>
           <RotateCw size={17} aria-hidden />
-        </IconButton>
-        <IconButton label="Download" className="hidden sm:inline-flex">
-          <Download size={17} aria-hidden />
         </IconButton>
       </div>
 

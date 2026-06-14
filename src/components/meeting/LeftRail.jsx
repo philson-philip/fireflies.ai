@@ -43,11 +43,12 @@ export default function LeftRail({ active, onSelect }) {
           label={label}
           shortcut={shortcut}
           side="right"
+          size="lg"
           active={active === key}
           aria-current={active === key ? "true" : undefined}
           onClick={() => onSelect(active === key ? null : key)}
         >
-          <Icon size={19} aria-hidden className={cn(active === key && "text-brand")} />
+          <Icon size={24} aria-hidden strokeWidth={1.5} className={cn(active === key && "text-brand")} />
         </IconButton>
       ))}
     </nav>

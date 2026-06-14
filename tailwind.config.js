@@ -16,6 +16,7 @@ export default {
         canvas: "var(--canvas)",
         surface: "var(--surface)",
         "surface-subtle": "var(--surface-subtle)",
+        "surface-secondary": "var(--surface-secondary)",
         "surface-muted": "var(--surface-muted)",
         // Text
         ink: "var(--ink)",

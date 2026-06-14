@@ -1,4 +1,4 @@
-import { Hash, ChevronRight, MoreHorizontal, Share2, Link2, Plus, Bell } from "lucide-react";
+import { Hash, ChevronRight, MoreHorizontal, Share2, Link2, Download, Plus, Bell } from "lucide-react";
 import IconButton from "../ui/IconButton";
 import Button from "../ui/Button";
 import Avatar from "../ui/Avatar";
@@ -46,6 +46,9 @@ export default function TopBar({ onCopyLink }) {
           }}
         >
           <Link2 size={16} aria-hidden />
+        </IconButton>
+        <IconButton label="Download">
+          <Download size={16} aria-hidden />
         </IconButton>
         <span className="mx-1 hidden h-5 w-px bg-line sm:block" aria-hidden />
         <IconButton label="New meeting">

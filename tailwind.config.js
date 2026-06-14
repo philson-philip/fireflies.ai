@@ -10,6 +10,7 @@ export default {
           hover: "var(--brand-hover)",
           active: "var(--brand-active)",
           soft: "var(--brand-soft)",
+          ring: "var(--brand-ring)",
         },
         // Surfaces
         canvas: "var(--canvas)",

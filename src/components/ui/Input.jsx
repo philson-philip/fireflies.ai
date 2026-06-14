@@ -11,7 +11,9 @@ export default function Input({
   error,
   id,
   leadingIcon: Leading,
+  trailingAction,
   className,
+  inputClassName,
   ...props
 }) {
   const reactId = useId();
@@ -28,7 +30,7 @@ export default function Input({
       <div
         className={cn(
           "flex items-center gap-2 rounded-md border bg-surface px-3 transition-colors duration-150",
-          "focus-within:border-brand focus-within:ring-2 focus-within:ring-brand/20",
+          "focus-within:ring-[3px] focus-within:ring-brand-ring",
           error ? "border-danger" : "border-line hover:border-line-strong"
         )}
       >
@@ -37,9 +39,15 @@ export default function Input({
           id={inputId}
           aria-invalid={error ? true : undefined}
           aria-describedby={describedBy}
-          className="h-10 w-full bg-transparent text-body-sm text-ink outline-none placeholder:text-ink-muted"
+          className={cn(
+            "h-10 w-full bg-transparent text-body-sm text-ink outline-none placeholder:text-ink-muted",
+            inputClassName
+          )}
           {...props}
         />
+        {trailingAction && (
+          <span className="shrink-0">{trailingAction}</span>
+        )}
       </div>
       {error ? (
         <p id={`${inputId}-err`} className="flex items-center gap-1.5 text-caption text-danger">

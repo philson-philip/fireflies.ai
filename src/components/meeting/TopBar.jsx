@@ -57,7 +57,7 @@ export default function TopBar({ onCopyLink }) {
         <button
           type="button"
           aria-label="Account"
-          className="ml-0.5 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40"
+          className="ml-0.5 rounded-md focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-brand-ring"
         >
           <Avatar name="Philson Philip" size="sm" />
         </button>

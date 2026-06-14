@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Search, Maximize2, Copy, Sparkles, Send, ChevronRight } from "lucide-react";
+import { Search, Maximize2, Copy, Sparkles, Send, ChevronRight, X, Bot } from "lucide-react";
 import Avatar from "../ui/Avatar";
 import Card from "../ui/Card";
 import IconButton from "../ui/IconButton";
@@ -10,7 +10,7 @@ import { transcript } from "../../data/meeting";
 
 const TABS = [
   { key: "transcript", label: "Transcript" },
-  { key: "askfred", label: "AskFred" },
+  { key: "askfred", label: "AskFred", icon: Bot },
   { key: "skills", label: "AI Skills" },
 ];
 
@@ -42,6 +42,7 @@ function withMatches(text, query) {
 
 function TranscriptTab({ currentSeconds, onSeek }) {
   const [query, setQuery] = useState("");
+  const [focused, setFocused] = useState(false);
   const groups = useMemo(() => groupTurns(transcript), []);
 
   // The active line is the last line whose timestamp is at or before the
@@ -61,10 +62,24 @@ function TranscriptTab({ currentSeconds, onSeek }) {
       <div className="shrink-0 px-4 pb-3 pt-3">
         <Input
           leadingIcon={Search}
-          placeholder="Find in transcript"
-          aria-label="Find in transcript"
+          placeholder="Find or Replace"
+          aria-label="Find or Replace"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          trailingAction={
+            focused || query ? (
+              <button
+                type="button"
+                onClick={() => setQuery("")}
+                className="flex h-6 w-6 items-center justify-center rounded text-ink-muted transition-colors hover:text-ink"
+                aria-label="Clear search"
+              >
+                <X size={16} aria-hidden />
+              </button>
+            ) : null
+          }
         />
       </div>
       <div className="scroll-thin flex-1 overflow-y-auto px-4 pb-6">
@@ -189,23 +204,35 @@ export default function TranscriptPane({ currentSeconds, onSeek, onExpand }) {
     >
       <div className="flex h-14 shrink-0 items-center justify-between gap-2 border-b border-line pl-2 pr-3">
         <div role="tablist" aria-label="Transcript views" className="flex items-center">
-          {TABS.map((t) => (
-            <button
-              key={t.key}
-              role="tab"
-              aria-selected={tab === t.key}
-              onClick={() => setTab(t.key)}
-              className={cn(
-                "relative px-3 py-2 text-body-sm font-medium transition-colors",
-                tab === t.key ? "text-brand" : "text-ink-muted hover:text-ink"
-              )}
-            >
-              {t.label}
-              {tab === t.key && (
-                <span className="absolute inset-x-3 -bottom-px h-0.5 rounded-full bg-brand" aria-hidden />
-              )}
-            </button>
-          ))}
+          {TABS.map((t) => {
+            const Icon = t.icon;
+            const isActive = tab === t.key;
+            return (
+              <button
+                key={t.key}
+                role="tab"
+                aria-selected={isActive}
+                onClick={() => setTab(t.key)}
+                className={cn(
+                  "relative flex items-center gap-1.5 px-3 py-2 text-body-sm font-medium transition-colors",
+                  isActive ? "text-brand" : "text-ink-muted hover:text-ink"
+                )}
+              >
+                {Icon && (
+                  <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-brand text-white">
+                    <Icon size={16} aria-hidden />
+                  </span>
+                )}
+                <span>{t.label}</span>
+                {isActive && (
+                  <span
+                    className="absolute inset-x-2 -bottom-px h-[2px] rounded-full bg-brand"
+                    aria-hidden
+                  />
+                )}
+              </button>
+            );
+          })}
         </div>
         <div className="flex items-center gap-0.5">
           <IconButton label="Copy transcript" size="sm">

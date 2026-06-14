@@ -17,6 +17,8 @@
   --brand-hover: #6938ef;
   --brand-active: #5b2fb0;
   --brand-soft: #f1edff;
+  /* Pre-composed rgba for ring/shadow — opacity modifiers on CSS-var colors don't work in Tailwind v3 */
+  --brand-ring: rgba(122, 90, 248, 0.25);
 
   /* Surfaces */
   --canvas: #ffffff;

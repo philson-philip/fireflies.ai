@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p \"/Users/philson/Learning & Interviews/fireflies-ai/public\")",
+      "Bash(mkdir -p \"/Users/philson/Learning & Interviews/fireflies-ai/src/assets\")",
+      "Bash(cp \"/Users/philson/Learning & Interviews/fireflies-ai/favicon.svg\" \"/Users/philson/Learning & Interviews/fireflies-ai/public/favicon.svg\")",
+      "Bash(cp \"/Users/philson/Learning & Interviews/fireflies-ai/typeface-logo-black.svg\" \"/Users/philson/Learning & Interviews/fireflies-ai/src/assets/logo-black.svg\")",
+      "Bash(cp \"/Users/philson/Learning & Interviews/fireflies-ai/typeface-logo-white.svg\" \"/Users/philson/Learning & Interviews/fireflies-ai/src/assets/logo-white.svg\")",
+      "Bash(cp \"/Users/philson/Learning & Interviews/fireflies-ai/favicon.svg\" \"/Users/philson/Learning & Interviews/fireflies-ai/src/assets/favicon.svg\")"
+    ]
+  }
+}

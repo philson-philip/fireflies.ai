@@ -49,7 +49,7 @@ export default function MeetingDetail() {
     setTranscriptWidth((w) => Math.min(MAX_W, Math.max(MIN_W, w - delta)));
 
   return (
-    <div className="flex h-full flex-col bg-canvas text-ink">
+    <div className="flex h-full flex-col bg-canvas text-ink overflow-hidden">
       <TopBar />
 
       {/* Body */}

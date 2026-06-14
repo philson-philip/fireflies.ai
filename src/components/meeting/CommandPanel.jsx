@@ -16,11 +16,11 @@ function PanelShell({ title, onClose, children }) {
   return (
     <aside
       aria-label={`${title} panel`}
-      className={`${PANEL_WIDTH} flex shrink-0 flex-col border-r border-line bg-surface-subtle`}
+      className={`${PANEL_WIDTH} group flex shrink-0 flex-col border-r border-line bg-surface-subtle`}
     >
       <div className="flex h-12 shrink-0 items-center justify-between border-b border-line px-4">
         <h2 className="text-[15px] font-medium capitalize tracking-wide text-ink-muted">{title}</h2>
-        <IconButton label="Close panel" size="sm" onClick={onClose}>
+        <IconButton label="Close panel" size="sm" onClick={onClose} className="opacity-0 group-hover:opacity-100 transition-opacity">
           <ChevronsLeft size={18} aria-hidden />
         </IconButton>
       </div>

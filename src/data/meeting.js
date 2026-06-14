@@ -14,8 +14,8 @@ export const meeting = {
 };
 
 export const participants = [
-  { name: "Venu Madhav Ravi", role: "Host" },
-  { name: "Philson Philip", role: "Guest" },
+  { name: "Venu Madhav Ravi", role: "Host", imageUrl: "https://api.dicebear.com/7.x/notionists/svg?seed=Venu&backgroundColor=ecfdf3" },
+  { name: "Philson Philip", role: "Guest", imageUrl: "https://api.dicebear.com/7.x/notionists/svg?seed=Philson&backgroundColor=f1edff" },
 ];
 
 export const summary = [

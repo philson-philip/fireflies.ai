@@ -1,7 +1,6 @@
-import { ChevronsLeft } from "lucide-react";
-import { Search } from "lucide-react";
-import Input from "../ui/Input";
-import Badge from "../ui/Badge";
+import { useState } from "react";
+import { ChevronsLeft, ChevronUp, ChevronDown, Plus, Check } from "lucide-react";
+import Badge, { TONES, DOT } from "../ui/Badge";
 import Card from "../ui/Card";
 import Avatar from "../ui/Avatar";
 import IconButton from "../ui/IconButton";
@@ -30,58 +29,146 @@ function PanelShell({ title, onClose, children }) {
   );
 }
 
-function Section({ title, children }) {
+function Section({ title, defaultOpen = true, extraAction, children }) {
+  const [isOpen, setIsOpen] = useState(defaultOpen);
+
   return (
-    <section className="mb-6 last:mb-0">
-      <h3 className="mb-2.5 text-caption font-semibold uppercase tracking-wide text-ink-muted">{title}</h3>
-      {children}
+    <section className="border-b border-line last:border-b-0 py-5 first:pt-0">
+      <button
+        type="button"
+        className="flex w-full items-center justify-between group"
+        onClick={() => setIsOpen(!isOpen)}
+        aria-expanded={isOpen}
+      >
+        <h3 className="text-caption font-semibold uppercase tracking-wide text-ink-muted">{title}</h3>
+        <div className="flex items-center gap-4">
+          {extraAction && (
+            <div
+              className="text-ink-muted hover:text-ink"
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+            >
+              {extraAction}
+            </div>
+          )}
+          <span className="text-ink-muted transition-colors hover:text-ink">
+            {isOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+          </span>
+        </div>
+      </button>
+      {isOpen && <div className="mt-4">{children}</div>}
     </section>
   );
 }
 
+const SELECTED_STYLES = {
+  neutral: "!bg-surface-muted !text-ink-secondary",
+  brand: "!bg-brand-soft !text-brand",
+  success: "!bg-success-soft !text-success",
+  warning: "!bg-warning-soft !text-warning",
+  danger: "!bg-danger-soft !text-danger",
+  info: "!bg-info-soft !text-info",
+};
+
+const BORDER_STYLES = {
+  neutral: "!border-ink-muted",
+  brand: "!border-brand",
+  success: "!border-success",
+  warning: "!border-warning",
+  danger: "!border-danger",
+  info: "!border-info",
+};
+
 function Overview() {
+  const [selectedFilters, setSelectedFilters] = useState({});
+
+  const toggleFilter = (label) => {
+    setSelectedFilters((prev) => ({
+      ...prev,
+      [label]: !prev[label],
+    }));
+  };
+
   return (
     <>
-      <Input leadingIcon={Search} placeholder="Search this meeting" aria-label="Search this meeting" className="mb-6" />
-
-      <Section title="Filters">
+      <Section title="AI Filters">
         <div className="grid grid-cols-2 gap-2">
-          {insights.filters.map((f) => (
-            <Card key={f.label} interactive className="flex items-center justify-between p-2.5">
-              <span className="text-caption text-ink-secondary">{f.label}</span>
-              <span className="text-body-sm font-semibold text-ink">{f.count}</span>
+          {insights.filters.map((f) => {
+            const isSelected = selectedFilters[f.label];
+            return (
+              <Card 
+                key={f.label} 
+                interactive 
+                className={`!rounded-md !border-0 !border-l-2 shadow-subtle flex items-center justify-between !p-3 ${isSelected ? SELECTED_STYLES[f.tone] : 'bg-surface'} ${BORDER_STYLES[f.tone]}`}
+                onClick={() => toggleFilter(f.label)}
+              >
+                <div className="flex items-center gap-2">
+                  {isSelected && (
+                    <Check size={14} className={DOT[f.tone].replace('bg-', 'text-')} />
+                  )}
+                  <span className={`text-caption ${isSelected ? '' : 'text-ink-secondary'}`}>{f.label}</span>
+                </div>
+                <span className={`text-body-sm font-semibold ${isSelected ? '' : 'text-ink-muted'}`}>{f.count}</span>
+              </Card>
+            );
+          })}
+        </div>
+      </Section>
+
+      <Section title="Sentiments">
+        <div className="flex flex-col gap-2">
+          {insights.sentiments.map((s) => (
+            <Card 
+              key={s.label} 
+              interactive 
+              className={`!rounded-md !border-0 !border-l-2 shadow-subtle flex items-center justify-between !p-3 bg-surface ${BORDER_STYLES[s.tone]}`}
+            >
+              <div className="flex items-center gap-2">
+                <span className="text-caption text-ink-secondary">{s.label}</span>
+              </div>
+              <span className="text-body-sm font-semibold text-ink-muted">{s.value}%</span>
             </Card>
           ))}
         </div>
       </Section>
 
-      <Section title="Sentiment">
+      <Section title="Speaker Talktime" defaultOpen={false}>
+        <div className="flex items-center justify-between pb-2 pt-1">
+          <span className="text-[12px] font-medium uppercase tracking-wide text-[#98a2b3] w-1/2">Speakers</span>
+          <span className="text-[12px] font-medium uppercase tracking-wide text-[#98a2b3] w-[20%]">WPM</span>
+          <span className="text-[12px] font-medium uppercase tracking-wide text-[#98a2b3] w-[30%] text-right">Talktime</span>
+        </div>
         <div className="flex flex-col gap-2">
-          {insights.sentiments.map((s) => (
-            <div key={s.label} className="flex items-center justify-between">
-              <Badge tone={s.tone} dot>
-                {s.label}
-              </Badge>
-              <span className="text-caption font-medium text-ink-secondary">{s.value}%</span>
-            </div>
+          {insights.talktime.map((t) => (
+            <Card key={t.name} className="!rounded-md !border-0 shadow-subtle flex items-center justify-between !p-3 bg-surface">
+              <div className="flex items-center gap-3 w-1/2 min-w-0">
+                <Avatar name={t.name} size="xs" />
+                <p className="truncate text-[12px] text-[#344054]">{t.name}</p>
+              </div>
+              <div className="flex items-center gap-2 w-[20%]">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#fca5a5]" aria-hidden />
+                <span className="text-[12px] text-[#475467] tabular-nums">{t.wpm}</span>
+              </div>
+              <div className="flex items-center gap-2 w-[30%] justify-end">
+                <svg width="20" height="20" viewBox="0 0 24 24" className="text-brand-soft">
+                  <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" strokeWidth="4" />
+                  <circle cx="12" cy="12" r="8" fill="none" stroke="var(--brand)" strokeWidth="4" strokeDasharray={`${(t.pct / 100) * 50.26} 50.26`} strokeDashoffset="0" transform="rotate(-90 12 12)" />
+                </svg>
+                <span className="text-[12px] text-[#475467] tabular-nums">{t.pct}%</span>
+              </div>
+            </Card>
           ))}
         </div>
       </Section>
 
-      <Section title="Talk time">
-        <div className="flex flex-col gap-3">
-          {insights.talktime.map((t) => (
-            <div key={t.name} className="flex items-center gap-2.5">
-              <Avatar name={t.name} size="sm" />
-              <div className="min-w-0 flex-1">
-                <p className="truncate text-caption font-medium text-ink">{t.name}</p>
-                <div className="mt-1 h-1.5 w-full overflow-hidden rounded-full bg-surface-muted">
-                  <div className="h-full rounded-full bg-brand" style={{ width: `${t.pct}%` }} />
-                </div>
-              </div>
-              <span className="w-9 text-right text-caption tabular-nums text-ink-muted">{t.pct}%</span>
-            </div>
-          ))}
+      <Section title="Topic Trackers" extraAction={<Plus size={16} />}>
+        <div className="flex flex-col items-center justify-center py-2 text-center">
+          <div className="mb-3 flex h-8 w-8 items-center justify-center rounded border border-line bg-surface">
+            <span className="text-warning text-body-sm">#</span>
+          </div>
+          <p className="text-body-sm font-medium text-ink">No topic tracker</p>
+          <p className="mt-1.5 text-caption text-ink-secondary leading-relaxed">This meeting is not transcribed yet to show keywords mentioned in the meeting.</p>
         </div>
       </Section>
     </>

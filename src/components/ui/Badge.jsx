@@ -1,6 +1,6 @@
 import { cn } from "../../lib/utils";
 
-const TONES = {
+export const TONES = {
   neutral: "bg-surface-muted text-ink-secondary",
   brand: "bg-brand-soft text-brand",
   success: "bg-success-soft text-success",
@@ -9,7 +9,7 @@ const TONES = {
   info: "bg-info-soft text-info",
 };
 
-const DOT = {
+export const DOT = {
   neutral: "bg-ink-muted",
   brand: "bg-brand",
   success: "bg-success",

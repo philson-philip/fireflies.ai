@@ -134,10 +134,10 @@ export const insights = {
     { label: "Negative", value: 2, tone: "danger" },
   ],
   filters: [
-    { label: "Questions", count: 107 },
-    { label: "Metrics", count: 7 },
-    { label: "Tasks", count: 30 },
-    { label: "Date & time", count: 2 },
+    { label: "Questions", count: 107, tone: "danger" },
+    { label: "Metrics", count: 7, tone: "info" },
+    { label: "Tasks", count: 30, tone: "warning" },
+    { label: "Date & time", count: 2, tone: "success" },
   ],
   talktime: [
     { name: "Philson Philip", wpm: 175, pct: 69 },

@@ -2,10 +2,10 @@ import { useId, useRef, useState, useLayoutEffect } from "react";
 import { cn } from "../../lib/utils";
 
 const SIDE = {
-  top: "bottom-full left-1/2 -translate-x-1/2 mb-2",
-  bottom: "top-full left-1/2 -translate-x-1/2 mt-2",
-  left: "right-full top-1/2 -translate-y-1/2 mr-2",
-  right: "left-full top-1/2 -translate-y-1/2 ml-2",
+  top: "bottom-full left-1/2 -translate-x-1/2 mb-[8.5px]",
+  bottom: "top-full left-1/2 -translate-x-1/2 mt-[8.5px]",
+  left: "right-full top-1/2 -translate-y-1/2 mr-[8.5px]",
+  right: "left-full top-1/2 -translate-y-1/2 ml-[8.5px]",
 };
 
 const Tooltip = ({ label, shortcut, action, side = "auto", children, className, style, onMouseEnter, onMouseLeave, ...props }) => {
@@ -16,26 +16,39 @@ const Tooltip = ({ label, shortcut, action, side = "auto", children, className, 
   const tooltipRef = useRef(null);
   const id = useId();
 
+  const [nudge, setNudge] = useState({ x: 0, y: 0 });
+
   useLayoutEffect(() => {
     if (open && tooltipRef.current) {
-      tooltipRef.current.style.marginLeft = "0px";
-      tooltipRef.current.style.marginTop = "0px";
+      // Temporarily remove transform to measure true bounds
+      const actualSide = side === "auto" ? computedSide : side;
+      if (actualSide === "top" || actualSide === "bottom") {
+        tooltipRef.current.style.setProperty("--tw-translate-x", "-50%");
+      } else {
+        tooltipRef.current.style.setProperty("--tw-translate-y", "-50%");
+      }
+
       const rect = tooltipRef.current.getBoundingClientRect();
-      const style = tooltipRef.current.style;
+      let x = 0;
+      let y = 0;
       
       if (rect.left < 8) {
-        style.marginLeft = `${8 - rect.left}px`;
+        x = 8 - rect.left;
       } else if (rect.right > window.innerWidth - 8) {
-        style.marginLeft = `${(window.innerWidth - 8) - rect.right}px`;
+        x = (window.innerWidth - 8) - rect.right;
       }
       
       if (rect.top < 8) {
-        style.marginTop = `${8 - rect.top}px`;
+        y = 8 - rect.top;
       } else if (rect.bottom > window.innerHeight - 8) {
-        style.marginTop = `${(window.innerHeight - 8) - rect.bottom}px`;
+        y = (window.innerHeight - 8) - rect.bottom;
       }
+
+      setNudge({ x, y });
+    } else {
+      setNudge({ x: 0, y: 0 });
     }
-  }, [open, computedSide]);
+  }, [open, computedSide, side]);
 
   const show = (e) => {
     if (side === "auto" && e.currentTarget) {
@@ -69,6 +82,7 @@ const Tooltip = ({ label, shortcut, action, side = "auto", children, className, 
   if (!label) return children;
 
   const hasExplicitPosition = className && (className.includes("absolute") || className.includes("relative") || className.includes("fixed"));
+  const actualSide = side === "auto" ? computedSide : side;
 
   return (
     <span
@@ -94,6 +108,12 @@ const Tooltip = ({ label, shortcut, action, side = "auto", children, className, 
           SIDE[side === "auto" ? computedSide : side],
           open ? "opacity-100 visible" : "opacity-0 invisible"
         )}
+        style={{
+          "--tw-translate-x":
+            actualSide === "top" || actualSide === "bottom" ? `calc(-50% + ${nudge.x}px)` : `${nudge.x}px`,
+          "--tw-translate-y":
+            actualSide === "left" || actualSide === "right" ? `calc(-50% + ${nudge.y}px)` : `${nudge.y}px`,
+        }}
       >
         <span>{label}</span>
         {shortcut && (
@@ -106,6 +126,21 @@ const Tooltip = ({ label, shortcut, action, side = "auto", children, className, 
             {action}
           </div>
         )}
+        <div
+          className={cn(
+            "absolute w-2 h-2 bg-surface rotate-45 pointer-events-none",
+            actualSide === "top" && "bottom-[-4.5px] left-1/2 -translate-x-1/2 border-b border-r border-line",
+            actualSide === "bottom" && "top-[-4.5px] left-1/2 -translate-x-1/2 border-t border-l border-line",
+            actualSide === "left" && "right-[-4.5px] top-1/2 -translate-y-1/2 border-t border-r border-line",
+            actualSide === "right" && "left-[-4.5px] top-1/2 -translate-y-1/2 border-b border-l border-line"
+          )}
+          style={{
+            "--tw-translate-x":
+              actualSide === "top" || actualSide === "bottom" ? `calc(-50% - ${nudge.x}px)` : `calc(0px - ${nudge.x}px)`,
+            "--tw-translate-y":
+              actualSide === "left" || actualSide === "right" ? `calc(-50% - ${nudge.y}px)` : `calc(0px - ${nudge.y}px)`,
+          }}
+        />
       </span>
     </span>
   );

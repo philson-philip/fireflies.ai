@@ -1,5 +1,6 @@
 import { MoreHorizontal } from "lucide-react";
 import Typography from "../../../ui/Typography";
+import Card from "../../../ui/Card";
 
 const IndexView = () => {
   const items = [
@@ -9,16 +10,16 @@ const IndexView = () => {
   ];
 
   return (
-    <div className="flex flex-col p-4">
+    <div className="flex flex-col p-4 gap-3 h-full">
       {items.map((item, i) => (
-        <div key={i} className="flex h-12 items-center justify-between px-4 hover:bg-surface-secondary cursor-pointer group rounded-lg">
-          <Typography as="span" variant="body-sm" tone="text-ink">{item.label}</Typography>
+        <Card key={i} interactive className="flex items-center justify-between h-auto">
+          <Typography as="span" variant="body-sm" tone="text-ink" className="font-medium">{item.label}</Typography>
           {item.hasMore && (
             <span className="text-ink-muted transition-opacity">
               <MoreHorizontal size={18} />
             </span>
           )}
-        </div>
+        </Card>
       ))}
     </div>
   );

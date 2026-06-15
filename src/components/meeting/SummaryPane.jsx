@@ -54,18 +54,16 @@ const SummaryPane = ({ onSeek }) => {
           </div>
         </div>
 
-        <dl className="mt-4 space-y-3.5">
+        <ul className="mt-4 space-y-3.5">
           {summary.map((row) => (
-            <div key={row.label} className="grid grid-cols-1 gap-0.5 sm:grid-cols-[160px_1fr] sm:gap-4">
-              <Typography as="dt" variant="body-sm" tone="text-ink" className="font-semibold">
-                {row.label}
-              </Typography>
-              <Typography as="dd" variant="body">
-                {row.text}
-              </Typography>
-            </div>
+            <Typography as="li" variant="body" key={row.label} className="flex items-start gap-2.5">
+              <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-ink-muted" aria-hidden />
+              <span>
+                <span className="font-semibold text-ink">{row.label}:</span> {row.text}
+              </span>
+            </Typography>
           ))}
-        </dl>
+        </ul>
 
         <div className="mt-9 border-t border-line pt-7">
           <Typography variant="h3">Notes</Typography>
@@ -76,8 +74,8 @@ const SummaryPane = ({ onSeek }) => {
               </Typography>
               <ul className="mt-2.5 space-y-2">
                 {group.items.map((item, i) => (
-                  <Typography as="li" variant="body" key={i} className="flex items-baseline gap-2">
-                    <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-ink-muted" aria-hidden />
+                  <Typography as="li" variant="body" key={i} className="flex items-start gap-2.5">
+                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-ink-muted" aria-hidden />
                     <span>
                       {item.text}{" "}
                       <button

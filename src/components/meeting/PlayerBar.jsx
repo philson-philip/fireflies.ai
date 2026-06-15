@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Play, Pause, RotateCcw, RotateCw, Star, ListChecks, ThumbsUp, ThumbsDown, MoreHorizontal } from "lucide-react";
+import { Play, Pause, RotateCcw, RotateCw, Star, CheckSquare, ThumbsUp, ThumbsDown, MoreHorizontal } from "lucide-react";
 import IconButton from "../ui/IconButton";
 import Tooltip from "../ui/Tooltip";
 import ProgressBar from "./ProgressBar";
@@ -44,7 +44,7 @@ const PlayerBar = ({ playing, onTogglePlay, currentSeconds, onScrub, markers, on
 
       <div className="flex flex-1 sm:flex-none shrink-0 items-center justify-end gap-0.5 relative">
         <IconButton label="Important" shortcut="1" side="left" className="hidden sm:inline-flex" onClick={() => onAddMarker("important")}><Star size={16} aria-hidden /></IconButton>
-        <IconButton label="Action" shortcut="2" side="left" className="hidden sm:inline-flex" onClick={() => onAddMarker("action")}><ListChecks size={16} aria-hidden /></IconButton>
+        <IconButton label="Action" shortcut="2" side="left" className="hidden sm:inline-flex" onClick={() => onAddMarker("action")}><CheckSquare size={16} aria-hidden /></IconButton>
         <IconButton label="Like" shortcut="3" side="left" className="hidden sm:inline-flex" onClick={() => onAddMarker("like")}><ThumbsUp size={16} aria-hidden /></IconButton>
         <IconButton label="Dislike" shortcut="4" side="left" className="hidden sm:inline-flex" onClick={() => onAddMarker("dislike")}><ThumbsDown size={16} aria-hidden /></IconButton>
         
@@ -68,7 +68,7 @@ const PlayerBar = ({ playing, onTogglePlay, currentSeconds, onScrub, markers, on
                   className="flex items-center gap-3 px-3 py-2 text-sm text-ink hover:bg-surface-subtle transition-colors"
                   onClick={() => { onAddMarker("action"); setShowMobileMenu(false); }}
                 >
-                  <ListChecks size={16} className="text-ink-muted" /> Action
+                  <CheckSquare size={16} className="text-ink-muted" /> Action
                 </button>
                 <button
                   className="flex items-center gap-3 px-3 py-2 text-sm text-ink hover:bg-surface-subtle transition-colors"

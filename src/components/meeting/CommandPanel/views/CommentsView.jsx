@@ -36,7 +36,7 @@ const CommentsView = () => (
     </div>
 
     <div className="sticky bottom-0 z-10 shrink-0 border-t border-line bg-surface p-4">
-      <div className="flex items-end gap-2.5 rounded-md border border-line bg-surface-subtle p-2 shadow-subtle focus-within:border-brand-soft transition-colors">
+      <div className="flex items-start gap-2.5 rounded-md border border-line bg-surface-subtle p-2 shadow-subtle focus-within:border-brand-soft transition-colors">
         <Avatar name="Philson Philip" size="sm" />
         <textarea
           className="max-h-32 min-h-[20px] w-full bg-transparent text-label text-ink placeholder:text-ink-muted focus:outline-none"

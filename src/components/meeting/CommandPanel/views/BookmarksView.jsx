@@ -1,4 +1,4 @@
-import { Star, ThumbsUp, ThumbsDown } from "lucide-react";
+import { Star, ThumbsUp, ThumbsDown, CheckSquare } from "lucide-react";
 import Card from "../../../ui/Card";
 import Typography from "../../../ui/Typography";
 import { cn } from "../../../../lib/utils";
@@ -8,9 +8,10 @@ const BOOKMARK_TONES = {
   info: { border: "border-l-[2px] border-t-0 border-b-0 border-r-0 !border-info", text: "text-info", Icon: Star },
   success: { border: "border-l-[2px] border-t-0 border-b-0 border-r-0 !border-success", text: "text-success", Icon: ThumbsUp },
   danger: { border: "border-l-[2px] border-t-0 border-b-0 border-r-0 !border-danger", text: "text-danger", Icon: ThumbsDown },
+  warning: { border: "border-l-[2px] border-t-0 border-b-0 border-r-0 !border-warning", text: "text-warning", Icon: CheckSquare },
 };
 
-const BookmarksView = () => (
+const BookmarksView = ({ }) => (
   <div className="flex flex-col gap-4 p-4">
     {bookmarks.map((b) => {
       const style = BOOKMARK_TONES[b.tone] || { border: "border-l-[2px] border-line", text: "text-ink-secondary", Icon: null };

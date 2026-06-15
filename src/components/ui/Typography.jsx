@@ -2,7 +2,7 @@ import { cn } from "../../lib/utils";
 
 const VARIANTS = {
   display: "font-display text-display font-semibold tracking-tight",
-  h1: "font-display text-h1 font-semibold",
+  h1: "font-display text-xl md:text-2xl xl:text-h1 font-semibold",
   h2: "font-display text-h2 font-semibold",
   h3: "font-display text-h3 font-semibold",
   h4: "text-h4 font-medium",

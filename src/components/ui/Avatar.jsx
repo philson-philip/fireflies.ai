@@ -4,7 +4,7 @@ import { participants } from "../../data/meeting";
 
 const SIZES = {
   xs: "h-5 w-5 text-[10px] rounded",
-  sm: "h-7 w-7 text-caption rounded-md",
+  sm: "h-8 w-8 text-caption rounded-md",
   md: "h-9 w-9 text-body-sm rounded-md",
 };
 

@@ -144,3 +144,46 @@ export const insights = {
     { name: "John Doe", wpm: 250, pct: 31 },
   ],
 };
+
+export const comments = [
+  {
+    id: 1,
+    author: "Fireflies.ai Notetaker",
+    time: "00:31",
+    relativeTime: "6 days",
+    content: "Venu Madhav invited Fireflies.ai here to record & take notes. By continuing, you agree to https://fireflies.ai/privacy\nType: '/ff pause' - pause recording '/ff leave' - to stop recording View Realtime notes here: https://app.fireflies.ai/live/01KT1...",
+    footer: "At the end of the call, both of us are going to get the summary of what we did, the transcript and everything.",
+    avatar: "F",
+    isBot: true,
+  }
+];
+
+export const bookmarks = [
+  {
+    id: 1,
+    title: "Transition from Startups to Larger Companies",
+    content: "John Doe shares his journey of moving from startups to larger organizations, highlighting that his entry into bigger companies occurred primarily through acquisitions of the startups he was involved with.",
+    type: "Important",
+    time: "02:35",
+    author: "Philson",
+    tone: "info"
+  },
+  {
+    id: 2,
+    title: "Emergence of Chat-Based Ideas",
+    content: "Philson Philip reflects on a time when chat-based concepts were not widely embraced, highlighting the evolving landscape of communication tools and their growing popularity in the tech industry.",
+    type: "Positive",
+    time: "13:57",
+    author: "Philson",
+    tone: "success"
+  },
+  {
+    id: 3,
+    title: "Philson Philip's Experience at Big Binary",
+    content: "Philson Philip discusses his tenure at Big Binary, highlighting the company's focus on product development and the challenges faced in a consulting environment. He emphasizes the...",
+    type: "Concern",
+    time: "23:51",
+    author: "Philson",
+    tone: "danger"
+  }
+];

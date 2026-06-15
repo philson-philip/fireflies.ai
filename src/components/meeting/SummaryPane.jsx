@@ -13,7 +13,7 @@ export default function SummaryPane() {
 
   return (
     <div className="scroll-thin h-full min-w-0 flex-1 overflow-y-auto">
-      <div className="mx-auto max-w-2xl px-5 py-6 sm:px-8">
+      <div className="mx-auto max-w-2xl p-6 sm:p-8">
         {/* Title + meta */}
         <div className="flex items-start justify-between gap-4">
           <h1 className="font-display text-h1 font-semibold text-ink">{meeting.title}</h1>

@@ -35,7 +35,7 @@ export default function LeftRail({ active, onSelect }) {
   return (
     <nav
       aria-label="Meeting panels"
-      className="flex w-14 shrink-0 flex-col items-center gap-1 border-r border-line bg-surface py-2"
+      className="flex w-14 shrink-0 flex-col items-center gap-3 border-r border-line bg-surface py-2"
     >
       {RAIL_ITEMS.map(({ key, label, icon: Icon, shortcut }) => (
         <IconButton
@@ -43,7 +43,7 @@ export default function LeftRail({ active, onSelect }) {
           label={label}
           shortcut={shortcut}
           side="right"
-          size="lg"
+          size="md"
           active={active === key}
           aria-current={active === key ? "true" : undefined}
           onClick={() => onSelect(active === key ? null : key)}

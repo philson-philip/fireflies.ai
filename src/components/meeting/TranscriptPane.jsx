@@ -84,7 +84,7 @@ function TranscriptTab({ currentSeconds, onSeek }) {
                 active ? "bg-playing" : "hover:bg-surface-subtle"
               )}
             >
-              <Avatar name={line.speaker} size="sm" className="shrink-0 mt-0.5" />
+              <Avatar name={line.speaker} size="xs" className="shrink-0 mt-0.5" />
               <div className="min-w-0 flex-1">
                 <div className="mb-1 flex items-center gap-2">
                   <span className="text-body-sm font-semibold text-ink">{line.speaker}</span>
@@ -104,7 +104,7 @@ function TranscriptTab({ currentSeconds, onSeek }) {
                     size="sm"
                     className="opacity-0 group-hover/chat:opacity-100 transition-opacity h-6 w-6"
                   >
-                    <Link size={13} aria-hidden />
+                    <Link size={14} aria-hidden />
                   </IconButton>
                 </div>
                 <p className="min-w-0 text-body text-ink-secondary">

@@ -17,13 +17,13 @@ const SELECTED_STYLES = {
   info: "!bg-info-soft !text-info",
 };
 
-const BORDER_STYLES = {
-  neutral: "!border-ink-muted",
-  brand: "!border-brand",
-  success: "!border-success",
-  warning: "!border-warning",
-  danger: "!border-danger",
-  info: "!border-info",
+const TEXT_STYLES = {
+  neutral: "text-ink-secondary",
+  brand: "text-brand-active",
+  success: "text-success",
+  warning: "text-warning",
+  danger: "text-danger",
+  info: "text-info",
 };
 
 const Overview = () => {
@@ -54,9 +54,9 @@ const Overview = () => {
                 interactive
                 aria-pressed={isSelected}
                 className={cn(
-                  "!rounded-md !border-0 !border-l-2 shadow-subtle flex items-center justify-between !p-3 text-left w-full",
+                  "!rounded-md shadow-subtle flex items-center justify-between !p-3 text-left w-full",
                   isSelected ? SELECTED_STYLES[f.tone] : "bg-surface",
-                  BORDER_STYLES[f.tone]
+                  TEXT_STYLES[f.tone]
                 )}
                 onClick={() => toggleFilter(f.label)}
               >
@@ -64,9 +64,9 @@ const Overview = () => {
                   {isSelected && DOT[f.tone] && (
                     <Check size={14} className={DOT[f.tone].replace("bg-", "text-")} />
                   )}
-                  <span className={cn("text-caption", !isSelected && "text-ink-secondary")}>{f.label}</span>
+                  <span className="text-caption font-medium">{f.label}</span>
                 </div>
-                <span className={cn("text-body-sm font-semibold", !isSelected && "text-ink-muted")}>{f.count}</span>
+                <span className="text-body-sm font-semibold">{f.count}</span>
               </Card>
             );
           })}
@@ -85,9 +85,9 @@ const Overview = () => {
                 interactive
                 aria-pressed={isSelected}
                 className={cn(
-                  "!rounded-md !border-0 !border-l-2 shadow-subtle flex items-center justify-between !p-3 text-left w-full",
+                  "!rounded-md shadow-subtle flex items-center justify-between !p-3 text-left w-full",
                   isSelected ? SELECTED_STYLES[s.tone] : "bg-surface",
-                  BORDER_STYLES[s.tone]
+                  TEXT_STYLES[s.tone]
                 )}
                 onClick={() => toggleSentiment(s.label)}
               >
@@ -95,9 +95,9 @@ const Overview = () => {
                   {isSelected && DOT[s.tone] && (
                     <Check size={14} className={DOT[s.tone].replace("bg-", "text-")} />
                   )}
-                  <span className={cn("text-caption", !isSelected && "text-ink-secondary")}>{s.label}</span>
+                  <span className="text-caption font-medium">{s.label}</span>
                 </div>
-                <span className={cn("text-body-sm font-semibold", !isSelected && "text-ink-muted")}>{s.value}%</span>
+                <span className="text-body-sm font-semibold">{s.value}%</span>
               </Card>
             );
           })}

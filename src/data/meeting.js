@@ -146,7 +146,7 @@ export const comments = [
     author: "Fireflies.ai Notetaker",
     time: "00:31",
     relativeTime: "6 days",
-    content: "Venu Madhav invited Fireflies.ai here to record & take notes. By continuing, you agree to https://fireflies.ai/privacy\nType: '/ff pause' - pause recording '/ff leave' - to stop recording View Realtime notes here: https://app.fireflies.ai/live/01KT1...",
+    content: "John Doe invited Fireflies.ai here to record & take notes. By continuing, you agree to https://fireflies.ai/privacy\nType: '/ff pause' - pause recording '/ff leave' - to stop recording View Realtime notes here: https://app.fireflies.ai/live/01KT1...",
     footer: "At the end of the call, both of us are going to get the summary of what we did, the transcript and everything.",
     avatar: "F",
     isBot: true,

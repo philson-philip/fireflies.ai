@@ -1,26 +1,32 @@
-import { Star, ThumbsUp, ThumbsDown, CheckSquare } from "lucide-react";
+import { Star, ThumbsUp, ThumbsDown, CheckSquare, Trash2 } from "lucide-react";
 import Card from "../../../ui/Card";
 import Typography from "../../../ui/Typography";
+import IconButton from "../../../ui/IconButton";
 import { cn } from "../../../../lib/utils";
 import { bookmarks } from "../../../../data/meeting";
 
 const BOOKMARK_TONES = {
-  info: { border: "border-l-[2px] border-t-0 border-b-0 border-r-0 !border-info", text: "text-info", Icon: Star },
-  success: { border: "border-l-[2px] border-t-0 border-b-0 border-r-0 !border-success", text: "text-success", Icon: ThumbsUp },
-  danger: { border: "border-l-[2px] border-t-0 border-b-0 border-r-0 !border-danger", text: "text-danger", Icon: ThumbsDown },
-  warning: { border: "border-l-[2px] border-t-0 border-b-0 border-r-0 !border-warning", text: "text-warning", Icon: CheckSquare },
+  info: { text: "text-info", Icon: Star },
+  success: { text: "text-success", Icon: ThumbsUp },
+  danger: { text: "text-danger", Icon: ThumbsDown },
+  warning: { text: "text-warning", Icon: CheckSquare },
 };
 
 const BookmarksView = ({ }) => (
   <div className="flex flex-col gap-4 p-4">
     {bookmarks.map((b) => {
-      const style = BOOKMARK_TONES[b.tone] || { border: "border-l-[2px] border-line", text: "text-ink-secondary", Icon: null };
+      const style = BOOKMARK_TONES[b.tone] || { text: "text-ink-secondary", Icon: null };
       const Icon = style.Icon;
       return (
         <Card
           key={b.id}
-          className={cn("!rounded-xl overflow-hidden flex flex-col gap-3 p-4 bg-surface shadow-subtle border-t border-r border-b border-line", style.border)}
+          className="relative group/bookmark !rounded-xl overflow-hidden flex flex-col gap-3 p-4 bg-surface shadow-subtle"
         >
+          <div className="absolute right-2 top-2 opacity-0 group-hover/bookmark:opacity-100 transition-opacity duration-200 z-10">
+            <IconButton label="Delete bookmark" side="left" variant="danger">
+              <Trash2 size={15} aria-hidden />
+            </IconButton>
+          </div>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               {Icon && <Icon size={14} className={style.text} />}

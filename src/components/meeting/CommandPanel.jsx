@@ -307,9 +307,9 @@ function CommentsView() {
 function BookmarksView() {
   const getToneStyle = (tone) => {
     switch (tone) {
-      case "info": return { border: "border-l-[2px] !border-info", text: "text-info", icon: <Star size={14} className="text-info" /> };
-      case "success": return { border: "border-l-[2px] !border-success", text: "text-success", icon: <ThumbsUp size={14} className="text-success" /> };
-      case "danger": return { border: "border-l-[2px] !border-danger", text: "text-danger", icon: <ThumbsDown size={14} className="text-danger" /> };
+      case "info": return { border: "border-l-[2px] border-t-0 border-b-0 border-r-0 !border-info", text: "text-info", icon: <Star size={14} className="text-info" /> };
+      case "success": return { border: "border-l-[2px] border-t-0 border-b-0 border-r-0 !border-success", text: "text-success", icon: <ThumbsUp size={14} className="text-success" /> };
+      case "danger": return { border: "border-l-[2px] border-t-0 border-b-0 border-r-0 !border-danger", text: "text-danger", icon: <ThumbsDown size={14} className="text-danger" /> };
       default: return { border: "border-l-[2px] border-line", text: "text-ink-secondary", icon: null };
     }
   };

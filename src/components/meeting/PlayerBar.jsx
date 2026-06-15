@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Play, Pause, RotateCcw, RotateCw, Star, ListChecks, ThumbsUp, ThumbsDown } from "lucide-react";
 import IconButton from "../ui/IconButton";
 import Tooltip from "../ui/Tooltip";
@@ -5,11 +6,16 @@ import ProgressBar from "./ProgressBar";
 import { formatClock } from "../../lib/utils";
 import { meeting } from "../../data/meeting";
 
-const PlayerBar = ({ playing, onTogglePlay, currentSeconds, onScrub }) => {
+const PlayerBar = ({ playing, onTogglePlay, currentSeconds, onScrub, markers, onAddMarker, onDeleteMarker }) => {
   const total = meeting.durationSeconds;
+  const [isFooterHovered, setIsFooterHovered] = useState(false);
 
   return (
-    <footer className="relative z-30 flex h-16 shrink-0 items-center gap-3 bg-surface px-3 sm:px-5">
+    <footer
+      className="relative z-30 flex h-16 shrink-0 items-center gap-3 bg-surface px-3 sm:px-5"
+      onMouseEnter={() => setIsFooterHovered(true)}
+      onMouseLeave={() => setIsFooterHovered(false)}
+    >
       <span className="hidden w-32 shrink-0 text-caption tabular-nums sm:block">
         <span className="text-ink font-medium">{formatClock(currentSeconds)}</span>
         <span className="text-ink-muted font-medium"> / {meeting.duration}</span>
@@ -36,13 +42,20 @@ const PlayerBar = ({ playing, onTogglePlay, currentSeconds, onScrub }) => {
       </div>
 
       <div className="flex shrink-0 items-center gap-0.5">
-        <IconButton label="Important" shortcut="1" side="left"><Star size={16} aria-hidden /></IconButton>
-        <IconButton label="Action" shortcut="2" side="left" className="hidden sm:inline-flex"><ListChecks size={16} aria-hidden /></IconButton>
-        <IconButton label="Like" shortcut="3" side="left" className="hidden sm:inline-flex"><ThumbsUp size={16} aria-hidden /></IconButton>
-        <IconButton label="Dislike" shortcut="4" side="left" className="hidden sm:inline-flex"><ThumbsDown size={16} aria-hidden /></IconButton>
+        <IconButton label="Important" shortcut="1" side="left" onClick={() => onAddMarker("important")}><Star size={16} aria-hidden /></IconButton>
+        <IconButton label="Action" shortcut="2" side="left" className="hidden sm:inline-flex" onClick={() => onAddMarker("action")}><ListChecks size={16} aria-hidden /></IconButton>
+        <IconButton label="Like" shortcut="3" side="left" className="hidden sm:inline-flex" onClick={() => onAddMarker("like")}><ThumbsUp size={16} aria-hidden /></IconButton>
+        <IconButton label="Dislike" shortcut="4" side="left" className="hidden sm:inline-flex" onClick={() => onAddMarker("dislike")}><ThumbsDown size={16} aria-hidden /></IconButton>
       </div>
 
-      <ProgressBar currentSeconds={currentSeconds} totalSeconds={total} onScrub={onScrub} />
+      <ProgressBar
+        currentSeconds={currentSeconds}
+        totalSeconds={total}
+        onScrub={onScrub}
+        markers={markers}
+        onDeleteMarker={onDeleteMarker}
+        isFooterHovered={isFooterHovered}
+      />
     </footer>
   );
 };

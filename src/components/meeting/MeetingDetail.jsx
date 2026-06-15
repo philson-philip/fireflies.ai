@@ -34,7 +34,38 @@ const MeetingDetail = () => {
   const [playing, setPlaying] = useState(false);
   const [seconds, setSeconds] = useState(8);
   const [mobileTab, setMobileTab] = useState("summary");
+  const [markers, setMarkers] = useState([
+    { id: 1, type: "like", seconds: 120 },
+    { id: 2, type: "important", seconds: 480 },
+    { id: 3, type: "action", seconds: 1080 },
+    { id: 4, type: "dislike", seconds: 1680 },
+  ]);
   const timer = useRef(null);
+  const secondsRef = useRef(seconds);
+
+  useEffect(() => {
+    secondsRef.current = seconds;
+  }, [seconds]);
+
+  const handleAddMarker = (type) => {
+    const currentSecs = secondsRef.current;
+    setMarkers((prev) => {
+      if (prev.some((m) => m.type === type && m.seconds === currentSecs)) {
+        return prev;
+      }
+      return [
+        ...prev,
+        { id: Date.now() + Math.random(), type, seconds: currentSecs },
+      ].sort((a, b) => a.seconds - b.seconds);
+    });
+  };
+
+  const handleDeleteMarker = (id) => {
+    setMarkers((prev) => prev.filter((m) => m.id !== id));
+  };
+
+  const handleAddMarkerRef = useRef(null);
+  handleAddMarkerRef.current = handleAddMarker;
 
   useEffect(() => {
     if (!playing) return;
@@ -61,6 +92,18 @@ const MeetingDetail = () => {
         e.preventDefault();
         const delta = e.key === "ArrowLeft" ? -5 : 5;
         setSeconds((s) => Math.min(meeting.durationSeconds, Math.max(0, s + delta)));
+      } else if (e.key === "1") {
+        e.preventDefault();
+        handleAddMarkerRef.current?.("important");
+      } else if (e.key === "2") {
+        e.preventDefault();
+        handleAddMarkerRef.current?.("action");
+      } else if (e.key === "3") {
+        e.preventDefault();
+        handleAddMarkerRef.current?.("like");
+      } else if (e.key === "4") {
+        e.preventDefault();
+        handleAddMarkerRef.current?.("dislike");
       }
     };
     window.addEventListener("keydown", onKeyDown);
@@ -134,6 +177,9 @@ const MeetingDetail = () => {
         onTogglePlay={() => setPlaying((p) => !p)}
         currentSeconds={seconds}
         onScrub={setSeconds}
+        markers={markers}
+        onAddMarker={handleAddMarker}
+        onDeleteMarker={handleDeleteMarker}
       />
     </div>
   );

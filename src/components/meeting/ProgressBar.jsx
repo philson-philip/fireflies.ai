@@ -1,15 +1,67 @@
 import { useState, useRef, useCallback, useEffect } from "react";
+import { Star, ThumbsUp, ThumbsDown, CheckSquare } from "lucide-react";
+import Tooltip from "../ui/Tooltip";
 import { cn, formatClock } from "../../lib/utils";
 
 const STEP = 5;
 
-const ProgressBar = ({ currentSeconds, totalSeconds, onScrub }) => {
-  const [isHovering, setIsHovering] = useState(false);
+const Marker = ({ marker, totalSeconds, onDeleteMarker, onScrub, setHoveredMarkerId, isHovering }) => {
+  const pct = totalSeconds ? (marker.seconds / totalSeconds) * 100 : 0;
+
+  let Icon = Star;
+  if (marker.type === "like") Icon = ThumbsUp;
+  else if (marker.type === "action") Icon = CheckSquare;
+  else if (marker.type === "dislike") Icon = ThumbsDown;
+
+  return (
+    <Tooltip
+      label={`Philson marked ${marker.type}`}
+      side="top"
+      action={
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            onDeleteMarker(marker.id);
+          }}
+          className="text-ink-muted hover:text-danger ml-1 p-0.5 transition-colors cursor-pointer"
+          aria-label={`Delete ${marker.type} marker`}
+        >
+          ✕
+        </button>
+      }
+      className={cn(
+        "absolute bottom-full mb-1 -translate-x-1/2 z-20 cursor-pointer group/marker transition-all duration-300",
+        isHovering ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"
+      )}
+      style={{ left: `${pct}%` }}
+      onMouseEnter={() => {
+        setHoveredMarkerId(marker.id);
+      }}
+      onMouseLeave={() => {
+        setHoveredMarkerId(null);
+      }}
+      onClick={(e) => {
+        e.stopPropagation();
+        onScrub(marker.seconds);
+      }}
+    >
+      <div className="text-ink hover:scale-110 transition-transform">
+        <Icon size={18} strokeWidth={1.5} className="shrink-0" />
+      </div>
+    </Tooltip>
+  );
+};
+
+const ProgressBar = ({ currentSeconds, totalSeconds, onScrub, markers = [], onDeleteMarker, isFooterHovered }) => {
+  const [isProgressBarHovering, setIsProgressBarHovering] = useState(false);
   const [hoverX, setHoverX] = useState(0);
   const [hoverTime, setHoverTime] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
+  const [hoveredMarkerId, setHoveredMarkerId] = useState(null);
   const trackRef = useRef(null);
 
+  const isHovering = isProgressBarHovering || isFooterHovered;
   const pct = totalSeconds ? Math.min(100, Math.max(0, (currentSeconds / totalSeconds) * 100)) : 0;
 
   const handlePointerMove = useCallback(
@@ -79,10 +131,36 @@ const ProgressBar = ({ currentSeconds, totalSeconds, onScrub }) => {
       aria-valuetext={`${formatClock(currentSeconds)} of ${formatClock(totalSeconds)}`}
       onKeyDown={handleKeyDown}
       className="absolute inset-x-0 -top-1 h-3 group cursor-pointer touch-none"
-      onPointerEnter={() => setIsHovering(true)}
-      onPointerLeave={() => setIsHovering(false)}
+      onPointerEnter={() => setIsProgressBarHovering(true)}
+      onPointerLeave={() => setIsProgressBarHovering(false)}
       onPointerDown={handlePointerDown}
     >
+      {/* Transparent Hover Capture Bridge to retain hover context when moving up to markers */}
+      {isHovering && (
+        <div
+          className="absolute left-0 w-full cursor-default"
+          style={{
+            top: "-40px",
+            height: "45px",
+            background: "transparent",
+            zIndex: 10,
+          }}
+        />
+      )}
+
+      {/* Gradient Background Overlay */}
+      <div
+        className={cn(
+          "pointer-events-none absolute left-0 w-full transition-opacity duration-300",
+          isHovering ? "opacity-100" : "opacity-0"
+        )}
+        style={{
+          top: "-40px",
+          height: "45px",
+          background: "linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.9) 100%, var(--color-white) 100%)",
+        }}
+      />
+
       <div className="absolute inset-x-0 top-1/2 -translate-y-1/2">
         <div
           className={cn(
@@ -100,6 +178,19 @@ const ProgressBar = ({ currentSeconds, totalSeconds, onScrub }) => {
         />
       </div>
 
+      {/* Render Markers above progress bar */}
+      {markers.map((marker) => (
+        <Marker
+          key={marker.id}
+          marker={marker}
+          totalSeconds={totalSeconds}
+          onDeleteMarker={onDeleteMarker}
+          onScrub={onScrub}
+          setHoveredMarkerId={setHoveredMarkerId}
+          isHovering={isHovering}
+        />
+      ))}
+
       <div
         className={cn(
           "absolute top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand shadow-subtle transition-opacity duration-150 group-focus-visible:opacity-100",
@@ -109,7 +200,7 @@ const ProgressBar = ({ currentSeconds, totalSeconds, onScrub }) => {
         style={{ left: `${pct}%` }}
       />
 
-      {isHovering && !isDragging && (
+      {isProgressBarHovering && !isDragging && hoveredMarkerId === null && (
         <div
           className="pointer-events-none absolute bottom-full mb-2 -translate-x-1/2 whitespace-nowrap rounded-md bg-ink px-1.5 py-1 text-caption font-medium text-ink-inverse shadow-subtle"
           style={{ left: `${hoverX}%` }}

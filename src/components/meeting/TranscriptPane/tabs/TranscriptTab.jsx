@@ -67,10 +67,7 @@ const TranscriptTab = ({ currentSeconds, onSeek }) => {
             <div
               key={line.id}
               aria-current={active ? "true" : undefined}
-              className={cn(
-                "group/chat mb-3 flex gap-2.5 rounded-md p-2 -mx-2 transition-colors",
-                active ? "bg-playing" : "hover:bg-surface-subtle"
-              )}
+              className="group/chat mb-3 flex gap-2.5 rounded-md p-2 -mx-2 transition-colors hover:bg-surface-subtle"
             >
               <Avatar name={line.speaker} size="xs" className="shrink-0 mt-0.5" />
               <div className="min-w-0 flex-1">
@@ -97,7 +94,7 @@ const TranscriptTab = ({ currentSeconds, onSeek }) => {
                     <Link2 size={14} aria-hidden />
                   </IconButton>
                 </div>
-                <Typography as="p" variant="body" className="min-w-0">
+                <Typography as="p" variant="body" className="min-w-0 transition-colors" tone={active ? "text-[#6938EF]" : undefined}>
                   {withMatches(line.text, query)}
                 </Typography>
               </div>

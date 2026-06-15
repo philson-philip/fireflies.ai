@@ -1,0 +1,111 @@
+import { useMemo, useState } from "react";
+import { Search, X, Link2 } from "lucide-react";
+import Avatar from "../../../ui/Avatar";
+import Input from "../../../ui/Input";
+import IconButton from "../../../ui/IconButton";
+import Typography from "../../../ui/Typography";
+import { cn, toSeconds } from "../../../../lib/utils";
+import { transcript } from "../../../../data/meeting";
+
+const withMatches = (text, query) => {
+  if (!query) return text;
+  const parts = text.split(new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`, "ig"));
+  return parts.map((p, i) =>
+    p.toLowerCase() === query.toLowerCase() ? (
+      <mark key={i} className="rounded bg-warning-soft px-0.5 text-ink">
+        {p}
+      </mark>
+    ) : (
+      <span key={i}>{p}</span>
+    )
+  );
+};
+
+const TranscriptTab = ({ currentSeconds, onSeek }) => {
+  const [query, setQuery] = useState("");
+  const [focused, setFocused] = useState(false);
+
+  const activeId = useMemo(() => {
+    if (currentSeconds == null) return null;
+    let id = null;
+    for (const t of transcript) {
+      if (toSeconds(t.at) <= currentSeconds) id = t.id;
+      else break;
+    }
+    return id;
+  }, [currentSeconds]);
+
+  return (
+    <>
+      <div className="shrink-0 px-4 pb-3 pt-3">
+        <Input
+          leadingIcon={Search}
+          placeholder="Find or Replace"
+          aria-label="Find or Replace"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          trailingAction={
+            focused || query ? (
+              <button
+                type="button"
+                onClick={() => setQuery("")}
+                className="flex h-6 w-6 items-center justify-center rounded text-ink-muted transition-colors hover:text-ink"
+                aria-label="Clear search"
+              >
+                <X size={16} aria-hidden />
+              </button>
+            ) : null
+          }
+        />
+      </div>
+      <div className="scroll-thin flex-1 overflow-y-auto px-4 pb-6 pt-2">
+        {transcript.map((line) => {
+          const active = line.id === activeId;
+          return (
+            <div
+              key={line.id}
+              className={cn(
+                "group/chat mb-3 flex gap-2.5 rounded-md p-2 -mx-2 transition-colors",
+                active ? "bg-playing" : "hover:bg-surface-subtle"
+              )}
+            >
+              <Avatar name={line.speaker} size="xs" className="shrink-0 mt-0.5" />
+              <div className="min-w-0 flex-1">
+                <div className="mb-1 flex items-center gap-2">
+                  <Typography as="span" variant="body-sm" tone="text-ink" className="font-semibold">
+                    {line.speaker}
+                  </Typography>
+                  <span className="text-caption text-ink-muted">·</span>
+                  <button
+                    type="button"
+                    onClick={() => onSeek?.(toSeconds(line.at))}
+                    className={cn(
+                      "text-body-sm tabular-nums transition-colors",
+                      active ? "text-brand" : "text-info hover:underline"
+                    )}
+                  >
+                    {line.at}
+                  </button>
+                  <IconButton
+                    label="Copy link"
+                    size="sm"
+                    className="opacity-0 group-hover/chat:opacity-100 transition-opacity h-6 w-6"
+                  >
+                    <Link2 size={14} aria-hidden />
+                  </IconButton>
+                </div>
+                <Typography as="p" variant="body" className="min-w-0">
+                  {withMatches(line.text, query)}
+                </Typography>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </>
+  );
+};
+
+export default TranscriptTab;

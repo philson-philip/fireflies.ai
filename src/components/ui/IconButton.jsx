@@ -16,7 +16,7 @@ const IconButton = ({ label, shortcut, side = "auto", size = "md", active = fals
       className={cn(
         "inline-flex items-center justify-center rounded-[5px] text-ink-secondary transition-colors duration-150 ease-out-soft",
         "hover:bg-surface-secondary hover:text-ink active:bg-surface-muted",
-        active && "bg-brand-soft text-brand hover:text-brand",
+        active && "!bg-brand-soft !text-brand hover:!text-brand",
         SIZES[size],
         className
       )}

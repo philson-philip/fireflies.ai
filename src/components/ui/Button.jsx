@@ -2,11 +2,11 @@ import { cn } from "../../lib/utils";
 
 const VARIANTS = {
   primary:
-    "bg-brand text-ink-inverse shadow-subtle hover:bg-brand-hover active:bg-brand-active disabled:bg-line disabled:text-ink-muted",
+    "bg-brand text-ink-inverse shadow-subtle enabled:hover:bg-brand-hover enabled:active:bg-brand-active disabled:bg-line disabled:text-ink-muted",
   secondary:
-    "bg-surface text-ink border border-line shadow-subtle hover:bg-surface-subtle active:bg-surface-muted disabled:text-ink-muted disabled:bg-surface",
+    "bg-surface text-ink border border-line shadow-subtle enabled:hover:bg-surface-subtle enabled:active:bg-surface-muted disabled:text-ink-muted",
   ghost:
-    "bg-transparent text-ink-secondary hover:bg-surface-subtle hover:text-ink active:bg-surface-muted disabled:text-ink-muted",
+    "bg-transparent text-ink-secondary enabled:hover:bg-surface-subtle enabled:hover:text-ink enabled:active:bg-surface-muted disabled:text-ink-muted",
 };
 
 const SIZES = {
@@ -19,7 +19,7 @@ const Button = ({ variant = "primary", size = "md", className, children, ...prop
   <button
     className={cn(
       "inline-flex items-center justify-center rounded-[5px] font-display font-medium transition-colors duration-150 ease-out-soft",
-      "disabled:cursor-not-allowed",
+      "disabled:cursor-not-allowed disabled:shadow-none",
       VARIANTS[variant],
       SIZES[size],
       className

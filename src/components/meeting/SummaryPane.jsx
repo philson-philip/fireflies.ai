@@ -2,21 +2,18 @@ import { Video, Sparkles, Copy, Plus, Globe, Calendar } from "lucide-react";
 import Button from "../ui/Button";
 import Avatar from "../ui/Avatar";
 import IconButton from "../ui/IconButton";
+import Typography from "../ui/Typography";
 import { useToast } from "../ui/Toast";
-import { meeting, participants, summary, notes } from "../../data/meeting";
+import { meeting, summary, notes } from "../../data/meeting";
 
-// Center column: a calm, scannable digest. min-w-0 lets it shrink without
-// pushing the transcript, and the metadata row wraps gracefully instead of
-// collapsing into cramped columns on narrow widths.
-export default function SummaryPane() {
+const SummaryPane = () => {
   const toast = useToast();
 
   return (
     <div className="scroll-thin h-full min-w-0 flex-1 overflow-y-auto">
       <div className="mx-auto max-w-2xl p-6 sm:p-8">
-        {/* Title + meta */}
         <div className="flex items-start justify-between gap-4">
-          <h1 className="font-display text-h1 font-semibold text-ink">{meeting.title}</h1>
+          <Typography variant="h1">{meeting.title}</Typography>
           <Button variant="secondary" size="sm" className="hidden shrink-0 sm:inline-flex">
             <Video size={15} aria-hidden /> Video
           </Button>
@@ -38,11 +35,10 @@ export default function SummaryPane() {
           </span>
         </div>
 
-        {/* Summary */}
         <div className="mt-7 flex items-center justify-between">
-          <span className="inline-flex items-center gap-2 text-h4 font-medium text-ink-secondary">
+          <Typography as="span" variant="h4" tone="text-ink-secondary" className="inline-flex items-center gap-2">
             <Sparkles size={16} className="text-brand" aria-hidden /> General summary
-          </span>
+          </Typography>
           <div className="flex items-center gap-1">
             <IconButton
               label="Copy summary"
@@ -60,21 +56,26 @@ export default function SummaryPane() {
         <dl className="mt-4 space-y-3.5">
           {summary.map((row) => (
             <div key={row.label} className="grid grid-cols-1 gap-0.5 sm:grid-cols-[160px_1fr] sm:gap-4">
-              <dt className="text-body-sm font-semibold text-ink">{row.label}</dt>
-              <dd className="text-body text-ink-secondary">{row.text}</dd>
+              <Typography as="dt" variant="body-sm" tone="text-ink" className="font-semibold">
+                {row.label}
+              </Typography>
+              <Typography as="dd" variant="body">
+                {row.text}
+              </Typography>
             </div>
           ))}
         </dl>
 
-        {/* Notes */}
         <div className="mt-9 border-t border-line pt-7">
-          <h2 className="font-display text-h3 font-semibold text-ink">Notes</h2>
+          <Typography variant="h3">Notes</Typography>
           {notes.map((group) => (
             <section key={group.heading} className="mt-5">
-              <h3 className="text-body-sm font-semibold text-ink">{group.heading}</h3>
+              <Typography variant="h4" as="h3" className="font-semibold">
+                {group.heading}
+              </Typography>
               <ul className="mt-2.5 space-y-2">
                 {group.items.map((item, i) => (
-                  <li key={i} className="flex items-baseline gap-2 text-body text-ink-secondary">
+                  <Typography as="li" variant="body" key={i} className="flex items-baseline gap-2">
                     <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-ink-muted" aria-hidden />
                     <span>
                       {item.text}{" "}
@@ -85,7 +86,7 @@ export default function SummaryPane() {
                         {item.at}
                       </button>
                     </span>
-                  </li>
+                  </Typography>
                 ))}
               </ul>
             </section>
@@ -94,4 +95,6 @@ export default function SummaryPane() {
       </div>
     </div>
   );
-}
+};
+
+export default SummaryPane;

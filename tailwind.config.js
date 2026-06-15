@@ -4,7 +4,6 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Brand (anchored in Fireflies DNA, owned by this system)
         brand: {
           DEFAULT: "var(--brand)",
           hover: "var(--brand-hover)",
@@ -12,26 +11,21 @@ export default {
           soft: "var(--brand-soft)",
           ring: "var(--brand-ring)",
         },
-        // Surfaces
         canvas: "var(--canvas)",
         surface: "var(--surface)",
         "surface-subtle": "var(--surface-subtle)",
         "surface-secondary": "var(--surface-secondary)",
         "surface-muted": "var(--surface-muted)",
-        // Text
         ink: "var(--ink)",
         "ink-secondary": "var(--ink-secondary)",
         "ink-muted": "var(--ink-muted)",
         "ink-inverse": "var(--ink-inverse)",
-        // Lines
         line: "var(--line)",
         "line-strong": "var(--line-strong)",
-        // Semantic (made accessible — fixes the incoherent status colors in the live app)
         success: { DEFAULT: "var(--success)", soft: "var(--success-soft)" },
         warning: { DEFAULT: "var(--warning)", soft: "var(--warning-soft)" },
         danger: { DEFAULT: "var(--danger)", soft: "var(--danger-soft)" },
         info: { DEFAULT: "var(--info)", soft: "var(--info-soft)" },
-        // Transcript "now playing" highlight — brand-tinted, never red
         playing: "var(--playing)",
       },
       fontFamily: {
@@ -39,7 +33,6 @@ export default {
         sans: ['"Inter"', "system-ui", "-apple-system", "sans-serif"],
       },
       fontSize: {
-        // role-driven scale
         display: ["2.5rem", { lineHeight: "1.15", letterSpacing: "-0.02em" }],
         h1: ["1.75rem", { lineHeight: "1.2", letterSpacing: "-0.015em" }],
         h2: ["1.375rem", { lineHeight: "1.25", letterSpacing: "-0.01em" }],

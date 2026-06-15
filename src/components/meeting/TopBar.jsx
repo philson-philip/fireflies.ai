@@ -2,13 +2,11 @@ import { Hash, ChevronRight, MoreHorizontal, Share2, Link2, Download, Plus, Bell
 import IconButton from "../ui/IconButton";
 import Button from "../ui/Button";
 import Avatar from "../ui/Avatar";
+import Typography from "../ui/Typography";
 import { useToast } from "../ui/Toast";
 import { meeting } from "../../data/meeting";
 
-// Real <header>/<nav> landmarks with real <button>/<a> controls, so the whole
-// bar is keyboard operable and announced — the live app renders this as a
-// generic, non-focusable div.
-export default function TopBar({ onCopyLink }) {
+const TopBar = ({ onCopyLink }) => {
   const toast = useToast();
 
   return (
@@ -22,9 +20,9 @@ export default function TopBar({ onCopyLink }) {
           <span className="hidden sm:inline">{meeting.channel}</span>
         </a>
         <ChevronRight size={14} className="shrink-0 text-ink-muted" aria-hidden />
-        <span className="truncate text-body-sm font-semibold text-ink" title={meeting.title}>
+        <Typography as="span" variant="body-sm" tone="text-ink" className="truncate font-semibold" title={meeting.title}>
           {meeting.title}
-        </span>
+        </Typography>
         <IconButton label="Meeting options" size="sm" className="ml-0.5">
           <MoreHorizontal size={16} aria-hidden />
         </IconButton>
@@ -67,4 +65,6 @@ export default function TopBar({ onCopyLink }) {
       </div>
     </header>
   );
-}
+};
+
+export default TopBar;

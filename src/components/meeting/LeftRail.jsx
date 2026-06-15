@@ -11,12 +11,9 @@ export const RAIL_ITEMS = [
   { key: "bookmarks", label: "Bookmarks", icon: Bookmark, shortcut: "B" },
 ];
 
-// Real <nav> with real buttons => keyboard operable. Clicking an active item
-// toggles the panel closed, so the rail never shifts the layout on its own.
-export default function LeftRail({ active, onSelect }) {
+const LeftRail = ({ active, onSelect }) => {
   useEffect(() => {
     const handleKeyDown = (e) => {
-      // Do not trigger shortcuts if the user is typing in an input
       if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA" || e.target.isContentEditable) {
         return;
       }
@@ -53,4 +50,6 @@ export default function LeftRail({ active, onSelect }) {
       ))}
     </nav>
   );
-}
+};
+
+export default LeftRail;

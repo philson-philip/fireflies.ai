@@ -5,9 +5,8 @@ import ProgressBar from "./ProgressBar";
 import { formatClock } from "../../lib/utils";
 import { meeting } from "../../data/meeting";
 
-export default function PlayerBar({ playing, onTogglePlay, currentSeconds, onScrub }) {
+const PlayerBar = ({ playing, onTogglePlay, currentSeconds, onScrub }) => {
   const total = meeting.durationSeconds;
-  const pct = Math.min(100, (currentSeconds / total) * 100);
 
   return (
     <footer className="relative z-30 flex h-16 shrink-0 items-center gap-3 bg-surface px-3 sm:px-5">
@@ -43,12 +42,9 @@ export default function PlayerBar({ playing, onTogglePlay, currentSeconds, onScr
         <IconButton label="Needs work" className="hidden sm:inline-flex"><ThumbsDown size={16} aria-hidden /></IconButton>
       </div>
 
-      {/* Interactive Progress Bar */}
-      <ProgressBar 
-        currentSeconds={currentSeconds} 
-        totalSeconds={total} 
-        onScrub={onScrub} 
-      />
+      <ProgressBar currentSeconds={currentSeconds} totalSeconds={total} onScrub={onScrub} />
     </footer>
   );
-}
+};
+
+export default PlayerBar;

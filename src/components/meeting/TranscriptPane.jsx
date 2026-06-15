@@ -6,6 +6,7 @@ import Card from "../ui/Card";
 import IconButton from "../ui/IconButton";
 import Input from "../ui/Input";
 import Button from "../ui/Button";
+import Typography from "../ui/Typography";
 import { cn, toSeconds } from "../../lib/utils";
 import { transcript } from "../../data/meeting";
 
@@ -15,10 +16,7 @@ const TABS = [
   { key: "skills", label: "AI Skills" },
 ];
 
-
-
-// Highlight query matches without dangerouslySetInnerHTML.
-function withMatches(text, query) {
+const withMatches = (text, query) => {
   if (!query) return text;
   const parts = text.split(new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`, "ig"));
   return parts.map((p, i) =>
@@ -30,14 +28,12 @@ function withMatches(text, query) {
       <span key={i}>{p}</span>
     )
   );
-}
+};
 
-function TranscriptTab({ currentSeconds, onSeek }) {
+const TranscriptTab = ({ currentSeconds, onSeek }) => {
   const [query, setQuery] = useState("");
   const [focused, setFocused] = useState(false);
 
-  // The active line is the last line whose timestamp is at or before the
-  // playhead — exactly one line, the one being spoken now.
   const activeId = useMemo(() => {
     if (currentSeconds == null) return null;
     let id = null;
@@ -87,7 +83,9 @@ function TranscriptTab({ currentSeconds, onSeek }) {
               <Avatar name={line.speaker} size="xs" className="shrink-0 mt-0.5" />
               <div className="min-w-0 flex-1">
                 <div className="mb-1 flex items-center gap-2">
-                  <span className="text-body-sm font-semibold text-ink">{line.speaker}</span>
+                  <Typography as="span" variant="body-sm" tone="text-ink" className="font-semibold">
+                    {line.speaker}
+                  </Typography>
                   <span className="text-caption text-ink-muted">·</span>
                   <button
                     type="button"
@@ -107,9 +105,9 @@ function TranscriptTab({ currentSeconds, onSeek }) {
                     <Link size={14} aria-hidden />
                   </IconButton>
                 </div>
-                <p className="min-w-0 text-body text-ink-secondary">
+                <Typography as="p" variant="body" className="min-w-0">
                   {withMatches(line.text, query)}
-                </p>
+                </Typography>
               </div>
             </div>
           );
@@ -117,9 +115,9 @@ function TranscriptTab({ currentSeconds, onSeek }) {
       </div>
     </>
   );
-}
+};
 
-function AskFredTab() {
+const AskFredTab = () => {
   const suggestions = [
     "How does Philson approach the designer-engineer bridge?",
     "What did he build at BigBinary, and what was the impact?",
@@ -130,12 +128,12 @@ function AskFredTab() {
       <div className="scroll-thin flex-1 overflow-y-auto">
         <div className="mb-5 flex items-center gap-2">
           <Sparkles size={18} className="text-brand" aria-hidden />
-          <p className="text-h4 font-medium text-ink">Ask anything about this meeting</p>
+          <Typography as="p" variant="h4">Ask anything about this meeting</Typography>
         </div>
         <div className="flex flex-col gap-2">
           {suggestions.map((s) => (
             <Card key={s} interactive className="flex items-center justify-between gap-2 p-3">
-              <span className="text-body-sm text-ink-secondary">{s}</span>
+              <Typography as="span" variant="body-sm">{s}</Typography>
               <ChevronRight size={15} className="shrink-0 text-ink-muted" aria-hidden />
             </Card>
           ))}
@@ -149,9 +147,9 @@ function AskFredTab() {
       </div>
     </div>
   );
-}
+};
 
-function SkillsTab() {
+const SkillsTab = () => {
   const skills = [
     { label: "Candidate scorecard", tone: "brand" },
     { label: "Interview questions", tone: "info" },
@@ -163,8 +161,8 @@ function SkillsTab() {
   return (
     <div className="scroll-thin flex-1 overflow-y-auto p-4">
       <div className="mb-3 flex items-center justify-between">
-        <p className="text-body-sm font-medium text-ink-secondary">Extract insights from this meeting</p>
-        <span className="text-caption text-ink-muted">Uses AI credits</span>
+        <Typography as="p" variant="body-sm" className="font-medium">Extract insights from this meeting</Typography>
+        <Typography as="span" variant="caption">Uses AI credits</Typography>
       </div>
       <div className="grid grid-cols-2 gap-2">
         {skills.map((s) => (
@@ -179,15 +177,15 @@ function SkillsTab() {
             >
               <Sparkles size={15} aria-hidden />
             </span>
-            <span className="text-body-sm font-medium text-ink">{s.label}</span>
+            <Typography as="span" variant="body-sm" tone="text-ink" className="font-medium">{s.label}</Typography>
           </Card>
         ))}
       </div>
     </div>
   );
-}
+};
 
-export default function TranscriptPane({ currentSeconds, onSeek, onExpand }) {
+const TranscriptPane = ({ currentSeconds, onSeek, onExpand }) => {
   const [tab, setTab] = useState("transcript");
 
   return (
@@ -198,7 +196,6 @@ export default function TranscriptPane({ currentSeconds, onSeek, onExpand }) {
       <div className="flex h-14 shrink-0 items-center justify-between gap-2 border-b border-line pl-2 pr-3">
         <div role="tablist" aria-label="Transcript views" className="flex h-full">
           {TABS.map((t) => {
-            const Icon = t.icon;
             const isActive = tab === t.key;
             return (
               <button
@@ -211,20 +208,9 @@ export default function TranscriptPane({ currentSeconds, onSeek, onExpand }) {
                   isActive ? "text-brand" : "text-ink-muted hover:text-ink"
                 )}
               >
-                {t.customIcon ? (
-                  <img src={t.customIcon} alt="" className="h-6 w-6" />
-                ) : Icon ? (
-                  <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-brand text-white">
-                    <Icon size={16} aria-hidden />
-                  </span>
-                ) : null}
+                {t.customIcon && <img src={t.customIcon} alt="" className="h-6 w-6" />}
                 <span>{t.label}</span>
-                {isActive && (
-                  <span
-                    className="absolute inset-x-2 -bottom-px h-[2px] bg-brand"
-                    aria-hidden
-                  />
-                )}
+                {isActive && <span className="absolute inset-x-2 -bottom-px h-[2px] bg-brand" aria-hidden />}
               </button>
             );
           })}
@@ -244,4 +230,6 @@ export default function TranscriptPane({ currentSeconds, onSeek, onExpand }) {
       {tab === "skills" && <SkillsTab />}
     </section>
   );
-}
+};
+
+export default TranscriptPane;

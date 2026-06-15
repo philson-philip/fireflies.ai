@@ -8,10 +8,7 @@ const SIDE = {
   right: "left-full top-1/2 -translate-y-1/2 ml-2",
 };
 
-// Lightweight tooltip. Appears on hover AND keyboard focus (a11y), with a
-// short, responsive delay — the live app's tooltips feel laggy, so this
-// opens in 120ms and closes immediately.
-export default function Tooltip({ label, shortcut, side = "auto", children, className }) {
+const Tooltip = ({ label, shortcut, side = "auto", children, className }) => {
   const [open, setOpen] = useState(false);
   const [computedSide, setComputedSide] = useState(side === "auto" ? "top" : side);
   const timer = useRef(null);
@@ -29,6 +26,7 @@ export default function Tooltip({ label, shortcut, side = "auto", children, clas
     clearTimeout(timer.current);
     timer.current = setTimeout(() => setOpen(true), 120);
   };
+
   const hide = () => {
     clearTimeout(timer.current);
     setOpen(false);
@@ -63,4 +61,6 @@ export default function Tooltip({ label, shortcut, side = "auto", children, clas
       </span>
     </span>
   );
-}
+};
+
+export default Tooltip;

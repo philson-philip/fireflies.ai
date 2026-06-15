@@ -2,42 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ============================================================
-   Design tokens
-   Anchored in the Fireflies brand (purple #7A5AF8, DM Sans +
-   Inter, 4px rhythm), but owned by this system. Semantic colors
-   are tuned for WCAG AA — the live app uses teal for "success"
-   which fails contrast as text, so success/warning/danger/info
-   here are readable on white and paired with soft tint surfaces.
-   Structured as variables so a dark theme is a drop-in later.
-   ============================================================ */
 :root {
-  /* Brand */
   --brand: #7a5af8;
   --brand-hover: #6938ef;
   --brand-active: #5b2fb0;
   --brand-soft: #f1edff;
-  /* Pre-composed rgba for ring/shadow — opacity modifiers on CSS-var colors don't work in Tailwind v3 */
   --brand-ring: rgba(122, 90, 248, 0.25);
 
-  /* Surfaces */
   --canvas: #ffffff;
   --surface: #ffffff;
   --surface-subtle: #fafafa;
   --surface-secondary: #e9ebed;
   --surface-muted: #f3f5fc;
 
-  /* Text */
   --ink: #101828;
   --ink-secondary: #475467;
   --ink-muted: #667085;
   --ink-inverse: #ffffff;
 
-  /* Lines */
   --line: #eaecf0;
   --line-strong: #d0d5dd;
 
-  /* Semantic (accessible) */
   --success: #067647;
   --success-soft: #ecfdf3;
   --warning: #b54708;
@@ -47,10 +32,8 @@
   --info: #175cd3;
   --info-soft: #eff8ff;
 
-  /* Transcript "now playing" — brand tint, never red */
   --playing: #f1edff;
 
-  /* Motion */
   --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
 
   color-scheme: light;
@@ -75,15 +58,12 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Visible, consistent keyboard focus everywhere (fixes the non-focusable
-   nav we found in the audit). Mouse users don't see it; keyboard users do. */
 :focus-visible {
   outline: 2px solid var(--brand);
   outline-offset: 2px;
   border-radius: 4px;
 }
 
-/* Quiet, themeable scrollbars for the scroll regions */
 .scroll-thin {
   scrollbar-width: thin;
   scrollbar-color: var(--line-strong) transparent;

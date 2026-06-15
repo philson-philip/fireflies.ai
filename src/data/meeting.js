@@ -1,6 +1,3 @@
-// Static mock data (no backend). Content is drawn from the real interview
-// so the UI reads like a genuine Fireflies workspace rather than lorem.
-
 export const meeting = {
   title: "Philson K Philip and John Doe",
   channel: "My Meetings",
@@ -61,8 +58,6 @@ export const notes = [
   },
 ];
 
-// Transcript turns. Consecutive turns by the same speaker are grouped in the
-// UI so the speaker header is not repeated for every line.
 export const transcript = [
   { id: 1, speaker: "John Doe", at: "00:01", text: "Hello. Hi. Yeah, how are you?" },
   { id: 2, speaker: "Philson Philip", at: "00:04", text: "Yeah, I'm doing great." },

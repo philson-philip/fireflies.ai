@@ -7,36 +7,24 @@ const SIZES = {
   lg: "h-10 w-10 p-2",
 };
 
-// Every icon control routes through here, so it is guaranteed to have an
-// accessible name (aria-label) and a tooltip. This is the system-level fix
-// for "icon buttons have no label / no tooltip" from the audit.
-export default function IconButton({
-  label,
-  shortcut,
-  side = "auto",
-  size = "md",
-  active = false,
-  className,
-  children,
-  ...props
-}) {
-  return (
-    <Tooltip label={label} shortcut={shortcut} side={side}>
-      <button
-        type="button"
-        aria-label={label}
-        aria-pressed={active || undefined}
-        className={cn(
-          "inline-flex items-center justify-center rounded-[5px] text-ink-secondary transition-colors duration-150 ease-out-soft",
-          "hover:bg-surface-secondary hover:text-ink active:bg-surface-muted",
-          active && "bg-brand-soft text-brand hover:!bg-[#e6ddfe] hover:text-brand",
-          SIZES[size],
-          className
-        )}
-        {...props}
-      >
-        {children}
-      </button>
-    </Tooltip>
-  );
-}
+const IconButton = ({ label, shortcut, side = "auto", size = "md", active = false, className, children, ...props }) => (
+  <Tooltip label={label} shortcut={shortcut} side={side}>
+    <button
+      type="button"
+      aria-label={label}
+      aria-pressed={active || undefined}
+      className={cn(
+        "inline-flex items-center justify-center rounded-[5px] text-ink-secondary transition-colors duration-150 ease-out-soft",
+        "hover:bg-surface-secondary hover:text-ink active:bg-surface-muted",
+        active && "bg-brand-soft text-brand hover:text-brand",
+        SIZES[size],
+        className
+      )}
+      {...props}
+    >
+      {children}
+    </button>
+  </Tooltip>
+);
+
+export default IconButton;

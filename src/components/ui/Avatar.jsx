@@ -8,9 +8,7 @@ const SIZES = {
   md: "h-9 w-9 text-body-sm rounded-md",
 };
 
-// Speaker chip. Color is derived deterministically from the name so the same
-// person reads the same color in the transcript, talktime and attendee list.
-export default function Avatar({ name, size = "sm", className, imageUrl: explicitImageUrl }) {
+const Avatar = ({ name, size = "sm", className, imageUrl: explicitImageUrl }) => {
   const tone = speakerTone(name);
   const participant = participants.find((p) => p.name === name);
   const finalImageUrl = explicitImageUrl || participant?.imageUrl;
@@ -34,4 +32,6 @@ export default function Avatar({ name, size = "sm", className, imageUrl: explici
       {initials(name)}
     </span>
   );
-}
+};
+
+export default Avatar;

@@ -15,25 +15,19 @@ const SIZES = {
   lg: "h-11 px-5 text-body gap-2",
 };
 
-export default function Button({
-  variant = "primary",
-  size = "md",
-  className,
-  children,
-  ...props
-}) {
-  return (
-    <button
-      className={cn(
-        "inline-flex items-center justify-center rounded-[5px] font-display font-medium transition-colors duration-150 ease-out-soft",
-        "disabled:cursor-not-allowed",
-        VARIANTS[variant],
-        SIZES[size],
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </button>
-  );
-}
+const Button = ({ variant = "primary", size = "md", className, children, ...props }) => (
+  <button
+    className={cn(
+      "inline-flex items-center justify-center rounded-[5px] font-display font-medium transition-colors duration-150 ease-out-soft",
+      "disabled:cursor-not-allowed",
+      VARIANTS[variant],
+      SIZES[size],
+      className
+    )}
+    {...props}
+  >
+    {children}
+  </button>
+);
+
+export default Button;

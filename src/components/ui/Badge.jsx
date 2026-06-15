@@ -18,19 +18,17 @@ export const DOT = {
   info: "bg-info",
 };
 
-// Status / category tag. All sentiment, filter and status indicators draw
-// from this one set of semantic tokens (fixes the incoherent color usage).
-export default function Badge({ tone = "neutral", dot = false, className, children }) {
-  return (
-    <span
-      className={cn(
-        "inline-flex items-center gap-1.5 rounded-2xl px-2.5 py-0.5 text-caption font-medium",
-        TONES[tone],
-        className
-      )}
-    >
-      {dot && <span className={cn("h-1.5 w-1.5 rounded-full", DOT[tone])} aria-hidden />}
-      {children}
-    </span>
-  );
-}
+const Badge = ({ tone = "neutral", dot = false, className, children }) => (
+  <span
+    className={cn(
+      "inline-flex items-center gap-1.5 rounded-2xl px-2.5 py-0.5 text-caption font-medium",
+      TONES[tone],
+      className
+    )}
+  >
+    {dot && <span className={cn("h-1.5 w-1.5 rounded-full", DOT[tone])} aria-hidden />}
+    {children}
+  </span>
+);
+
+export default Badge;

@@ -1,21 +1,9 @@
 import { useId } from "react";
 import { AlertCircle } from "lucide-react";
 import { cn } from "../../lib/utils";
+import Typography from "./Typography";
 
-// Text field with label, helper and error states. Error is conveyed with an
-// icon + message, never color alone (WCAG). Helper/error are wired with
-// aria-describedby for screen readers.
-export default function Input({
-  label,
-  helper,
-  error,
-  id,
-  leadingIcon: Leading,
-  trailingAction,
-  className,
-  inputClassName,
-  ...props
-}) {
+const Input = ({ label, helper, error, id, leadingIcon: Leading, trailingAction, className, inputClassName, ...props }) => {
   const reactId = useId();
   const inputId = id || reactId;
   const describedBy = error ? `${inputId}-err` : helper ? `${inputId}-help` : undefined;
@@ -23,9 +11,9 @@ export default function Input({
   return (
     <div className={cn("flex flex-col gap-1.5", className)}>
       {label && (
-        <label htmlFor={inputId} className="text-label font-medium text-ink-secondary">
+        <Typography as="label" variant="label" htmlFor={inputId}>
           {label}
-        </label>
+        </Typography>
       )}
       <div
         className={cn(
@@ -45,19 +33,19 @@ export default function Input({
           )}
           {...props}
         />
-        {trailingAction && (
-          <span className="shrink-0">{trailingAction}</span>
-        )}
+        {trailingAction && <span className="shrink-0">{trailingAction}</span>}
       </div>
       {error ? (
-        <p id={`${inputId}-err`} className="flex items-center gap-1.5 text-caption text-danger">
+        <Typography as="p" variant="caption" tone="text-danger" id={`${inputId}-err`} className="flex items-center gap-1.5">
           <AlertCircle size={13} aria-hidden /> {error}
-        </p>
+        </Typography>
       ) : helper ? (
-        <p id={`${inputId}-help`} className="text-caption text-ink-muted">
+        <Typography as="p" variant="caption" id={`${inputId}-help`}>
           {helper}
-        </p>
+        </Typography>
       ) : null}
     </div>
   );
-}
+};
+
+export default Input;

@@ -1,10 +1,6 @@
 import { useCallback, useRef } from "react";
 
-// Draggable separator. Works with pointer drag AND arrow keys (a11y), and
-// reports deltas to the parent which clamps the width. Because both panes use
-// min-w-0 + normal wrapping, content re-justifies live as you drag — the
-// behavior the live app is missing.
-export default function ResizeHandle({ onResize }) {
+const ResizeHandle = ({ onResize }) => {
   const startX = useRef(0);
 
   const onPointerDown = useCallback(
@@ -47,4 +43,6 @@ export default function ResizeHandle({ onResize }) {
       <div className="absolute inset-y-0 -left-1 w-3" />
     </div>
   );
-}
+};
+
+export default ResizeHandle;

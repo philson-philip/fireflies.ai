@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useState } from "react";
 import { CheckCircle2, Info, AlertTriangle, XCircle, X } from "lucide-react";
 import { cn } from "../../lib/utils";
+import Typography from "./Typography";
 
 const ToastContext = createContext(() => {});
 export const useToast = () => useContext(ToastContext);
@@ -12,9 +13,7 @@ const VARIANTS = {
   danger: { icon: XCircle, ring: "border-l-danger", tint: "text-danger" },
 };
 
-// Toasts are anchored bottom-right (not centered) and color-coded by
-// semantic variant — directly addressing the toaster findings.
-export function ToastProvider({ children }) {
+export const ToastProvider = ({ children }) => {
   const [toasts, setToasts] = useState([]);
 
   const dismiss = useCallback((id) => {
@@ -52,8 +51,14 @@ export function ToastProvider({ children }) {
             >
               <Icon size={18} className={cn("mt-0.5 shrink-0", v.tint)} aria-hidden />
               <div className="min-w-0 flex-1">
-                <p className="text-body-sm font-medium text-ink">{t.title}</p>
-                {t.description && <p className="mt-0.5 text-caption text-ink-muted">{t.description}</p>}
+                <Typography as="p" variant="body-sm" tone="text-ink" className="font-medium">
+                  {t.title}
+                </Typography>
+                {t.description && (
+                  <Typography as="p" variant="caption" className="mt-0.5">
+                    {t.description}
+                  </Typography>
+                )}
               </div>
               <button
                 type="button"
@@ -69,4 +74,4 @@ export function ToastProvider({ children }) {
       </div>
     </ToastContext.Provider>
   );
-}
+};

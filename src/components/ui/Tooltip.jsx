@@ -1,4 +1,4 @@
-import { useId, useRef, useState } from "react";
+import { useId, useRef, useState, useLayoutEffect } from "react";
 import { cn } from "../../lib/utils";
 
 const SIDE = {
@@ -13,7 +13,29 @@ const Tooltip = ({ label, shortcut, action, side = "auto", children, className, 
   const [computedSide, setComputedSide] = useState(side === "auto" ? "top" : side);
   const timer = useRef(null);
   const hideTimer = useRef(null);
+  const tooltipRef = useRef(null);
   const id = useId();
+
+  useLayoutEffect(() => {
+    if (open && tooltipRef.current) {
+      tooltipRef.current.style.marginLeft = "0px";
+      tooltipRef.current.style.marginTop = "0px";
+      const rect = tooltipRef.current.getBoundingClientRect();
+      const style = tooltipRef.current.style;
+      
+      if (rect.left < 8) {
+        style.marginLeft = `${8 - rect.left}px`;
+      } else if (rect.right > window.innerWidth - 8) {
+        style.marginLeft = `${(window.innerWidth - 8) - rect.right}px`;
+      }
+      
+      if (rect.top < 8) {
+        style.marginTop = `${8 - rect.top}px`;
+      } else if (rect.bottom > window.innerHeight - 8) {
+        style.marginTop = `${(window.innerHeight - 8) - rect.bottom}px`;
+      }
+    }
+  }, [open, computedSide]);
 
   const show = (e) => {
     if (side === "auto" && e.currentTarget) {
@@ -63,6 +85,7 @@ const Tooltip = ({ label, shortcut, action, side = "auto", children, className, 
     >
       {children}
       <span
+        ref={tooltipRef}
         role="tooltip"
         id={id}
         className={cn(

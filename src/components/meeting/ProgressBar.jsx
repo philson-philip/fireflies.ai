@@ -1,11 +1,13 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import { Star, ThumbsUp, ThumbsDown, CheckSquare } from "lucide-react";
 import Tooltip from "../ui/Tooltip";
+import { useToast } from "../ui/Toast";
 import { cn, formatClock } from "../../lib/utils";
 
 const STEP = 5;
 
 const Marker = ({ marker, totalSeconds, onDeleteMarker, onScrub, setHoveredMarkerId, isHovering }) => {
+  const toast = useToast();
   const pct = totalSeconds ? (marker.seconds / totalSeconds) * 100 : 0;
 
   let Icon = Star;
@@ -23,6 +25,7 @@ const Marker = ({ marker, totalSeconds, onDeleteMarker, onScrub, setHoveredMarke
           onClick={(e) => {
             e.stopPropagation();
             onDeleteMarker(marker.id);
+            toast({ title: "Bookmark removed successfully", variant: "success" });
           }}
           className="text-ink-muted hover:text-danger ml-1 p-0.5 transition-colors cursor-pointer"
           aria-label={`Delete ${marker.type} marker`}
@@ -45,8 +48,11 @@ const Marker = ({ marker, totalSeconds, onDeleteMarker, onScrub, setHoveredMarke
         e.stopPropagation();
         onScrub(marker.seconds);
       }}
+      onPointerDown={(e) => {
+        e.stopPropagation();
+      }}
     >
-      <div className="text-ink hover:scale-110 transition-transform">
+      <div className="text-ink bg-surface rounded-sm hover:scale-110 transition-transform">
         <Icon size={18} strokeWidth={1.5} className="shrink-0" />
       </div>
     </Tooltip>
@@ -140,8 +146,8 @@ const ProgressBar = ({ currentSeconds, totalSeconds, onScrub, markers = [], onDe
         <div
           className="absolute left-0 w-full cursor-default"
           style={{
-            top: "-40px",
-            height: "45px",
+            top: "-100px",
+            height: "105px",
             background: "transparent",
             zIndex: 10,
           }}

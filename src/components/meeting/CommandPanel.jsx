@@ -13,17 +13,22 @@ import { insights, comments, bookmarks } from "../../data/meeting";
 // tabs visibly shifts the whole layout. One width = no jump.
 const PANEL_WIDTH = "w-80";
 
-function PanelShell({ title, action, onClose, children }) {
+function PanelShell({ title, heading, action, onClose, children }) {
+  const display = heading || title;
   return (
     <aside
       aria-label={`${title} panel`}
       className={`${PANEL_WIDTH} group relative flex shrink-0 flex-col border-r border-line bg-surface-subtle`}
     >
       <div className="flex h-12 shrink-0 items-center justify-between border-b border-line px-4">
-        <h2 className="text-[15px] font-semibold capitalize tracking-wide text-ink-muted">{title}</h2>
-        {action && action}
+        {typeof display === "string" ? (
+          <h2 className="text-[15px] font-semibold capitalize tracking-wide text-ink">{display}</h2>
+        ) : (
+          <div className="text-[15px] font-semibold capitalize tracking-wide text-ink">{display}</div>
+        )}
+        {action}
       </div>
-      <div className="absolute -right-9 top-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+      <div className="absolute -right-9 top-2 z-50 opacity-0 group-hover:opacity-100 transition-opacity">
         <IconButton label="Close panel" onClick={onClose} size="sm" className="border border-line bg-surface shadow-sm hover:bg-surface-subtle">
           <ChevronsLeft size={20} aria-hidden />
         </IconButton>
@@ -38,29 +43,35 @@ function Section({ title, defaultOpen = true, extraAction, children }) {
 
   return (
     <section className="border-b border-line last:border-b-0 py-5 first:pt-0">
-      <button
-        type="button"
-        className="flex w-full items-center justify-between group"
-        onClick={() => setIsOpen(!isOpen)}
-        aria-expanded={isOpen}
-      >
-        <h3 className="text-caption font-semibold uppercase tracking-wide text-ink-muted">{title}</h3>
+      <div className="flex w-full items-center justify-between group">
+        <button
+          type="button"
+          className="flex-1 text-left"
+          onClick={() => setIsOpen(!isOpen)}
+          aria-expanded={isOpen}
+        >
+          <h3 className="text-caption font-semibold uppercase tracking-wide text-ink-muted">{title}</h3>
+        </button>
         <div className="flex items-center gap-4">
           {extraAction && (
-            <div
+            <button
+              type="button"
               className="text-ink-muted hover:text-ink"
-              onClick={(e) => {
-                e.stopPropagation();
-              }}
+              aria-label={`Add ${title}`}
             >
               {extraAction}
-            </div>
+            </button>
           )}
-          <span className="text-ink-muted transition-colors hover:text-ink">
+          <button
+            type="button"
+            onClick={() => setIsOpen(!isOpen)}
+            className="text-ink-muted transition-colors hover:text-ink"
+            aria-label={isOpen ? "Collapse section" : "Expand section"}
+          >
             {isOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-          </span>
+          </button>
         </div>
-      </button>
+      </div>
       {isOpen && <div className="mt-4">{children}</div>}
     </section>
   );
@@ -85,8 +96,12 @@ const BORDER_STYLES = {
 };
 
 function Overview() {
-  const [selectedFilters, setSelectedFilters] = useState({ [insights.filters[0].label]: true });
-  const [selectedSentiments, setSelectedSentiments] = useState({ [insights.sentiments[0].label]: true });
+  const [selectedFilters, setSelectedFilters] = useState(() =>
+    insights.filters.length > 0 ? { [insights.filters[0].label]: true } : {}
+  );
+  const [selectedSentiments, setSelectedSentiments] = useState(() =>
+    insights.sentiments.length > 0 ? { [insights.sentiments[0].label]: true } : {}
+  );
 
   const toggleFilter = (label) => {
     setSelectedFilters((prev) => ({
@@ -116,7 +131,7 @@ function Overview() {
                 onClick={() => toggleFilter(f.label)}
               >
                 <div className="flex items-center gap-2">
-                  {isSelected && (
+                  {isSelected && DOT[f.tone] && (
                     <Check size={14} className={DOT[f.tone].replace('bg-', 'text-')} />
                   )}
                   <span className={`text-caption ${isSelected ? '' : 'text-ink-secondary'}`}>{f.label}</span>
@@ -140,7 +155,7 @@ function Overview() {
                 onClick={() => toggleSentiment(s.label)}
               >
                 <div className="flex items-center gap-2">
-                  {isSelected && (
+                  {isSelected && DOT[s.tone] && (
                     <Check size={14} className={DOT[s.tone].replace('bg-', 'text-')} />
                   )}
                   <span className={`text-caption ${isSelected ? '' : 'text-ink-secondary'}`}>{s.label}</span>
@@ -211,9 +226,9 @@ function IndexView() {
   ];
 
   return (
-    <div className="flex flex-col -mx-4 -mt-4 p-4">
+    <div className="flex flex-col p-4">
       {items.map((item, i) => (
-        <div key={i} className="flex h-12 items-center justify-between px-4 hover:bg-surface-secondary cursor-pointer group">
+        <div key={i} className="flex h-12 items-center justify-between px-4 hover:bg-surface-secondary cursor-pointer group rounded-lg">
           <span className="text-[14px] text-ink">{item.label}</span>
           {item.hasMore && (
             <span className="text-ink-muted transition-opacity">
@@ -295,7 +310,7 @@ function CommentsView() {
             placeholder="Comment..."
             rows={3}
           />
-          <button className="flex h-7 w-7 shrink-0 items-center justify-center rounded-[5px] bg-[#e6ddfe] text-brand hover:bg-[#d9ccfd] transition-colors">
+          <button className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[5px] bg-[#e6ddfe] text-brand hover:bg-[#d9ccfd] transition-colors">
             <ArrowUp size={16} strokeWidth={2.5} />
           </button>
         </div>
@@ -304,25 +319,23 @@ function CommentsView() {
   );
 }
 
-function BookmarksView() {
-  const getToneStyle = (tone) => {
-    switch (tone) {
-      case "info": return { border: "border-l-[2px] border-t-0 border-b-0 border-r-0 !border-info", text: "text-info", icon: <Star size={14} className="text-info" /> };
-      case "success": return { border: "border-l-[2px] border-t-0 border-b-0 border-r-0 !border-success", text: "text-success", icon: <ThumbsUp size={14} className="text-success" /> };
-      case "danger": return { border: "border-l-[2px] border-t-0 border-b-0 border-r-0 !border-danger", text: "text-danger", icon: <ThumbsDown size={14} className="text-danger" /> };
-      default: return { border: "border-l-[2px] border-line", text: "text-ink-secondary", icon: null };
-    }
-  };
+const BOOKMARK_TONES = {
+  info: { border: "border-l-[2px] border-t-0 border-b-0 border-r-0 !border-info", text: "text-info", Icon: Star },
+  success: { border: "border-l-[2px] border-t-0 border-b-0 border-r-0 !border-success", text: "text-success", Icon: ThumbsUp },
+  danger: { border: "border-l-[2px] border-t-0 border-b-0 border-r-0 !border-danger", text: "text-danger", Icon: ThumbsDown },
+};
 
+function BookmarksView() {
   return (
     <div className="flex flex-col gap-4 p-4">
       {bookmarks.map((b) => {
-        const style = getToneStyle(b.tone);
+        const style = BOOKMARK_TONES[b.tone] || { border: "border-l-[2px] border-line", text: "text-ink-secondary", Icon: null };
+        const Icon = style.Icon;
         return (
           <Card key={b.id} className={`!rounded-[10px] overflow-hidden flex flex-col gap-3 p-4 bg-surface ${style.border} shadow-subtle border-t border-r border-b border-line`}>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                {style.icon}
+                {Icon && <Icon size={14} className={style.text} />}
                 <span className={`text-[13px] font-medium ${style.text}`}>{b.type}</span>
               </div>
             </div>
@@ -342,69 +355,55 @@ function BookmarksView() {
   );
 }
 
+const PANEL_VIEWS = {
+  search: Overview,
+  notes: IndexView,
+  soundbites: SoundbitesView,
+  comments: CommentsView,
+  bookmarks: BookmarksView,
+};
+
+const PANEL_HEADINGS = {
+  comments: (
+    <div className="flex items-center gap-1 cursor-pointer hover:text-ink">
+      All <ChevronDown size={14} />
+    </div>
+  ),
+  bookmarks: (
+    <div className="flex items-center gap-1 cursor-pointer hover:text-ink">
+      All Bookmarks <ChevronDown size={14} />
+    </div>
+  ),
+};
+
+const PANEL_ACTIONS = {
+  notes: <Plus size={18} className="text-ink-muted hover:text-ink cursor-pointer" />,
+  soundbites: <Plus size={18} className="text-ink-muted hover:text-ink cursor-pointer" />,
+  bookmarks: (
+    <div className="flex items-center gap-3">
+      <Copy size={16} className="text-ink-muted hover:text-ink cursor-pointer" />
+      <label className="flex items-center gap-1.5 cursor-pointer group">
+        <input type="checkbox" className="rounded-[4px] border-line text-brand focus:ring-brand focus:ring-offset-0 w-3.5 h-3.5 cursor-pointer" />
+        <span className="text-[13px] font-medium text-ink-muted group-hover:text-ink select-none">By me</span>
+      </label>
+    </div>
+  ),
+};
+
 export default function CommandPanel({ active, onClose }) {
   const item = RAIL_ITEMS.find((i) => i.key === active);
   if (!item) return null;
 
-  const renderContent = () => {
-    switch (active) {
-      case "search":
-        return <Overview />;
-      case "notes":
-        return <IndexView />;
-      case "soundbites":
-        return <SoundbitesView />;
-      case "comments":
-        return <CommentsView />;
-      case "bookmarks":
-        return <BookmarksView />;
-      default:
-        return <EmptyPanel label={item.label} />;
-    }
-  };
-
-  const getTitle = () => {
-    switch (active) {
-      case "comments":
-        return (
-          <div className="flex items-center gap-1 cursor-pointer hover:text-ink">
-            All <ChevronDown size={14} />
-          </div>
-        );
-      case "bookmarks":
-        return (
-          <div className="flex items-center gap-1 cursor-pointer hover:text-ink">
-            All Bookmarks <ChevronDown size={14} />
-          </div>
-        );
-      default:
-        return item.label;
-    }
-  };
-
-  const getAction = () => {
-    switch (active) {
-      case "notes":
-      case "soundbites":
-        return <Plus size={18} className="text-ink-muted hover:text-ink cursor-pointer" />;
-      case "bookmarks":
-        return (
-          <div className="flex items-center gap-3">
-            <Copy size={16} className="text-ink-muted hover:text-ink cursor-pointer" />
-            <label className="flex items-center gap-1.5 cursor-pointer group">
-              <input type="checkbox" className="rounded-[4px] border-line text-brand focus:ring-brand focus:ring-offset-0 w-3.5 h-3.5 cursor-pointer" />
-              <span className="text-[13px] font-medium text-ink-muted group-hover:text-ink select-none">By me</span>
-            </label>
-          </div>
-        );
-      default:
-        return null;
-    }
-  };
+  const View = PANEL_VIEWS[active] || (() => <EmptyPanel label={item.label} />);
 
   return (
-    <PanelShell title={getTitle()} action={getAction()} onClose={onClose}>
-      {renderContent()}
+    <PanelShell
+      title={item.label}
+      heading={PANEL_HEADINGS[active]}
+      action={PANEL_ACTIONS[active]}
+      onClose={onClose}
+    >
+      <View />
     </PanelShell>
   );
 }

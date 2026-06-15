@@ -4,9 +4,10 @@ import Avatar from "../ui/Avatar";
 import IconButton from "../ui/IconButton";
 import Typography from "../ui/Typography";
 import { useToast } from "../ui/Toast";
+import { toSeconds } from "../../lib/utils";
 import { meeting, summary, notes } from "../../data/meeting";
 
-const SummaryPane = () => {
+const SummaryPane = ({ onSeek }) => {
   const toast = useToast();
 
   return (
@@ -81,6 +82,8 @@ const SummaryPane = () => {
                       {item.text}{" "}
                       <button
                         type="button"
+                        onClick={() => onSeek?.(toSeconds(item.at))}
+                        aria-label={`Jump to ${item.at}`}
                         className="rounded font-medium text-brand tabular-nums hover:underline"
                       >
                         {item.at}

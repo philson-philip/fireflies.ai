@@ -44,6 +44,29 @@ const MeetingDetail = () => {
     return () => clearInterval(timer.current);
   }, [playing]);
 
+  useEffect(() => {
+    const onKeyDown = (e) => {
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      const el = e.target;
+      const tag = el?.tagName;
+      const role = el?.getAttribute?.("role");
+      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || el?.isContentEditable) return;
+
+      if (e.key === " ") {
+        if (tag === "BUTTON" || tag === "A" || role === "button") return;
+        e.preventDefault();
+        setPlaying((p) => !p);
+      } else if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+        if (role === "slider" || role === "separator") return;
+        e.preventDefault();
+        const delta = e.key === "ArrowLeft" ? -5 : 5;
+        setSeconds((s) => Math.min(meeting.durationSeconds, Math.max(0, s + delta)));
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, []);
+
   const resize = (delta) =>
     setTranscriptWidth((w) => Math.min(MAX_W, Math.max(MIN_W, w - delta)));
 
@@ -63,7 +86,7 @@ const MeetingDetail = () => {
             <LeftRail active={activePanel} onSelect={setActivePanel} />
             {activePanel && <CommandPanel active={activePanel} onClose={() => setActivePanel(null)} />}
             <main id="main-content" tabIndex={-1} className="flex min-w-0 flex-1 focus:outline-none">
-              <SummaryPane />
+              <SummaryPane onSeek={setSeconds} />
               <ResizeHandle onResize={resize} value={transcriptWidth} min={MIN_W} max={MAX_W} />
               <div style={{ width: transcriptWidth }} className="flex min-w-0">
                 <TranscriptPane currentSeconds={seconds} onSeek={setSeconds} onExpand={() => {}} />
@@ -97,7 +120,7 @@ const MeetingDetail = () => {
             </div>
             <main id="main-content" tabIndex={-1} className="min-h-0 flex-1 focus:outline-none">
               {mobileTab === "summary" ? (
-                <SummaryPane />
+                <SummaryPane onSeek={setSeconds} />
               ) : (
                 <TranscriptPane currentSeconds={seconds} onSeek={setSeconds} onExpand={() => {}} />
               )}

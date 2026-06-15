@@ -19,7 +19,7 @@ const PanelShell = ({ title, heading, action, onClose, children }) => {
         )}
         {action}
       </div>
-      <div className="absolute -right-9 top-2 z-50 opacity-0 group-hover:opacity-100 transition-opacity">
+      <div className="absolute -right-9 top-2 z-50 opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity">
         <IconButton label="Close panel" onClick={onClose} size="sm" className="border border-line bg-surface shadow-subtle hover:bg-surface-subtle">
           <ChevronsLeft size={20} aria-hidden />
         </IconButton>

@@ -32,7 +32,7 @@ const TranscriptPane = ({ currentSeconds, onSeek, onExpand }) => {
                 aria-selected={isActive}
                 onClick={() => setTab(t.key)}
                 className={cn(
-                  "relative flex items-center gap-1.5 px-3 h-full text-body-sm font-medium transition-colors",
+                  "relative flex shrink-0 items-center gap-1.5 px-3 h-full text-body-sm font-medium whitespace-nowrap transition-colors",
                   isActive ? "text-brand" : "text-ink-muted hover:text-ink"
                 )}
               >

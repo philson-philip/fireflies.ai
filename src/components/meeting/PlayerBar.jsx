@@ -36,10 +36,10 @@ const PlayerBar = ({ playing, onTogglePlay, currentSeconds, onScrub }) => {
       </div>
 
       <div className="flex shrink-0 items-center gap-0.5">
-        <IconButton label="Star meeting"><Star size={16} aria-hidden /></IconButton>
-        <IconButton label="Action items" className="hidden sm:inline-flex"><ListChecks size={16} aria-hidden /></IconButton>
-        <IconButton label="Good summary" className="hidden sm:inline-flex"><ThumbsUp size={16} aria-hidden /></IconButton>
-        <IconButton label="Needs work" className="hidden sm:inline-flex"><ThumbsDown size={16} aria-hidden /></IconButton>
+        <IconButton label="Important" shortcut="1" side="left"><Star size={16} aria-hidden /></IconButton>
+        <IconButton label="Action" shortcut="2" side="left" className="hidden sm:inline-flex"><ListChecks size={16} aria-hidden /></IconButton>
+        <IconButton label="Like" shortcut="3" side="left" className="hidden sm:inline-flex"><ThumbsUp size={16} aria-hidden /></IconButton>
+        <IconButton label="Dislike" shortcut="4" side="left" className="hidden sm:inline-flex"><ThumbsDown size={16} aria-hidden /></IconButton>
       </div>
 
       <ProgressBar currentSeconds={currentSeconds} totalSeconds={total} onScrub={onScrub} />

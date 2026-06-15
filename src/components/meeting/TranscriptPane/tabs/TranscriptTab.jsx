@@ -92,7 +92,7 @@ const TranscriptTab = ({ currentSeconds, onSeek }) => {
                   <IconButton
                     label="Copy link"
                     size="sm"
-                    className="opacity-0 group-hover/chat:opacity-100 transition-opacity h-6 w-6"
+                    className="opacity-0 group-hover/chat:opacity-100 focus-visible:opacity-100 transition-opacity h-6 w-6"
                   >
                     <Link2 size={14} aria-hidden />
                   </IconButton>

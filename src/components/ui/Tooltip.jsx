@@ -50,7 +50,7 @@ const Tooltip = ({ label, shortcut, side = "auto", children, className }) => {
         role="tooltip"
         id={id}
         className={cn(
-          "pointer-events-none absolute z-50 flex items-center gap-2 whitespace-nowrap rounded-md bg-surface border border-line px-2.5 py-1.5 text-body-sm text-ink shadow-subtle transition duration-150 ease-out-soft",
+          "pointer-events-none absolute z-50 flex items-center gap-2 whitespace-nowrap rounded-md bg-surface border border-line px-2 py-1.5 text-xs text-ink shadow-subtle transition duration-150 ease-out-soft",
           SIDE[side === "auto" ? computedSide : side],
           open ? "opacity-100" : "opacity-0"
         )}

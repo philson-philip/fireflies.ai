@@ -1,7 +1,7 @@
 import { createContext, useCallback, useContext, useState } from "react";
 import { CheckCircle2, Info, AlertTriangle, XCircle, X } from "lucide-react";
-import { cn } from "../../lib/utils";
-import Typography from "./Typography";
+import { cn } from "@lib/utils";
+import Typography from "@components/ui/Typography";
 
 const ToastContext = createContext(() => {});
 export const useToast = () => useContext(ToastContext);

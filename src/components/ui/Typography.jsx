@@ -1,4 +1,4 @@
-import { cn } from "../../lib/utils";
+import { cn } from "@lib/utils";
 
 const VARIANTS = {
   display: "font-display text-display font-semibold tracking-tight",

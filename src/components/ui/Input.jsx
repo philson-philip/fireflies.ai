@@ -1,7 +1,7 @@
 import { useId } from "react";
 import { AlertCircle } from "lucide-react";
-import { cn } from "../../lib/utils";
-import Typography from "./Typography";
+import { cn } from "@lib/utils";
+import Typography from "@components/ui/Typography";
 
 const Input = ({ label, helper, error, id, leadingIcon: Leading, trailingAction, className, inputClassName, ...props }) => {
   const reactId = useId();

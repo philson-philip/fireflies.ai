@@ -1,9 +1,8 @@
 import { Star, ThumbsUp, ThumbsDown, CheckSquare, Trash2 } from "lucide-react";
-import Card from "../../../ui/Card";
-import Typography from "../../../ui/Typography";
-import IconButton from "../../../ui/IconButton";
-import { cn } from "../../../../lib/utils";
-import { bookmarks } from "../../../../data/meeting";
+import Card from "@components/ui/Card";
+import Typography from "@components/ui/Typography";
+import IconButton from "@components/ui/IconButton";
+import { bookmarks } from "@data/meeting";
 
 const BOOKMARK_TONES = {
   info: { text: "text-info", Icon: Star },

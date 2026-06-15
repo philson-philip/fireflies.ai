@@ -1,12 +1,12 @@
 import { ChevronDown, Plus, Copy } from "lucide-react";
-import { RAIL_ITEMS } from "../LeftRail";
-import PanelShell from "./PanelShell";
-import Overview from "./views/Overview";
-import IndexView from "./views/IndexView";
-import SoundbitesView from "./views/SoundbitesView";
-import CommentsView from "./views/CommentsView";
-import BookmarksView from "./views/BookmarksView";
-import EmptyPanel from "./views/EmptyPanel";
+import { RAIL_ITEMS } from "@components/meeting/LeftRail";
+import PanelShell from "@components/meeting/CommandPanel/PanelShell";
+import Overview from "@components/meeting/CommandPanel/views/Overview";
+import IndexView from "@components/meeting/CommandPanel/views/IndexView";
+import SoundbitesView from "@components/meeting/CommandPanel/views/SoundbitesView";
+import CommentsView from "@components/meeting/CommandPanel/views/CommentsView";
+import BookmarksView from "@components/meeting/CommandPanel/views/BookmarksView";
+import EmptyPanel from "@components/meeting/CommandPanel/views/EmptyPanel";
 
 const PANEL_VIEWS = {
   search: Overview,

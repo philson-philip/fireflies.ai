@@ -1,7 +1,7 @@
 import { Sparkles } from "lucide-react";
-import Card from "../../../ui/Card";
-import Typography from "../../../ui/Typography";
-import { cn } from "../../../../lib/utils";
+import Card from "@components/ui/Card";
+import Typography from "@components/ui/Typography";
+import { cn } from "@lib/utils";
 
 const SkillsTab = () => {
   const skills = [

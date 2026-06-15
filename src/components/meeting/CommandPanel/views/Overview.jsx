@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Check, Plus } from "lucide-react";
-import { DOT } from "../../../ui/Badge";
-import Card from "../../../ui/Card";
-import Avatar from "../../../ui/Avatar";
-import Typography from "../../../ui/Typography";
-import { cn } from "../../../../lib/utils";
-import { insights } from "../../../../data/meeting";
-import Section from "../Section";
+import { DOT } from "@components/ui/Badge";
+import Card from "@components/ui/Card";
+import Avatar from "@components/ui/Avatar";
+import Typography from "@components/ui/Typography";
+import { cn } from "@lib/utils";
+import { insights } from "@data/meeting";
+import Section from "@components/meeting/CommandPanel/Section";
 
 const SELECTED_STYLES = {
   neutral: "!bg-surface-muted !text-ink-secondary",

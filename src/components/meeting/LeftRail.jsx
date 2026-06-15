@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Search, BookOpen, AudioLines, MessageSquare, Bookmark } from "lucide-react";
-import IconButton from "../ui/IconButton";
-import { cn } from "../../lib/utils";
+import IconButton from "@components/ui/IconButton";
+import { cn } from "@lib/utils";
 
 export const RAIL_ITEMS = [
   { key: "search", label: "Smart search", icon: Search, shortcut: "F" },

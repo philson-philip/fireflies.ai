@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Copy, Maximize2 } from "lucide-react";
-import askFredIconUrl from "../../../assets/brand/ask-fred.svg";
-import IconButton from "../../ui/IconButton";
-import { cn } from "../../../lib/utils";
-import TranscriptTab from "./tabs/TranscriptTab";
-import AskFredTab from "./tabs/AskFredTab";
-import SkillsTab from "./tabs/SkillsTab";
+import askFredIconUrl from "@assets/brand/ask-fred.svg";
+import IconButton from "@components/ui/IconButton";
+import { cn } from "@lib/utils";
+import TranscriptTab from "@components/meeting/TranscriptPane/tabs/TranscriptTab";
+import AskFredTab from "@components/meeting/TranscriptPane/tabs/AskFredTab";
+import SkillsTab from "@components/meeting/TranscriptPane/tabs/SkillsTab";
 
 const TABS = [
   { key: "transcript", label: "Transcript" },

@@ -1,5 +1,5 @@
 import { useId, useRef, useState, useLayoutEffect } from "react";
-import { cn } from "../../lib/utils";
+import { cn } from "@lib/utils";
 
 const SIDE = {
   top: "bottom-full left-1/2 -translate-x-1/2 mb-[8.5px]",

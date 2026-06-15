@@ -1,8 +1,8 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import { Star, ThumbsUp, ThumbsDown, CheckSquare } from "lucide-react";
-import Tooltip from "../ui/Tooltip";
-import { useToast } from "../ui/Toast";
-import { cn, formatClock } from "../../lib/utils";
+import Tooltip from "@components/ui/Tooltip";
+import { useToast } from "@components/ui/Toast";
+import { cn, formatClock } from "@lib/utils";
 
 const STEP = 5;
 

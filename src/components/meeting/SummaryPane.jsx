@@ -1,11 +1,11 @@
 import { Video, Sparkles, Copy, Plus, Globe, Calendar } from "lucide-react";
-import Button from "../ui/Button";
-import Avatar from "../ui/Avatar";
-import IconButton from "../ui/IconButton";
-import Typography from "../ui/Typography";
-import { useToast } from "../ui/Toast";
-import { toSeconds } from "../../lib/utils";
-import { meeting, summary, notes } from "../../data/meeting";
+import Button from "@components/ui/Button";
+import Avatar from "@components/ui/Avatar";
+import IconButton from "@components/ui/IconButton";
+import Typography from "@components/ui/Typography";
+import { useToast } from "@components/ui/Toast";
+import { toSeconds } from "@lib/utils";
+import { meeting, summary, notes } from "@data/meeting";
 
 const SummaryPane = ({ onSeek }) => {
   const toast = useToast();

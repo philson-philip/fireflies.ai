@@ -1,6 +1,6 @@
 import { AudioLines, Sparkles } from "lucide-react";
-import Button from "../../../ui/Button";
-import Typography from "../../../ui/Typography";
+import Button from "@components/ui/Button";
+import Typography from "@components/ui/Typography";
 
 const SoundbitesView = () => (
   <div className="flex h-full flex-col items-center gap-6 text-center pt-10 px-4">

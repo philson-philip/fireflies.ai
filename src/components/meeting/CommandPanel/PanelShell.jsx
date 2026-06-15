@@ -1,6 +1,6 @@
 import { ChevronsLeft } from "lucide-react";
-import IconButton from "../../ui/IconButton";
-import Typography from "../../ui/Typography";
+import IconButton from "@components/ui/IconButton";
+import Typography from "@components/ui/Typography";
 
 const PANEL_WIDTH = "w-80";
 

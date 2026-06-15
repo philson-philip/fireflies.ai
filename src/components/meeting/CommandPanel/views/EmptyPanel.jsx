@@ -1,4 +1,4 @@
-import Typography from "../../../ui/Typography";
+import Typography from "@components/ui/Typography";
 
 const EmptyPanel = ({ label }) => (
   <div className="flex h-full flex-col items-center justify-center gap-1 px-6 text-center">

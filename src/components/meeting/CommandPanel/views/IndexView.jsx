@@ -1,6 +1,6 @@
 import { MoreHorizontal } from "lucide-react";
-import Typography from "../../../ui/Typography";
-import Card from "../../../ui/Card";
+import Typography from "@components/ui/Typography";
+import Card from "@components/ui/Card";
 
 const IndexView = () => {
   const items = [

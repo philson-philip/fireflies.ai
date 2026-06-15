@@ -1,8 +1,8 @@
 import { Sparkles, ChevronRight, Send } from "lucide-react";
-import Card from "../../../ui/Card";
-import Input from "../../../ui/Input";
-import Button from "../../../ui/Button";
-import Typography from "../../../ui/Typography";
+import Card from "@components/ui/Card";
+import Input from "@components/ui/Input";
+import Button from "@components/ui/Button";
+import Typography from "@components/ui/Typography";
 
 const AskFredTab = () => {
   const suggestions = [

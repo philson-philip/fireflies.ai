@@ -1,11 +1,11 @@
 import { useMemo, useState } from "react";
 import { Search, X, Link2 } from "lucide-react";
-import Avatar from "../../../ui/Avatar";
-import Input from "../../../ui/Input";
-import IconButton from "../../../ui/IconButton";
-import Typography from "../../../ui/Typography";
-import { cn, toSeconds } from "../../../../lib/utils";
-import { transcript } from "../../../../data/meeting";
+import Avatar from "@components/ui/Avatar";
+import Input from "@components/ui/Input";
+import IconButton from "@components/ui/IconButton";
+import Typography from "@components/ui/Typography";
+import { cn, toSeconds } from "@lib/utils";
+import { transcript } from "@data/meeting";
 
 const withMatches = (text, query) => {
   if (!query) return text;

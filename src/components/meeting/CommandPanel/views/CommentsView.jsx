@@ -1,7 +1,7 @@
 import { ArrowUp } from "lucide-react";
-import Avatar from "../../../ui/Avatar";
-import Typography from "../../../ui/Typography";
-import { comments } from "../../../../data/meeting";
+import Avatar from "@components/ui/Avatar";
+import Typography from "@components/ui/Typography";
+import { comments } from "@data/meeting";
 
 const CommentsView = () => (
   <div className="flex flex-col h-full">

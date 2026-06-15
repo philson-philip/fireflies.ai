@@ -1,10 +1,10 @@
 import { Hash, ChevronRight, MoreHorizontal, Share2, Link2, Download, Plus, Bell } from "lucide-react";
-import IconButton from "../ui/IconButton";
-import Button from "../ui/Button";
-import Avatar from "../ui/Avatar";
-import Typography from "../ui/Typography";
-import { useToast } from "../ui/Toast";
-import { meeting } from "../../data/meeting";
+import IconButton from "@components/ui/IconButton";
+import Button from "@components/ui/Button";
+import Avatar from "@components/ui/Avatar";
+import Typography from "@components/ui/Typography";
+import { useToast } from "@components/ui/Toast";
+import { meeting } from "@data/meeting";
 
 const TopBar = ({ onCopyLink }) => {
   const toast = useToast();

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ChevronUp, ChevronDown } from "lucide-react";
-import Typography from "../../ui/Typography";
+import Typography from "@components/ui/Typography";
 
 const Section = ({ title, defaultOpen = true, extraAction, children }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);

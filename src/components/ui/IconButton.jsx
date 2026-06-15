@@ -1,5 +1,5 @@
-import { cn } from "../../lib/utils";
-import Tooltip from "./Tooltip";
+import { cn } from "@lib/utils";
+import Tooltip from "@components/ui/Tooltip";
 
 const SIZES = {
   sm: "h-7 w-7 p-1.5",

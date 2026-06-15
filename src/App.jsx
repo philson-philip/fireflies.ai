@@ -1,5 +1,5 @@
-import { ToastProvider } from "./components/ui/Toast";
-import MeetingDetail from "./components/meeting/MeetingDetail";
+import { ToastProvider } from "@components/ui/Toast";
+import MeetingDetail from "@components/meeting/MeetingDetail";
 
 const App = () => (
   <ToastProvider>

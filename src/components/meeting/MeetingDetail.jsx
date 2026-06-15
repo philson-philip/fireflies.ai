@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { FileText, AlignLeft } from "lucide-react";
-import TopBar from "./TopBar";
-import LeftRail from "./LeftRail";
-import CommandPanel from "./CommandPanel";
-import SummaryPane from "./SummaryPane";
-import TranscriptPane from "./TranscriptPane";
-import PlayerBar from "./PlayerBar";
-import ResizeHandle from "./ResizeHandle";
-import { cn } from "../../lib/utils";
-import { meeting } from "../../data/meeting";
+import TopBar from "@components/meeting/TopBar";
+import LeftRail from "@components/meeting/LeftRail";
+import CommandPanel from "@components/meeting/CommandPanel";
+import SummaryPane from "@components/meeting/SummaryPane";
+import TranscriptPane from "@components/meeting/TranscriptPane";
+import PlayerBar from "@components/meeting/PlayerBar";
+import ResizeHandle from "@components/meeting/ResizeHandle";
+import { cn } from "@lib/utils";
+import { meeting } from "@data/meeting";
 
 const useMediaQuery = (query) => {
   const [matches, setMatches] = useState(

@@ -1,4 +1,4 @@
-import { cn } from "../../lib/utils";
+import { cn } from "@lib/utils";
 
 export const TONES = {
   neutral: "bg-surface-muted text-ink-secondary",

@@ -1,6 +1,6 @@
-import { cn } from "../../lib/utils";
-import { speakerTone, initials } from "../../lib/utils";
-import { participants } from "../../data/meeting";
+import { cn } from "@lib/utils";
+import { speakerTone, initials } from "@lib/utils";
+import { participants } from "@data/meeting";
 
 const SIZES = {
   xs: "h-5 w-5 text-[10px] rounded",

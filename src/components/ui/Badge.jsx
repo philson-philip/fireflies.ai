@@ -2,7 +2,7 @@ import { cn } from "../../lib/utils";
 
 export const TONES = {
   neutral: "bg-surface-muted text-ink-secondary",
-  brand: "bg-brand-soft text-brand",
+  brand: "bg-brand-soft text-brand-active",
   success: "bg-success-soft text-success",
   warning: "bg-warning-soft text-warning",
   danger: "bg-danger-soft text-danger",

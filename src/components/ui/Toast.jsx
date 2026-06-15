@@ -36,6 +36,8 @@ export const ToastProvider = ({ children }) => {
         className="pointer-events-none fixed bottom-4 right-4 z-[100] flex w-[min(360px,calc(100vw-2rem))] flex-col gap-2"
         role="region"
         aria-label="Notifications"
+        aria-live="polite"
+        aria-atomic="false"
       >
         {toasts.map((t) => {
           const v = VARIANTS[t.variant] || VARIANTS.info;
@@ -43,7 +45,6 @@ export const ToastProvider = ({ children }) => {
           return (
             <div
               key={t.id}
-              role="status"
               className={cn(
                 "pointer-events-auto flex items-start gap-3 rounded-lg border border-l-4 border-line bg-surface p-3 shadow-floating animate-toast-in",
                 v.ring

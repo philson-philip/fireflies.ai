@@ -1,6 +1,6 @@
 import { useCallback, useRef } from "react";
 
-const ResizeHandle = ({ onResize }) => {
+const ResizeHandle = ({ onResize, value, min, max }) => {
   const startX = useRef(0);
 
   const onPointerDown = useCallback(
@@ -31,6 +31,10 @@ const ResizeHandle = ({ onResize }) => {
       role="separator"
       aria-orientation="vertical"
       aria-label="Resize transcript panel"
+      aria-valuenow={value}
+      aria-valuemin={min}
+      aria-valuemax={max}
+      aria-valuetext={value != null ? `${Math.round(value)} pixels` : undefined}
       tabIndex={0}
       onPointerDown={onPointerDown}
       onKeyDown={(e) => {

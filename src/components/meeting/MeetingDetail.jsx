@@ -49,6 +49,12 @@ const MeetingDetail = () => {
 
   return (
     <div className="flex h-full flex-col bg-canvas text-ink overflow-hidden">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-3 focus:z-[200] focus:rounded-md focus:border focus:border-line focus:bg-surface focus:px-4 focus:py-2 focus:text-body-sm focus:font-medium focus:text-brand focus:shadow-floating"
+      >
+        Skip to content
+      </a>
       <TopBar />
 
       <div className="flex min-h-0 flex-1 overflow-hidden">
@@ -56,11 +62,13 @@ const MeetingDetail = () => {
           <>
             <LeftRail active={activePanel} onSelect={setActivePanel} />
             {activePanel && <CommandPanel active={activePanel} onClose={() => setActivePanel(null)} />}
-            <SummaryPane />
-            <ResizeHandle onResize={resize} />
-            <div style={{ width: transcriptWidth }} className="flex min-w-0">
-              <TranscriptPane currentSeconds={seconds} onSeek={setSeconds} onExpand={() => {}} />
-            </div>
+            <main id="main-content" tabIndex={-1} className="flex min-w-0 flex-1 focus:outline-none">
+              <SummaryPane />
+              <ResizeHandle onResize={resize} value={transcriptWidth} min={MIN_W} max={MAX_W} />
+              <div style={{ width: transcriptWidth }} className="flex min-w-0">
+                <TranscriptPane currentSeconds={seconds} onSeek={setSeconds} onExpand={() => {}} />
+              </div>
+            </main>
           </>
         ) : (
           <div className="flex min-h-0 w-full flex-col">
@@ -80,20 +88,20 @@ const MeetingDetail = () => {
                   onClick={() => setMobileTab(t.key)}
                   className={cn(
                     "flex flex-1 items-center justify-center gap-1.5 rounded-md py-2 text-body-sm font-medium transition-colors",
-                    mobileTab === t.key ? "bg-brand-soft text-brand" : "text-ink-muted hover:bg-surface-subtle"
+                    mobileTab === t.key ? "bg-brand-soft text-brand-active" : "text-ink-muted hover:bg-surface-subtle"
                   )}
                 >
                   <t.icon size={15} aria-hidden /> {t.label}
                 </button>
               ))}
             </div>
-            <div className="min-h-0 flex-1">
+            <main id="main-content" tabIndex={-1} className="min-h-0 flex-1 focus:outline-none">
               {mobileTab === "summary" ? (
                 <SummaryPane />
               ) : (
                 <TranscriptPane currentSeconds={seconds} onSeek={setSeconds} onExpand={() => {}} />
               )}
-            </div>
+            </main>
           </div>
         )}
       </div>

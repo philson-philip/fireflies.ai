@@ -14,6 +14,7 @@ const TopBar = ({ onCopyLink }) => {
       <nav aria-label="Breadcrumb" className="flex min-w-0 items-center gap-1.5">
         <a
           href="#"
+          aria-label={meeting.channel}
           className="flex items-center gap-1.5 rounded-md px-1.5 py-1 text-body-sm font-medium text-ink-secondary hover:bg-surface-subtle hover:text-ink"
         >
           <Hash size={15} aria-hidden className="text-ink-muted" />

@@ -66,6 +66,7 @@ const TranscriptTab = ({ currentSeconds, onSeek }) => {
           return (
             <div
               key={line.id}
+              aria-current={active ? "true" : undefined}
               className={cn(
                 "group/chat mb-3 flex gap-2.5 rounded-md p-2 -mx-2 transition-colors",
                 active ? "bg-playing" : "hover:bg-surface-subtle"
@@ -83,7 +84,7 @@ const TranscriptTab = ({ currentSeconds, onSeek }) => {
                     onClick={() => onSeek?.(toSeconds(line.at))}
                     className={cn(
                       "text-body-sm tabular-nums transition-colors",
-                      active ? "text-brand" : "text-info hover:underline"
+                      active ? "text-brand-active" : "text-info hover:underline"
                     )}
                   >
                     {line.at}

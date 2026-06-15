@@ -41,6 +41,9 @@ const Tooltip = ({ label, shortcut, side = "auto", children, className }) => {
       onMouseLeave={hide}
       onFocusCapture={show}
       onBlurCapture={hide}
+      onKeyDown={(e) => {
+        if (e.key === "Escape") hide();
+      }}
     >
       {children}
       <span

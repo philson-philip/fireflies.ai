@@ -10,7 +10,7 @@ import Section from "../Section";
 
 const SELECTED_STYLES = {
   neutral: "!bg-surface-muted !text-ink-secondary",
-  brand: "!bg-brand-soft !text-brand",
+  brand: "!bg-brand-soft !text-brand-active",
   success: "!bg-success-soft !text-success",
   warning: "!bg-warning-soft !text-warning",
   danger: "!bg-danger-soft !text-danger",
@@ -49,9 +49,12 @@ const Overview = () => {
             return (
               <Card
                 key={f.label}
+                as="button"
+                type="button"
                 interactive
+                aria-pressed={isSelected}
                 className={cn(
-                  "!rounded-md !border-0 !border-l-2 shadow-subtle flex items-center justify-between !p-3",
+                  "!rounded-md !border-0 !border-l-2 shadow-subtle flex items-center justify-between !p-3 text-left w-full",
                   isSelected ? SELECTED_STYLES[f.tone] : "bg-surface",
                   BORDER_STYLES[f.tone]
                 )}
@@ -77,9 +80,12 @@ const Overview = () => {
             return (
               <Card
                 key={s.label}
+                as="button"
+                type="button"
                 interactive
+                aria-pressed={isSelected}
                 className={cn(
-                  "!rounded-md !border-0 !border-l-2 shadow-subtle flex items-center justify-between !p-3",
+                  "!rounded-md !border-0 !border-l-2 shadow-subtle flex items-center justify-between !p-3 text-left w-full",
                   isSelected ? SELECTED_STYLES[s.tone] : "bg-surface",
                   BORDER_STYLES[s.tone]
                 )}

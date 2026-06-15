@@ -18,7 +18,7 @@ const Input = ({ label, helper, error, id, leadingIcon: Leading, trailingAction,
       <div
         className={cn(
           "flex items-center gap-2 rounded-md border bg-surface-subtle px-3 transition-colors duration-150",
-          "focus-within:border-brand hover:focus-within:border-brand",
+          "focus-within:border-brand focus-within:ring-[3px] focus-within:ring-brand-ring hover:focus-within:border-brand",
           error ? "border-danger" : "border-line hover:border-line-strong"
         )}
       >

@@ -54,7 +54,7 @@ const Overview = () => {
                 interactive
                 aria-pressed={isSelected}
                 className={cn(
-                  "!rounded-md shadow-subtle flex items-center justify-between !p-3 text-left w-full",
+                  "!rounded-md shadow-subtle flex items-center justify-between !p-3 text-left w-full !border-0",
                   isSelected ? SELECTED_STYLES[f.tone] : "bg-surface",
                   TEXT_STYLES[f.tone]
                 )}
@@ -85,7 +85,7 @@ const Overview = () => {
                 interactive
                 aria-pressed={isSelected}
                 className={cn(
-                  "!rounded-md shadow-subtle flex items-center justify-between !p-3 text-left w-full",
+                  "!rounded-md shadow-subtle flex items-center justify-between !p-3 text-left w-full !border-0",
                   isSelected ? SELECTED_STYLES[s.tone] : "bg-surface",
                   TEXT_STYLES[s.tone]
                 )}

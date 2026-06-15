@@ -11,7 +11,7 @@ export const RAIL_ITEMS = [
   { key: "bookmarks", label: "Bookmarks", icon: Bookmark, shortcut: "B" },
 ];
 
-const LeftRail = ({ active, onSelect }) => {
+const Sidebar = ({ active, onSelect }) => {
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA" || e.target.isContentEditable) {
@@ -52,4 +52,4 @@ const LeftRail = ({ active, onSelect }) => {
   );
 };
 
-export default LeftRail;
+export default Sidebar;

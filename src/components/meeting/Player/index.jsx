@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Play, Pause, RotateCcw, RotateCw, Star, CheckSquare, ThumbsUp, ThumbsDown, MoreHorizontal } from "lucide-react";
 import IconButton from "@components/ui/IconButton";
 import Tooltip from "@components/ui/Tooltip";
-import ProgressBar from "@components/meeting/ProgressBar";
+import ProgressBar from "./ProgressBar";
 import { formatClock } from "@lib/utils";
 import { meeting } from "@data/meeting";
 

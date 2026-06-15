@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { FileText, AlignLeft } from "lucide-react";
-import TopBar from "@components/meeting/TopBar";
-import LeftRail from "@components/meeting/LeftRail";
+import Header from "@components/meeting/Header";
+import Sidebar from "@components/meeting/Sidebar";
 import CommandPanel from "@components/meeting/CommandPanel";
 import SummaryPane from "@components/meeting/SummaryPane";
 import TranscriptPane from "@components/meeting/TranscriptPane";
-import PlayerBar from "@components/meeting/PlayerBar";
+import PlayerBar from "@components/meeting/Player";
 import ResizeHandle from "@components/meeting/ResizeHandle";
 import { cn } from "@lib/utils";
 import { meeting } from "@data/meeting";
@@ -121,12 +121,12 @@ const MeetingDetail = () => {
       >
         Skip to content
       </a>
-      <TopBar />
+      <Header />
 
       <div className="flex min-h-0 flex-1 overflow-hidden">
         {isDesktop ? (
           <>
-            <LeftRail active={activePanel} onSelect={setActivePanel} />
+            <Sidebar active={activePanel} onSelect={setActivePanel} />
             {activePanel && <CommandPanel active={activePanel} onClose={() => setActivePanel(null)} />}
             <main id="main-content" tabIndex={-1} className="flex min-w-0 flex-1 focus:outline-none">
               <SummaryPane onSeek={setSeconds} />

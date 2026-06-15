@@ -6,7 +6,7 @@ import Typography from "@components/ui/Typography";
 import { useToast } from "@components/ui/Toast";
 import { meeting } from "@data/meeting";
 
-const TopBar = ({ onCopyLink }) => {
+const Header = ({ onCopyLink }) => {
   const toast = useToast();
 
   return (
@@ -68,4 +68,4 @@ const TopBar = ({ onCopyLink }) => {
   );
 };
 
-export default TopBar;
+export default Header;

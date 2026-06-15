@@ -1,5 +1,5 @@
 import { ChevronDown, Plus, Copy } from "lucide-react";
-import { RAIL_ITEMS } from "@components/meeting/LeftRail";
+import { RAIL_ITEMS } from "@components/meeting/Sidebar";
 import PanelShell from "@components/meeting/CommandPanel/PanelShell";
 import Overview from "@components/meeting/CommandPanel/views/Overview";
 import IndexView from "@components/meeting/CommandPanel/views/IndexView";

@@ -10,7 +10,7 @@ An improved version of the Fireflies meeting / transcript detail view, rebuilt o
 
 ## Why this screen
 
-The home dashboard did not give me enough surface to judge meaningfully. The meeting / transcript detail view is the core surface of a note taker, it is where people actually spend their time, and it is where design craft is most visible. So I picked it for both the audit and the rebuild.
+Because my new account lacked historical seed data, the home dashboard was mostly empty and didn't give me enough surface area to judge meaningfully. In contrast, the meeting / transcript detail view is the core surface of a note taker—it is where people actually spend their time, and it is where design craft is most visible. So I picked it for both the audit and the rebuild.
 
 ---
 

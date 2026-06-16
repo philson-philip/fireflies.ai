@@ -1,6 +1,7 @@
-import { useEffect } from "react";
-import { Search, BookOpen, AudioLines, MessageSquare, Bookmark } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Search, BookOpen, AudioLines, MessageSquare, Bookmark, Smile } from "lucide-react";
 import IconButton from "@components/ui/IconButton";
+import FeedbackModal from "./FeedbackModal";
 import { cn } from "@lib/utils";
 
 export const RAIL_ITEMS = [
@@ -12,6 +13,7 @@ export const RAIL_ITEMS = [
 ];
 
 const Sidebar = ({ active, onSelect }) => {
+  const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA" || e.target.isContentEditable) {
@@ -30,6 +32,7 @@ const Sidebar = ({ active, onSelect }) => {
   }, [active, onSelect]);
 
   return (
+    <>
     <nav
       aria-label="Meeting panels"
       className="flex w-14 shrink-0 flex-col items-center gap-3 border-r border-line bg-surface py-2"
@@ -48,7 +51,20 @@ const Sidebar = ({ active, onSelect }) => {
           <Icon size={24} aria-hidden strokeWidth={1.5} className={cn(active === key && "text-brand")} />
         </IconButton>
       ))}
+
+      <div className="mt-auto">
+        <IconButton
+          label="Leave feedback"
+          side="right"
+          size="md"
+          onClick={() => setIsFeedbackOpen(true)}
+        >
+          <Smile size={24} aria-hidden strokeWidth={1.5} />
+        </IconButton>
+      </div>
     </nav>
+    <FeedbackModal isOpen={isFeedbackOpen} onClose={() => setIsFeedbackOpen(false)} />
+    </>
   );
 };
 

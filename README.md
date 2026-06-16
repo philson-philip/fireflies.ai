@@ -22,9 +22,9 @@ Because my new account lacked historical seed data, the home dashboard was mostl
 
 **If I removed 20 to 30 percent, what goes first.** The redundant "download the desktop app" promotions that appear in the profile menu, the notifications panel, and the AskFred connect banner. The repeated speaker headers that print on every consecutive line by the same person. Cutting these returns vertical space to the transcript and the summary.
 
-**The single highest leverage improvement.** Make the transcript primary and fully readable. Stop the horizontal clipping, let the text reflow when the pane is resized, and give the reading column a clear visual hierarchy.
+**The single highest leverage improvement.** Make the transcript primary and fully readable. Stop the horizontal clipping, let the text reflow when the pane is resized, fix the bug that prevents resizing the transcript panel while the left panel is open, and give the reading column a clear visual hierarchy.
 
-**Details most users never notice, but I would still fix.** The active transcript line was colored in a red or pink that reads as an error state. The notifications panel header said "0 Notifications" while the body said "No notification yet", a singular and plural mismatch. The feedback modal used plain numbered boxes from 1 to 5 instead of a clear rating control. Icon tooltips opened with a noticeable lag.
+**Details most users never notice, but I would still fix.** The active transcript line was colored in a red or pink that reads as an error state. The notifications panel header said "0 Notifications" while the body said "No notification yet", a singular and plural mismatch. The feedback modal used plain numbered boxes from 1 to 5 instead of a clear rating control. Icon tooltips opened with a noticeable lag. Additionally, basic keyboard accessibility was missing across the chrome, leaving interactive elements unreachable without a mouse.
 
 ### Craft review
 
@@ -40,6 +40,7 @@ The most impactful issues I found, grouped so the structure reads as a system ra
 8. **Toastr UI.** Positioned center which overlaps the player controls, and missing semantic colors.
 9. **Sidebar motion.** The expand and collapse animation was rough and the collapse trigger was weak and hard to find.
 10. **Icon buttons.** Missing tooltips and accessible labels, plus a laggy tooltip delay.
+11. **Download meeting button.** Positioned confusingly with the player controls instead of logically in the top header alongside the copy and share actions.
 
 The observations span general usability, visual and information hierarchy, interaction quality, and accessibility.
 
@@ -48,12 +49,11 @@ The observations span general usability, visual and information hierarchy, inter
 Most of the issues above are symptoms of missing primitives, not one off bugs. I standardized:
 
 - **Card.** One container with consistent spacing, radius, and border, used for bookmarks, AI Skills, comments, and panel rows. In the live app each of these reinvents the card.
-- **Badge with semantic tokens.** Sentiments, filter categories, and bookmark types (Important, Positive, Concern) all draw from one set of semantic colors, which also fixes the incoherent color usage.
 - **IconButton.** Every icon control routes through it, so each one is guaranteed an accessible label and a tooltip.
 - **Avatar.** Speaker color is derived deterministically from the name, so the same person reads the same color in the transcript, the talk time list, and the attendee chips.
 - **Layout primitive.** The three sidebar bugs (width jump, broken resize, rough motion) are really one missing layout primitive. Solving it once fixes all three.
 
-This is the same argument I lived at BigBinary, where I built NeetoUI across 20 plus products and cut frontend development time by about 70 percent. A primitive makes the next feature consistent by default.
+This is the same argument I lived at BigBinary, where I built NeetoUI across 20 plus products and cut frontend development time by about 75 percent. A primitive makes the next feature consistent by default.
 
 ---
 
@@ -119,10 +119,9 @@ Motion is purposeful and quiet, never decorative.
 
 ### Other improvements over the scaffold
 
-- Progress bar scrubbing with a time tooltip that shows the target position while dragging.
-- A Topic Trackers section with a proper empty state.
+- Feedback modal redesigned with a proper star rating system replacing the plain numbered boxes, complete with adjusted spacing and a dark overlay.
+- Download meeting button relocated to the top header alongside the copy and share actions, making the player control panel much clearer and more precise.
 - Bookmarks rendered as semantic cards (Important, Positive, Concern) on the shared Card and Badge primitives.
-- The AI Skills tab built out with the meeting insight actions.
 
 ---
 

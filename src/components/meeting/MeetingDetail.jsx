@@ -33,6 +33,7 @@ const MeetingDetail = () => {
   const [playing, setPlaying] = useState(false);
   const [seconds, setSeconds] = useState(8);
   const [mobileTab, setMobileTab] = useState("summary");
+  const [isExpanded, setIsExpanded] = useState(false);
   const [markers, setMarkers] = useState([
     { id: 1, type: "like", seconds: 120 },
     { id: 2, type: "important", seconds: 480 },
@@ -135,11 +136,20 @@ const MeetingDetail = () => {
           <>
             <Sidebar active={activePanel} onSelect={setActivePanel} />
             {activePanel && <CommandPanel active={activePanel} onClose={() => setActivePanel(null)} />}
-            <main id="main-content" tabIndex={-1} className="flex min-w-0 flex-1 focus:outline-none">
-              <SummaryPane onSeek={setSeconds} />
-              <ResizeHandle onResize={resize} value={transcriptWidth} min={MIN_W} max={MAX_W} />
-              <div style={{ width: transcriptWidth }} className="flex min-w-0">
-                <TranscriptPane currentSeconds={seconds} onSeek={setSeconds} />
+            <main id="main-content" tabIndex={-1} className={cn("flex min-w-0 flex-1 focus:outline-none", isExpanded && "justify-center")}>
+              {!isExpanded && (
+                <>
+                  <SummaryPane onSeek={setSeconds} />
+                  <ResizeHandle onResize={resize} value={transcriptWidth} min={MIN_W} max={MAX_W} />
+                </>
+              )}
+              <div style={isExpanded ? {} : { width: transcriptWidth }} className={cn("flex min-w-0", isExpanded ? "w-full" : "")}>
+                <TranscriptPane 
+                  currentSeconds={seconds} 
+                  onSeek={setSeconds} 
+                  isExpanded={isExpanded}
+                  onToggleExpand={() => setIsExpanded(!isExpanded)}
+                />
               </div>
             </main>
           </>

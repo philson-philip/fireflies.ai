@@ -1,16 +1,16 @@
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
-import { CheckCircle2, Info, AlertTriangle, XCircle, X } from "lucide-react";
+import { Check, Lightbulb, X } from "lucide-react";
 import { cn, uid } from "@lib/utils";
 import Typography from "@components/ui/Typography";
 
-const ToastContext = createContext(() => {});
+const ToastContext = createContext(() => { });
 export const useToast = () => useContext(ToastContext);
 
 const VARIANTS = {
-  success: { icon: CheckCircle2, ring: "border-l-success", tint: "text-success" },
-  info: { icon: Info, ring: "border-l-info", tint: "text-info" },
-  warning: { icon: AlertTriangle, ring: "border-l-warning", tint: "text-warning" },
-  danger: { icon: XCircle, ring: "border-l-danger", tint: "text-danger" },
+  success: { Icon: Check, container: "bg-success-soft border-success", iconBg: "bg-success text-white" },
+  info: { Icon: Lightbulb, container: "bg-info-soft border-info", iconBg: "bg-info text-white" },
+  warning: { Icon: null, text: "!", container: "bg-warning-soft border-warning", iconBg: "bg-warning text-white" },
+  danger: { Icon: X, container: "bg-danger-soft border-danger", iconBg: "bg-danger text-white" },
 };
 
 export const ToastProvider = ({ children }) => {
@@ -60,22 +60,24 @@ export const ToastProvider = ({ children }) => {
       >
         {toasts.map((t) => {
           const v = VARIANTS[t.variant] || VARIANTS.info;
-          const Icon = v.icon;
+          const Icon = v.Icon;
           return (
             <div
               key={t.id}
               className={cn(
-                "pointer-events-auto flex items-start gap-3 rounded-lg border border-l-4 border-line bg-surface p-3 shadow-floating animate-toast-in",
-                v.ring
+                "pointer-events-auto flex items-center gap-3.5 rounded-2xl border px-3 py-2.5 shadow-floating animate-toast-in",
+                v.container
               )}
             >
-              <Icon size={18} className={cn("mt-0.5 shrink-0", v.tint)} aria-hidden />
+              <div className={cn("flex h-8 w-8 shrink-0 items-center justify-center rounded-full", v.iconBg)}>
+                {Icon ? <Icon size={18} strokeWidth={2.5} /> : <span className="text-lg font-bold leading-none">{v.text}</span>}
+              </div>
               <div className="min-w-0 flex-1">
-                <Typography as="p" variant="body-sm" tone="text-ink" className="font-medium">
+                <Typography as="p" variant="body" tone="text-ink" className="font-bold">
                   {t.title}
                 </Typography>
                 {t.description && (
-                  <Typography as="p" variant="caption" className="mt-0.5">
+                  <Typography as="p" variant="body-sm" tone="text-ink-secondary" className="mt-0.5">
                     {t.description}
                   </Typography>
                 )}
@@ -84,9 +86,9 @@ export const ToastProvider = ({ children }) => {
                 type="button"
                 aria-label="Dismiss notification"
                 onClick={() => dismiss(t.id)}
-                className="-m-1 shrink-0 rounded p-1 text-ink-muted hover:bg-surface-subtle hover:text-ink"
+                className="shrink-0 rounded p-1 text-ink transition-colors hover:bg-black/5"
               >
-                <X size={14} aria-hidden />
+                <X size={18} strokeWidth={2} aria-hidden />
               </button>
             </div>
           );

@@ -1,13 +1,15 @@
-import { Hash, ChevronRight, MoreHorizontal, Share2, Link2, Download, Plus, Bell } from "lucide-react";
+import { Hash, ChevronRight, MoreHorizontal, Share2, Link2, Download, Plus, Bell, Moon, Sun } from "lucide-react";
 import IconButton from "@components/ui/IconButton";
 import Button from "@components/ui/Button";
 import Avatar from "@components/ui/Avatar";
 import Typography from "@components/ui/Typography";
 import { useToast } from "@components/ui/Toast";
 import { meeting, getParticipantImage } from "@data/meeting";
+import { useTheme } from "@lib/useTheme";
 
 const Header = ({ onCopyLink }) => {
   const toast = useToast();
+  const { theme, toggleTheme } = useTheme();
 
   return (
     <header className="z-30 flex h-14 shrink-0 items-center justify-between gap-3 border-b border-line bg-surface px-3 sm:px-4">
@@ -63,6 +65,9 @@ const Header = ({ onCopyLink }) => {
         </IconButton>
         <IconButton label="Notifications">
           <Bell size={17} aria-hidden />
+        </IconButton>
+        <IconButton label={`Switch to ${theme === "light" ? "dark" : "light"} theme`} onClick={toggleTheme}>
+          {theme === "light" ? <Moon size={17} aria-hidden /> : <Sun size={17} aria-hidden />}
         </IconButton>
         <button
           type="button"

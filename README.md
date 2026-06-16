@@ -24,7 +24,7 @@ Because my new account lacked historical seed data, the home dashboard was mostl
 
 **The single highest leverage improvement.** Make the transcript primary and fully readable. Stop the horizontal clipping, let the text reflow when the pane is resized, fix the bug that prevents resizing the transcript panel while the left panel is open, and give the reading column a clear visual hierarchy.
 
-**Details most users never notice, but I would still fix.** The active transcript line was colored in a red or pink that reads as an error state. The notifications panel header said "0 Notifications" while the body said "No notification yet", a singular and plural mismatch. The feedback modal used plain numbered boxes from 1 to 5 instead of a clear rating control. Icon tooltips opened with a noticeable lag. Additionally, basic keyboard accessibility was missing across the entire layout, leaving interactive elements unreachable without a mouse.
+**Details most users never notice, but I would still fix.** The active transcript line was colored in a red or pink that reads as an error state. The notifications panel header said "0 Notifications" while the body said "No notification yet", a singular and plural mismatch. The feedback modal used plain numbered boxes from 1 to 5 instead of a clear rating control. Icon tooltips opened with a noticeable lag. Additionally, basic keyboard accessibility was missing across the entire layout, leaving interactive elements unreachable without a mouse. Furthermore, the application lacks a dark mode option, which is a highly expected feature for power users during prolonged reading and focus sessions.
 
 ### Craft review
 
@@ -41,6 +41,7 @@ The most impactful issues I found, grouped so the structure reads as a system ra
 9. **Sidebar motion.** The expand and collapse animation was rough and the collapse trigger was weak and hard to find.
 10. **Icon buttons.** Missing tooltips and accessible labels, plus a laggy tooltip delay.
 11. **Download meeting button.** Positioned confusingly with the player controls instead of logically in the top header alongside the copy and share actions.
+12. **Missing Dark Mode.** An application heavily centered around reading transcripts for long durations lacked a dark theme, contributing to potential eye strain.
 
 The observations span general usability, visual and information hierarchy, interaction quality, and accessibility.
 
@@ -75,6 +76,7 @@ A side by side of the live app and the rebuild.
 - Speaker turns are grouped, so a single header covers a run of lines by the same person instead of repeating on every line.
 - Semantic status throughout. Sentiments, filters, bookmarks, and AI Skills all use one set of semantic tokens, with active states (a check on a selected filter or sentiment) so the current selection is obvious.
 - The now playing line uses a brand tint, never red, and updates as playback moves.
+- **Dark Theme.** Fully implemented dark theme support across the entire layout using semantic tokens. The theme toggle button is currently added to the top header for easy access during the demo, but is planned to be moved to the profile dropdown later.
 
 ### Accessibility, verified
 
@@ -123,6 +125,7 @@ Motion is purposeful and quiet, never decorative.
 - Feedback modal redesigned with a proper star rating system replacing the plain numbered boxes, complete with adjusted spacing and a dark overlay.
 - Download meeting button relocated to the top header alongside the copy and share actions, making the player control panel much clearer and more precise.
 - Bookmarks rendered as semantic cards (Important, Positive, Concern) on the shared Card and Badge primitives.
+- The dark mode theme toggle button is currently added to the header for demo purposes, but is planned to be moved to the profile dropdown later.
 
 ---
 
@@ -154,5 +157,4 @@ Deploy on Vercel with the Vite preset, build command `npm run build`, output dir
 - **Mock data only, no backend.** The brief asked for this. Playback is simulated so the transport and the now playing highlight feel alive without real audio.
 - **One screen, done well.** I chose depth on the transcript view over breadth across multiple screens.
 - **Some panel tabs are lighter than others.** Search, filters, sentiment, talk time, bookmarks, and topic trackers are built out. AskFred and AI Skills are presented as realistic, static surfaces rather than wired to a model, since there is no backend.
-- **Dark theme is ready but not shipped.** The tokens support it as a drop in. I left the toggle out to keep the submission focused on the light surface that matches the live product.
 - **WAVE alerts remain.** I treated zero errors and zero contrast errors as the target. The 35 advisory alerts are documented above rather than hidden.

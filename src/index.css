@@ -41,6 +41,41 @@
   color-scheme: light;
 }
 
+.dark {
+  --brand: #8b71f9;
+  --brand-hover: #9c85fa;
+  --brand-active: #7a5af8;
+  --brand-soft: rgba(122, 90, 248, 0.15);
+  --brand-ring: rgba(139, 113, 249, 0.25);
+  
+  --canvas: #111111;
+  --surface: #18181b;
+  --surface-subtle: #27272a;
+  --surface-secondary: #3f3f46;
+  --surface-muted: #1e1e24;
+
+  --ink: #f4f4f5;
+  --ink-secondary: #a1a1aa;
+  --ink-muted: #71717a;
+  --ink-inverse: #000000;
+
+  --line: #3f3f46;
+  --line-strong: #52525b;
+
+  --success: #12b76a;
+  --success-soft: #142e23;
+  --warning: #f79009;
+  --warning-soft: #382914;
+  --danger: #f04438;
+  --danger-soft: #381a1a;
+  --info: #2e90fa;
+  --info-soft: #142538;
+
+  --playing: rgba(122, 90, 248, 0.15);
+  
+  color-scheme: dark;
+}
+
 * {
   border-color: var(--line);
 }

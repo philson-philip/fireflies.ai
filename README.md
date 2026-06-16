@@ -52,6 +52,8 @@ Most of the issues above are symptoms of missing primitives, not one off bugs. I
 - **Card.** One container with consistent spacing, radius, and border, used for bookmarks, AI Skills, comments, and panel rows. In the live app each of these reinvents the card.
 - **IconButton.** Every icon control routes through it, so each one is guaranteed an accessible label and a tooltip.
 - **Avatar.** Speaker color is derived deterministically from the name, so the same person reads the same color in the transcript, the talk time list, and the attendee chips.
+- **Toast.** Redesigned as a standalone primitive that natively supports semantic variants (success, warning, danger, info) with consistent layouts, background tints, and exit animations.
+- **Typography.** Centralizes the type scale, ensuring all text elements stay consistent with the defined font families (DM Sans and Inter) and responsive sizes without repeating utility classes.
 - **Layout primitive.** The three sidebar bugs (width jump, broken resize, rough motion) are really one missing layout primitive. Solving it once fixes all three.
 
 This is the same argument I lived at BigBinary, where I built NeetoUI across 20 plus products and cut frontend development time by about 75 percent. A primitive makes the next feature consistent by default.

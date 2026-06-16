@@ -1,6 +1,6 @@
-# Fireflies, Meeting Detail redesigned
+# Fireflies, Meeting Detail / Transcript view redesigned
 
-An improved version of the Fireflies meeting / transcript detail view, rebuilt on a design system I built from scratch. Frontend only, mock data, no backend. The focus is interaction, craft, accessibility, and a layout that holds up from wide desktop down to a phone in landscape.
+An improved version of the Fireflies meeting detail / transcript view, rebuilt on a design system I built from scratch. Frontend only, mock data, no backend. The focus is interaction, craft, accessibility, and a layout that holds up from wide desktop down to a phone in landscape.
 
 - **Live demo:** https://fireflies-ai.vercel.app/
 - **Repo:** https://github.com/philson-philip/fireflies.ai

@@ -2,23 +2,27 @@ import { useState, useRef, useCallback, useEffect } from "react";
 import { Star, ThumbsUp, ThumbsDown, CheckSquare } from "lucide-react";
 import Tooltip from "@components/ui/Tooltip";
 import { useToast } from "@components/ui/Toast";
-import { cn, formatClock } from "@lib/utils";
+import { cn, formatClock, clamp } from "@lib/utils";
 
 const STEP = 5;
+
+const MARKER_ICONS = {
+  important: Star,
+  action: CheckSquare,
+  like: ThumbsUp,
+  dislike: ThumbsDown,
+};
 
 const Marker = ({ marker, totalSeconds, onDeleteMarker, onScrub, setHoveredMarkerId, isHovering }) => {
   const toast = useToast();
   const pct = totalSeconds ? (marker.seconds / totalSeconds) * 100 : 0;
-
-  let Icon = Star;
-  if (marker.type === "like") Icon = ThumbsUp;
-  else if (marker.type === "action") Icon = CheckSquare;
-  else if (marker.type === "dislike") Icon = ThumbsDown;
+  const Icon = MARKER_ICONS[marker.type] || Star;
 
   return (
     <Tooltip
       label={`Philson marked ${marker.type}`}
       side="top"
+      positioned
       action={
         <button
           type="button"
@@ -66,37 +70,45 @@ const ProgressBar = ({ currentSeconds, totalSeconds, onScrub, markers = [], onDe
   const [isDragging, setIsDragging] = useState(false);
   const [hoveredMarkerId, setHoveredMarkerId] = useState(null);
   const trackRef = useRef(null);
+  const isDraggingRef = useRef(false);
+  const capturedRef = useRef(null);
 
   const isHovering = isProgressBarHovering || isFooterHovered;
-  const pct = totalSeconds ? Math.min(100, Math.max(0, (currentSeconds / totalSeconds) * 100)) : 0;
+  const pct = totalSeconds ? clamp((currentSeconds / totalSeconds) * 100, 0, 100) : 0;
+
+  useEffect(() => {
+    isDraggingRef.current = isDragging;
+  }, [isDragging]);
 
   const handlePointerMove = useCallback(
     (e, forceScrub = false) => {
       if (!trackRef.current) return;
       const rect = trackRef.current.getBoundingClientRect();
-      const x = Math.min(Math.max(0, e.clientX - rect.left), rect.width);
+      const x = clamp(e.clientX - rect.left, 0, rect.width);
       const p = x / rect.width;
       setHoverX(p * 100);
       setHoverTime(p * totalSeconds);
 
-      if (isDragging || forceScrub) {
+      if (isDraggingRef.current || forceScrub) {
         onScrub(p * totalSeconds);
       }
     },
-    [isDragging, totalSeconds, onScrub]
+    [totalSeconds, onScrub]
   );
 
   const handlePointerDown = (e) => {
     if (!trackRef.current) return;
     setIsDragging(true);
+    capturedRef.current = e.currentTarget;
     e.currentTarget.setPointerCapture(e.pointerId);
     handlePointerMove(e, true);
   };
 
-  const handlePointerUp = (e) => {
+  const handlePointerUp = useCallback((e) => {
     setIsDragging(false);
-    e.currentTarget.releasePointerCapture(e.pointerId);
-  };
+    capturedRef.current?.releasePointerCapture?.(e.pointerId);
+    capturedRef.current = null;
+  }, []);
 
   const handleKeyDown = (e) => {
     let next = null;
@@ -111,18 +123,14 @@ const ProgressBar = ({ currentSeconds, totalSeconds, onScrub, markers = [], onDe
   };
 
   useEffect(() => {
-    if (isDragging) {
-      window.addEventListener("pointermove", handlePointerMove);
-      window.addEventListener("pointerup", handlePointerUp);
-    } else {
-      window.removeEventListener("pointermove", handlePointerMove);
-      window.removeEventListener("pointerup", handlePointerUp);
-    }
+    if (!isDragging) return;
+    window.addEventListener("pointermove", handlePointerMove);
+    window.addEventListener("pointerup", handlePointerUp);
     return () => {
       window.removeEventListener("pointermove", handlePointerMove);
       window.removeEventListener("pointerup", handlePointerUp);
     };
-  }, [isDragging, handlePointerMove]);
+  }, [isDragging, handlePointerMove, handlePointerUp]);
 
   return (
     <div
@@ -163,7 +171,7 @@ const ProgressBar = ({ currentSeconds, totalSeconds, onScrub, markers = [], onDe
         style={{
           top: "-40px",
           height: "45px",
-          background: "linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.9) 100%, var(--color-white) 100%)",
+          background: "linear-gradient(180deg, transparent 0%, color-mix(in srgb, var(--surface) 90%, transparent) 100%, var(--surface) 100%)",
         }}
       />
 

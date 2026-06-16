@@ -15,6 +15,10 @@ export const participants = [
   { name: "Philson Philip", role: "Guest", imageUrl: "https://api.dicebear.com/7.x/notionists/svg?seed=Philson&backgroundColor=f1edff" },
 ];
 
+export function getParticipantImage(name) {
+  return participants.find((p) => p.name === name)?.imageUrl;
+}
+
 export const summary = [
   {
     label: "Candidate experience",

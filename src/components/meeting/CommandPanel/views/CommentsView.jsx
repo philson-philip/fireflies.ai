@@ -1,7 +1,7 @@
 import { ArrowUp } from "lucide-react";
 import Avatar from "@components/ui/Avatar";
 import Typography from "@components/ui/Typography";
-import { comments } from "@data/meeting";
+import { comments, getParticipantImage } from "@data/meeting";
 
 const CommentsView = () => (
   <div className="flex flex-col h-full">
@@ -13,7 +13,7 @@ const CommentsView = () => (
               F
             </div>
           ) : (
-            <Avatar name={c.author} size="xs" />
+            <Avatar name={c.author} imageUrl={getParticipantImage(c.author)} size="xs" />
           )}
           <div className="flex flex-col gap-1.5 w-full min-w-0">
             <div className="flex items-center gap-1.5 flex-wrap">
@@ -37,13 +37,13 @@ const CommentsView = () => (
 
     <div className="sticky bottom-0 z-10 shrink-0 border-t border-line bg-surface p-4">
       <div className="flex items-start gap-2.5 rounded-md border border-line bg-surface-subtle p-2 shadow-subtle focus-within:border-brand-soft transition-colors">
-        <Avatar name="Philson Philip" size="sm" />
+        <Avatar name="Philson Philip" imageUrl={getParticipantImage("Philson Philip")} size="sm" />
         <textarea
           className="max-h-32 min-h-[20px] w-full bg-transparent text-label text-ink placeholder:text-ink-muted focus:outline-none"
           placeholder="Comment..."
           rows={2}
         />
-        <button className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[5px] bg-brand-soft text-brand hover:opacity-80 transition-opacity">
+        <button className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-brand-soft text-brand hover:opacity-80 transition-opacity">
           <ArrowUp size={16} strokeWidth={2.5} />
         </button>
       </div>

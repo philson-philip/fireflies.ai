@@ -14,6 +14,29 @@ export function formatClock(totalSeconds) {
   return `${String(m).padStart(2, "0")}:${String(r).padStart(2, "0")}`;
 }
 
+export function clamp(value, min, max) {
+  return Math.min(max, Math.max(min, value));
+}
+
+export function escapeRegExp(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+export function uid() {
+  return `${Math.random().toString(36).slice(2)}${Date.now().toString(36)}`;
+}
+
+export function isTypingTarget(el) {
+  if (!el) return false;
+  const tag = el.tagName;
+  return (
+    tag === "INPUT" ||
+    tag === "TEXTAREA" ||
+    tag === "SELECT" ||
+    el.isContentEditable
+  );
+}
+
 const SPEAKER_TONES = [
   { bg: "#FEF0C7", fg: "#B54708" },
   { bg: "#D1FADF", fg: "#067647" },

@@ -26,6 +26,7 @@ export default {
         warning: { DEFAULT: "var(--warning)", soft: "var(--warning-soft)" },
         danger: { DEFAULT: "var(--danger)", soft: "var(--danger-soft)" },
         info: { DEFAULT: "var(--info)", soft: "var(--info-soft)" },
+        rating: "var(--rating)",
         playing: "var(--playing)",
       },
       fontFamily: {

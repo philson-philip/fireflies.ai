@@ -18,7 +18,7 @@ const SIZES = {
 const Button = ({ variant = "primary", size = "md", className, children, ...props }) => (
   <button
     className={cn(
-      "inline-flex items-center justify-center rounded-[5px] font-display font-medium transition-colors duration-150 ease-out-soft",
+      "inline-flex items-center justify-center rounded-md font-display font-medium transition-colors duration-150 ease-out-soft",
       "disabled:cursor-not-allowed disabled:shadow-none",
       VARIANTS[variant],
       SIZES[size],

@@ -4,7 +4,7 @@ import Button from "@components/ui/Button";
 import Avatar from "@components/ui/Avatar";
 import Typography from "@components/ui/Typography";
 import { useToast } from "@components/ui/Toast";
-import { meeting } from "@data/meeting";
+import { meeting, getParticipantImage } from "@data/meeting";
 
 const Header = ({ onCopyLink }) => {
   const toast = useToast();
@@ -61,7 +61,7 @@ const Header = ({ onCopyLink }) => {
           aria-label="Account"
           className="ml-0.5 rounded-md focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-brand-ring"
         >
-          <Avatar name="Philson Philip" size="sm" />
+          <Avatar name="Philson Philip" imageUrl={getParticipantImage("Philson Philip")} size="sm" />
         </button>
       </div>
     </header>

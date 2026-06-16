@@ -5,48 +5,77 @@ import Button from "@components/ui/Button";
 import IconButton from "@components/ui/IconButton";
 import { cn } from "@lib/utils";
 
-const FeedbackModal = ({ isOpen, onClose }) => {
-  const [rating, setRating] = useState(0);
-  const [hoverRating, setHoverRating] = useState(0);
-  const [feedback, setFeedback] = useState("");
+const RATING_STARS = [1, 2, 3, 4, 5];
 
-  // Prevent scrolling when modal is open
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-    return () => {
-      document.body.style.overflow = "unset";
-    };
-  }, [isOpen]);
-
-  // Reset state when opened
-  useEffect(() => {
-    if (isOpen) {
-      setRating(0);
-      setHoverRating(0);
-      setFeedback("");
-    }
-  }, [isOpen]);
-
-  if (!isOpen) return null;
+function StarRating({ value, onChange }) {
+  const [hover, setHover] = useState(0);
+  const display = hover || value;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
-      <div 
-        role="dialog" 
-        aria-modal="true" 
+    <div className="flex items-center gap-1">
+      {RATING_STARS.map((star) => {
+        const isActive = display >= star;
+        return (
+          <button
+            key={star}
+            type="button"
+            onClick={() => onChange(star)}
+            onMouseEnter={() => setHover(star)}
+            onMouseLeave={() => setHover(0)}
+            className="rounded-sm p-1 transition-transform hover:scale-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+            aria-label={`Rate ${star} stars`}
+          >
+            <Star
+              size={32}
+              className={cn(
+                "transition-colors",
+                isActive ? "fill-rating text-rating" : "fill-transparent text-line-strong hover:text-rating"
+              )}
+            />
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+const FeedbackModal = ({ onClose }) => {
+  const [rating, setRating] = useState(0);
+  const [feedback, setFeedback] = useState("");
+
+  useEffect(() => {
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [onClose]);
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
+      <div
+        role="dialog"
+        aria-modal="true"
         aria-labelledby="feedback-title"
-        className="relative w-full max-w-lg rounded-xl bg-surface p-6 shadow-elevated"
+        className="relative w-full max-w-lg rounded-xl bg-surface p-6 shadow-lifted"
       >
         <div className="absolute right-4 top-4">
-          <IconButton
-            label="Close feedback"
-            onClick={onClose}
-            size="sm"
-          >
+          <IconButton label="Close feedback" onClick={onClose} size="sm">
             <X size={20} />
           </IconButton>
         </div>
@@ -64,30 +93,7 @@ const FeedbackModal = ({ isOpen, onClose }) => {
           <Typography variant="label" className="mb-3 block">
             Rate
           </Typography>
-          <div className="flex items-center gap-1">
-            {[1, 2, 3, 4, 5].map((star) => {
-              const isActive = (hoverRating || rating) >= star;
-              return (
-                <button
-                  key={star}
-                  type="button"
-                  onClick={() => setRating(star)}
-                  onMouseEnter={() => setHoverRating(star)}
-                  onMouseLeave={() => setHoverRating(0)}
-                  className="p-1 transition-transform hover:scale-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded-sm"
-                  aria-label={`Rate ${star} stars`}
-                >
-                  <Star
-                    size={32}
-                    className={cn(
-                      "transition-colors",
-                      isActive ? "fill-[#FACC15] text-[#FACC15]" : "fill-transparent text-line-heavy hover:text-[#FACC15]"
-                    )}
-                  />
-                </button>
-              );
-            })}
-          </div>
+          <StarRating value={rating} onChange={setRating} />
         </div>
 
         <div className="mb-6">
@@ -95,7 +101,7 @@ const FeedbackModal = ({ isOpen, onClose }) => {
             value={feedback}
             onChange={(e) => setFeedback(e.target.value)}
             placeholder="Help us understand more... (Optional)"
-            className="w-full h-24 resize-none rounded-lg border border-line bg-surface p-3 text-body text-ink placeholder:text-ink-muted focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
+            className="h-24 w-full resize-none rounded-lg border border-line bg-surface p-3 text-body text-ink placeholder:text-ink-muted focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
           />
         </div>
 

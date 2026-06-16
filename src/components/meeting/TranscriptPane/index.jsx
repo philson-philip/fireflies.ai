@@ -13,7 +13,7 @@ const TABS = [
   { key: "skills", label: "AI Skills" },
 ];
 
-const TranscriptPane = ({ currentSeconds, onSeek, onExpand }) => {
+const TranscriptPane = ({ currentSeconds, onSeek, onExpand = () => {} }) => {
   const [tab, setTab] = useState("transcript");
 
   return (

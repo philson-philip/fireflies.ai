@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { Check, Plus } from "lucide-react";
-import { DOT } from "@components/ui/Badge";
 import Card from "@components/ui/Card";
 import Avatar from "@components/ui/Avatar";
 import Typography from "@components/ui/Typography";
 import { cn } from "@lib/utils";
-import { insights } from "@data/meeting";
+import { insights, getParticipantImage } from "@data/meeting";
 import Section from "@components/meeting/CommandPanel/Section";
 
 const SELECTED_STYLES = {
@@ -26,6 +25,27 @@ const TEXT_STYLES = {
   info: "text-info",
 };
 
+const ToggleCard = ({ item, selected, onToggle, value }) => (
+  <Card
+    as="button"
+    type="button"
+    interactive
+    aria-pressed={selected}
+    className={cn(
+      "!rounded-md shadow-subtle flex items-center justify-between !p-3 text-left w-full !border-0",
+      selected ? SELECTED_STYLES[item.tone] : "bg-surface",
+      TEXT_STYLES[item.tone]
+    )}
+    onClick={onToggle}
+  >
+    <div className="flex items-center gap-2">
+      {selected && <Check size={14} className={TEXT_STYLES[item.tone]} />}
+      <span className="text-caption font-medium">{item.label}</span>
+    </div>
+    <span className="text-body-sm font-semibold">{value}</span>
+  </Card>
+);
+
 const Overview = () => {
   const [selectedFilters, setSelectedFilters] = useState(() =>
     insights.filters.length > 0 ? { [insights.filters[0].label]: true } : {}
@@ -44,63 +64,29 @@ const Overview = () => {
     <div className="flex flex-col p-4">
       <Section title="AI Filters">
         <div className="grid grid-cols-2 gap-2">
-          {insights.filters.map((f) => {
-            const isSelected = selectedFilters[f.label];
-            return (
-              <Card
-                key={f.label}
-                as="button"
-                type="button"
-                interactive
-                aria-pressed={isSelected}
-                className={cn(
-                  "!rounded-md shadow-subtle flex items-center justify-between !p-3 text-left w-full !border-0",
-                  isSelected ? SELECTED_STYLES[f.tone] : "bg-surface",
-                  TEXT_STYLES[f.tone]
-                )}
-                onClick={() => toggleFilter(f.label)}
-              >
-                <div className="flex items-center gap-2">
-                  {isSelected && DOT[f.tone] && (
-                    <Check size={14} className={DOT[f.tone].replace("bg-", "text-")} />
-                  )}
-                  <span className="text-caption font-medium">{f.label}</span>
-                </div>
-                <span className="text-body-sm font-semibold">{f.count}</span>
-              </Card>
-            );
-          })}
+          {insights.filters.map((f) => (
+            <ToggleCard
+              key={f.label}
+              item={f}
+              selected={selectedFilters[f.label]}
+              onToggle={() => toggleFilter(f.label)}
+              value={f.count}
+            />
+          ))}
         </div>
       </Section>
 
       <Section title="Sentiments">
         <div className="flex flex-col gap-2">
-          {insights.sentiments.map((s) => {
-            const isSelected = selectedSentiments[s.label];
-            return (
-              <Card
-                key={s.label}
-                as="button"
-                type="button"
-                interactive
-                aria-pressed={isSelected}
-                className={cn(
-                  "!rounded-md shadow-subtle flex items-center justify-between !p-3 text-left w-full !border-0",
-                  isSelected ? SELECTED_STYLES[s.tone] : "bg-surface",
-                  TEXT_STYLES[s.tone]
-                )}
-                onClick={() => toggleSentiment(s.label)}
-              >
-                <div className="flex items-center gap-2">
-                  {isSelected && DOT[s.tone] && (
-                    <Check size={14} className={DOT[s.tone].replace("bg-", "text-")} />
-                  )}
-                  <span className="text-caption font-medium">{s.label}</span>
-                </div>
-                <span className="text-body-sm font-semibold">{s.value}%</span>
-              </Card>
-            );
-          })}
+          {insights.sentiments.map((s) => (
+            <ToggleCard
+              key={s.label}
+              item={s}
+              selected={selectedSentiments[s.label]}
+              onToggle={() => toggleSentiment(s.label)}
+              value={`${s.value}%`}
+            />
+          ))}
         </div>
       </Section>
 
@@ -114,7 +100,7 @@ const Overview = () => {
           {insights.talktime.map((t) => (
             <Card key={t.name} className="!rounded-md !border-0 shadow-subtle flex items-center justify-between !p-3 bg-surface">
               <div className="flex items-center gap-3 w-1/2 min-w-0">
-                <Avatar name={t.name} size="xs" />
+                <Avatar name={t.name} imageUrl={getParticipantImage(t.name)} size="xs" />
                 <Typography as="p" variant="caption" tone="text-ink" className="truncate">{t.name}</Typography>
               </div>
               <div className="flex items-center gap-2 w-[20%]">

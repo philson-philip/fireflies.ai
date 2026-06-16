@@ -1,5 +1,5 @@
 import { ChevronDown, Plus, Copy } from "lucide-react";
-import { RAIL_ITEMS } from "@components/meeting/Sidebar";
+import { RAIL_ITEMS } from "@data/panels";
 import PanelShell from "@components/meeting/CommandPanel/PanelShell";
 import Overview from "@components/meeting/CommandPanel/views/Overview";
 import IndexView from "@components/meeting/CommandPanel/views/IndexView";
@@ -36,7 +36,7 @@ const PANEL_ACTIONS = {
     <div className="flex items-center gap-3">
       <Copy size={16} className="text-ink-muted hover:text-ink cursor-pointer" />
       <label className="flex items-center gap-1.5 cursor-pointer group">
-        <input type="checkbox" className="rounded-[4px] border-line text-brand focus:ring-brand focus:ring-offset-0 w-3.5 h-3.5 cursor-pointer" />
+        <input type="checkbox" className="rounded-sm border-line text-brand focus:ring-brand focus:ring-offset-0 w-3.5 h-3.5 cursor-pointer" />
         <span className="text-label font-medium text-ink-muted group-hover:text-ink select-none">By me</span>
       </label>
     </div>

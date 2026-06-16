@@ -5,7 +5,14 @@ import IconButton from "@components/ui/IconButton";
 import Typography from "@components/ui/Typography";
 import { useToast } from "@components/ui/Toast";
 import { toSeconds } from "@lib/utils";
-import { meeting, summary, notes } from "@data/meeting";
+import { meeting, summary, notes, getParticipantImage } from "@data/meeting";
+
+const BulletItem = ({ children }) => (
+  <Typography as="li" variant="body" className="flex items-start gap-2.5">
+    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-ink-muted" aria-hidden />
+    <span>{children}</span>
+  </Typography>
+);
 
 const SummaryPane = ({ onSeek }) => {
   const toast = useToast();
@@ -22,7 +29,7 @@ const SummaryPane = ({ onSeek }) => {
 
         <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-caption text-ink-muted">
           <span className="inline-flex items-center gap-1.5">
-            <Avatar name={meeting.host.name} size="xs" />
+            <Avatar name={meeting.host.name} imageUrl={getParticipantImage(meeting.host.name)} size="xs" />
             {meeting.host.name}
             <span className="rounded bg-surface-muted px-1.5 py-0.5 font-medium text-ink-secondary">
               +{meeting.otherCount}
@@ -56,12 +63,9 @@ const SummaryPane = ({ onSeek }) => {
 
         <ul className="mt-4 space-y-3.5">
           {summary.map((row) => (
-            <Typography as="li" variant="body" key={row.label} className="flex items-start gap-2.5">
-              <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-ink-muted" aria-hidden />
-              <span>
-                <span className="font-semibold text-ink">{row.label}:</span> {row.text}
-              </span>
-            </Typography>
+            <BulletItem key={row.label}>
+              <span className="font-semibold text-ink">{row.label}:</span> {row.text}
+            </BulletItem>
           ))}
         </ul>
 
@@ -74,8 +78,7 @@ const SummaryPane = ({ onSeek }) => {
               </Typography>
               <ul className="mt-2.5 space-y-2">
                 {group.items.map((item, i) => (
-                  <Typography as="li" variant="body" key={i} className="flex items-start gap-2.5">
-                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-ink-muted" aria-hidden />
+                  <BulletItem key={i}>
                     <span>
                       {item.text}{" "}
                       <button
@@ -87,7 +90,7 @@ const SummaryPane = ({ onSeek }) => {
                         {item.at}
                       </button>
                     </span>
-                  </Typography>
+                  </BulletItem>
                 ))}
               </ul>
             </section>

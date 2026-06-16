@@ -4,14 +4,15 @@ import Avatar from "@components/ui/Avatar";
 import Input from "@components/ui/Input";
 import IconButton from "@components/ui/IconButton";
 import Typography from "@components/ui/Typography";
-import { cn, toSeconds } from "@lib/utils";
-import { transcript } from "@data/meeting";
+import { cn, toSeconds, escapeRegExp } from "@lib/utils";
+import { transcript, getParticipantImage } from "@data/meeting";
 
 const withMatches = (text, query) => {
   if (!query) return text;
-  const parts = text.split(new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`, "ig"));
+  const normalized = query.toLowerCase();
+  const parts = text.split(new RegExp(`(${escapeRegExp(query)})`, "ig"));
   return parts.map((p, i) =>
-    p.toLowerCase() === query.toLowerCase() ? (
+    p.toLowerCase() === normalized ? (
       <mark key={i} className="rounded bg-warning-soft px-0.5 text-ink">
         {p}
       </mark>
@@ -34,6 +35,24 @@ const TranscriptTab = ({ currentSeconds, onSeek }) => {
     }
     return id;
   }, [currentSeconds]);
+
+  const speakerImages = useMemo(() => {
+    const map = {};
+    for (const line of transcript) {
+      if (!map[line.speaker]) {
+        map[line.speaker] = getParticipantImage(line.speaker);
+      }
+    }
+    return map;
+  }, []);
+
+  const renderedTranscript = useMemo(() => {
+    const trimmed = query.trim();
+    return transcript.map((line) => ({
+      ...line,
+      content: trimmed ? withMatches(line.text, trimmed) : line.text,
+    }));
+  }, [query]);
 
   return (
     <>
@@ -61,7 +80,7 @@ const TranscriptTab = ({ currentSeconds, onSeek }) => {
         />
       </div>
       <div className="scroll-thin flex-1 overflow-y-auto px-4 pb-6 pt-2">
-        {transcript.map((line) => {
+        {renderedTranscript.map((line) => {
           const active = line.id === activeId;
           return (
             <div
@@ -69,7 +88,7 @@ const TranscriptTab = ({ currentSeconds, onSeek }) => {
               aria-current={active ? "true" : undefined}
               className="group/chat mb-3 flex gap-2.5 rounded-md p-2 -mx-2 transition-colors hover:bg-surface-subtle"
             >
-              <Avatar name={line.speaker} size="xs" className="shrink-0 mt-0.5" />
+              <Avatar name={line.speaker} imageUrl={speakerImages[line.speaker]} size="xs" className="shrink-0 mt-0.5" />
               <div className="min-w-0 flex-1">
                 <div className="mb-1 flex items-center gap-2">
                   <Typography as="span" variant="body-sm" tone="text-ink" className="font-semibold">
@@ -94,8 +113,13 @@ const TranscriptTab = ({ currentSeconds, onSeek }) => {
                     <Link2 size={14} aria-hidden />
                   </IconButton>
                 </div>
-                <Typography as="p" variant="body" className="min-w-0 transition-colors" tone={active ? "text-[#6938EF]" : undefined}>
-                  {withMatches(line.text, query)}
+                <Typography
+                  as="p"
+                  variant="body"
+                  className="min-w-0 transition-colors"
+                  tone={active ? "text-brand-active" : undefined}
+                >
+                  {line.content}
                 </Typography>
               </div>
             </div>

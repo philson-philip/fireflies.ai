@@ -7,25 +7,24 @@ import SummaryPane from "@components/meeting/SummaryPane";
 import TranscriptPane from "@components/meeting/TranscriptPane";
 import PlayerBar from "@components/meeting/Player";
 import ResizeHandle from "@components/meeting/ResizeHandle";
-import { cn } from "@lib/utils";
+import { useMediaQuery } from "@lib/useMediaQuery";
+import { cn, clamp, uid, isTypingTarget } from "@lib/utils";
 import { meeting } from "@data/meeting";
-
-const useMediaQuery = (query) => {
-  const [matches, setMatches] = useState(
-    () => typeof window !== "undefined" && window.matchMedia(query).matches
-  );
-  useEffect(() => {
-    const mq = window.matchMedia(query);
-    const handler = (e) => setMatches(e.matches);
-    mq.addEventListener("change", handler);
-    setMatches(mq.matches);
-    return () => mq.removeEventListener("change", handler);
-  }, [query]);
-  return matches;
-};
 
 const MIN_W = 360;
 const MAX_W = 720;
+
+const MOBILE_TABS = [
+  { key: "summary", label: "Summary", icon: AlignLeft },
+  { key: "transcript", label: "Transcript", icon: FileText },
+];
+
+const MARKER_KEYS = {
+  "1": "important",
+  "2": "action",
+  "3": "like",
+  "4": "dislike",
+};
 
 const MeetingDetail = () => {
   const isDesktop = useMediaQuery("(min-width: 1024px)");
@@ -53,10 +52,7 @@ const MeetingDetail = () => {
       if (prev.some((m) => m.type === type && m.seconds === currentSecs)) {
         return prev;
       }
-      return [
-        ...prev,
-        { id: Date.now() + Math.random(), type, seconds: currentSecs },
-      ].sort((a, b) => a.seconds - b.seconds);
+      return [...prev, { id: uid(), type, seconds: currentSecs }].sort((a, b) => a.seconds - b.seconds);
     });
   };
 
@@ -81,7 +77,8 @@ const MeetingDetail = () => {
       const el = e.target;
       const tag = el?.tagName;
       const role = el?.getAttribute?.("role");
-      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || el?.isContentEditable) return;
+
+      if (isTypingTarget(el)) return;
 
       if (e.key === " ") {
         if (tag === "BUTTON" || tag === "A" || role === "button") return;
@@ -91,27 +88,20 @@ const MeetingDetail = () => {
         if (role === "slider" || role === "separator") return;
         e.preventDefault();
         const delta = e.key === "ArrowLeft" ? -5 : 5;
-        setSeconds((s) => Math.min(meeting.durationSeconds, Math.max(0, s + delta)));
-      } else if (e.key === "1") {
-        e.preventDefault();
-        handleAddMarkerRef.current?.("important");
-      } else if (e.key === "2") {
-        e.preventDefault();
-        handleAddMarkerRef.current?.("action");
-      } else if (e.key === "3") {
-        e.preventDefault();
-        handleAddMarkerRef.current?.("like");
-      } else if (e.key === "4") {
-        e.preventDefault();
-        handleAddMarkerRef.current?.("dislike");
+        setSeconds((s) => clamp(s + delta, 0, meeting.durationSeconds));
+      } else {
+        const markerType = MARKER_KEYS[e.key];
+        if (markerType) {
+          e.preventDefault();
+          handleAddMarkerRef.current?.(markerType);
+        }
       }
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, []);
 
-  const resize = (delta) =>
-    setTranscriptWidth((w) => Math.min(MAX_W, Math.max(MIN_W, w - delta)));
+  const resize = (delta) => setTranscriptWidth((w) => clamp(w - delta, MIN_W, MAX_W));
 
   return (
     <div className="flex h-full flex-col bg-canvas text-ink overflow-hidden">
@@ -132,7 +122,7 @@ const MeetingDetail = () => {
               <SummaryPane onSeek={setSeconds} />
               <ResizeHandle onResize={resize} value={transcriptWidth} min={MIN_W} max={MAX_W} />
               <div style={{ width: transcriptWidth }} className="flex min-w-0">
-                <TranscriptPane currentSeconds={seconds} onSeek={setSeconds} onExpand={() => {}} />
+                <TranscriptPane currentSeconds={seconds} onSeek={setSeconds} />
               </div>
             </main>
           </>
@@ -143,10 +133,7 @@ const MeetingDetail = () => {
               aria-label="Meeting view"
               className="flex shrink-0 gap-1 border-b border-line bg-surface p-2"
             >
-              {[
-                { key: "summary", label: "Summary", icon: AlignLeft },
-                { key: "transcript", label: "Transcript", icon: FileText },
-              ].map((t) => (
+              {MOBILE_TABS.map((t) => (
                 <button
                   key={t.key}
                   role="tab"
@@ -165,7 +152,7 @@ const MeetingDetail = () => {
               {mobileTab === "summary" ? (
                 <SummaryPane onSeek={setSeconds} />
               ) : (
-                <TranscriptPane currentSeconds={seconds} onSeek={setSeconds} onExpand={() => {}} />
+                <TranscriptPane currentSeconds={seconds} onSeek={setSeconds} />
               )}
             </main>
           </div>

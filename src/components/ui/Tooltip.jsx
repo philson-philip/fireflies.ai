@@ -1,4 +1,4 @@
-import { useId, useRef, useState, useLayoutEffect } from "react";
+import { useId, useRef, useState, useLayoutEffect, useEffect } from "react";
 import { cn } from "@lib/utils";
 
 const SIDE = {
@@ -8,7 +8,19 @@ const SIDE = {
   right: "left-full top-1/2 -translate-y-1/2 ml-[8.5px]",
 };
 
-const Tooltip = ({ label, shortcut, action, side = "auto", children, className, style, onMouseEnter, onMouseLeave, ...props }) => {
+const Tooltip = ({
+  label,
+  shortcut,
+  action,
+  side = "auto",
+  children,
+  className,
+  style,
+  positioned = false,
+  onMouseEnter,
+  onMouseLeave,
+  ...props
+}) => {
   const [open, setOpen] = useState(false);
   const [computedSide, setComputedSide] = useState(side === "auto" ? "top" : side);
   const timer = useRef(null);
@@ -17,6 +29,13 @@ const Tooltip = ({ label, shortcut, action, side = "auto", children, className, 
   const id = useId();
 
   const [nudge, setNudge] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(timer.current);
+      clearTimeout(hideTimer.current);
+    };
+  }, []);
 
   useLayoutEffect(() => {
     if (open && tooltipRef.current) {
@@ -31,13 +50,13 @@ const Tooltip = ({ label, shortcut, action, side = "auto", children, className, 
       const rect = tooltipRef.current.getBoundingClientRect();
       let x = 0;
       let y = 0;
-      
+
       if (rect.left < 8) {
         x = 8 - rect.left;
       } else if (rect.right > window.innerWidth - 8) {
         x = (window.innerWidth - 8) - rect.right;
       }
-      
+
       if (rect.top < 8) {
         y = 8 - rect.top;
       } else if (rect.bottom > window.innerHeight - 8) {
@@ -81,12 +100,11 @@ const Tooltip = ({ label, shortcut, action, side = "auto", children, className, 
 
   if (!label) return children;
 
-  const hasExplicitPosition = className && (className.includes("absolute") || className.includes("relative") || className.includes("fixed"));
   const actualSide = side === "auto" ? computedSide : side;
 
   return (
     <span
-      className={cn(hasExplicitPosition ? "" : "relative", "inline-flex", className)}
+      className={cn(!positioned && "relative", "inline-flex", className)}
       style={style}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -121,11 +139,7 @@ const Tooltip = ({ label, shortcut, action, side = "auto", children, className, 
             {shortcut}
           </kbd>
         )}
-        {action && (
-          <div className="flex items-center">
-            {action}
-          </div>
-        )}
+        {action && <div className="flex items-center">{action}</div>}
         <div
           className={cn(
             "absolute w-2 h-2 bg-surface rotate-45 pointer-events-none",

@@ -1,6 +1,6 @@
-import { createContext, useCallback, useContext, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { CheckCircle2, Info, AlertTriangle, XCircle, X } from "lucide-react";
-import { cn } from "@lib/utils";
+import { cn, uid } from "@lib/utils";
 import Typography from "@components/ui/Typography";
 
 const ToastContext = createContext(() => {});
@@ -15,19 +15,38 @@ const VARIANTS = {
 
 export const ToastProvider = ({ children }) => {
   const [toasts, setToasts] = useState([]);
+  const timers = useRef(new Map());
 
   const dismiss = useCallback((id) => {
+    const timer = timers.current.get(id);
+    if (timer) {
+      clearTimeout(timer);
+      timers.current.delete(id);
+    }
     setToasts((t) => t.filter((x) => x.id !== id));
   }, []);
 
   const toast = useCallback(
     ({ title, description, variant = "info", duration = 3500 }) => {
-      const id = Math.random().toString(36).slice(2);
+      const id = uid();
       setToasts((t) => [...t, { id, title, description, variant }]);
-      if (duration) setTimeout(() => dismiss(id), duration);
+      if (duration) {
+        const timer = setTimeout(() => {
+          timers.current.delete(id);
+          dismiss(id);
+        }, duration);
+        timers.current.set(id, timer);
+      }
     },
     [dismiss]
   );
+
+  useEffect(() => {
+    return () => {
+      timers.current.forEach(clearTimeout);
+      timers.current.clear();
+    };
+  }, []);
 
   return (
     <ToastContext.Provider value={toast}>

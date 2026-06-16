@@ -19,7 +19,7 @@ const IconButton = ({ label, shortcut, side = "auto", size = "md", variant = "de
       aria-label={label}
       aria-pressed={active || undefined}
       className={cn(
-        "inline-flex items-center justify-center rounded-[5px] transition-colors duration-150 ease-out-soft",
+        "inline-flex items-center justify-center rounded-md transition-colors duration-150 ease-out-soft",
         VARIANTS[variant],
         active && "!bg-brand-soft !text-brand hover:!text-brand",
         SIZES[size],

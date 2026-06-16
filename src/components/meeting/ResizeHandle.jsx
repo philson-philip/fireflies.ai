@@ -38,8 +38,8 @@ const ResizeHandle = ({ onResize, value, min, max }) => {
       tabIndex={0}
       onPointerDown={onPointerDown}
       onKeyDown={(e) => {
-        if (e.key === "ArrowLeft") onResize(16);
-        if (e.key === "ArrowRight") onResize(-16);
+        if (e.key === "ArrowLeft") onResize(-16);
+        if (e.key === "ArrowRight") onResize(16);
       }}
       className="group relative z-10 hidden w-px shrink-0 cursor-col-resize lg:block"
     >

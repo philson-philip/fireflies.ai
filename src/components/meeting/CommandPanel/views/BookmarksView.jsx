@@ -1,8 +1,9 @@
+import { useState } from "react";
 import { Star, ThumbsUp, ThumbsDown, CheckSquare, Trash2 } from "lucide-react";
 import Card from "@components/ui/Card";
 import Typography from "@components/ui/Typography";
 import IconButton from "@components/ui/IconButton";
-import { bookmarks } from "@data/meeting";
+import { bookmarks as initialBookmarks } from "@data/meeting";
 
 const BOOKMARK_TONES = {
   info: { text: "text-info", Icon: Star },
@@ -11,7 +12,11 @@ const BOOKMARK_TONES = {
   warning: { text: "text-warning", Icon: CheckSquare },
 };
 
-const BookmarksView = ({ }) => (
+const BookmarksView = () => {
+  const [bookmarks, setBookmarks] = useState(initialBookmarks);
+  const handleDelete = (id) => setBookmarks((prev) => prev.filter((b) => b.id !== id));
+
+  return (
   <div className="flex flex-col gap-4 p-4">
     {bookmarks.map((b) => {
       const style = BOOKMARK_TONES[b.tone] || { text: "text-ink-secondary", Icon: null };
@@ -22,7 +27,7 @@ const BookmarksView = ({ }) => (
           className="relative group/bookmark !rounded-xl overflow-hidden flex flex-col gap-3 p-4 bg-surface shadow-subtle"
         >
           <div className="absolute right-2 top-2 opacity-0 group-hover/bookmark:opacity-100 transition-opacity duration-200 z-10">
-            <IconButton label="Delete bookmark" side="left" variant="danger">
+            <IconButton label="Delete bookmark" side="left" variant="danger" onClick={() => handleDelete(b.id)}>
               <Trash2 size={15} aria-hidden />
             </IconButton>
           </div>
@@ -45,6 +50,7 @@ const BookmarksView = ({ }) => (
       );
     })}
   </div>
-);
+  );
+};
 
 export default BookmarksView;

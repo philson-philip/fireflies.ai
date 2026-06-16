@@ -16,11 +16,13 @@ const Sidebar = ({ active, onSelect }) => {
 
   useEffect(() => {
     const handleKeyDown = (e) => {
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
       if (isTypingTarget(e.target)) return;
 
       const key = e.key.toUpperCase();
       const matched = RAIL_ITEMS.find((item) => item.shortcut === key);
       if (matched) {
+        e.preventDefault();
         onSelect(activeRef.current === matched.key ? null : matched.key);
       }
     };

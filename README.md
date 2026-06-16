@@ -18,13 +18,13 @@ Because my new account lacked historical seed data, the home dashboard was mostl
 
 ### Product judgment
 
-**What deserves the most attention, and what currently gets too much.** The transcript is the core artifact of the product, yet in the live app it sits visually secondary to the summary and competes with a left panel and the center column for the eye. At some widths the transcript text is clipped on the right edge, so the most important content is the least readable. The recent activity, repeated upsell prompts, and chrome receive more attention than they earn.
+**What deserves the most attention, and what currently gets too much.** The transcript is the core artifact of the product, yet in the live app it sits visually secondary to the summary and competes with a left panel and the center column for the eye. At some widths the transcript text is clipped on the right edge, so the most important content is the least readable. Also, the surrounding UI elements draw more attention than they deserve.
 
 **If I removed 20 to 30 percent, what goes first.** The redundant "download the desktop app" promotions that appear in the profile menu, the notifications panel, and the AskFred connect banner. The repeated speaker headers that print on every consecutive line by the same person. Cutting these returns vertical space to the transcript and the summary.
 
 **The single highest leverage improvement.** Make the transcript primary and fully readable. Stop the horizontal clipping, let the text reflow when the pane is resized, fix the bug that prevents resizing the transcript panel while the left panel is open, and give the reading column a clear visual hierarchy.
 
-**Details most users never notice, but I would still fix.** The active transcript line was colored in a red or pink that reads as an error state. The notifications panel header said "0 Notifications" while the body said "No notification yet", a singular and plural mismatch. The feedback modal used plain numbered boxes from 1 to 5 instead of a clear rating control. Icon tooltips opened with a noticeable lag. Additionally, basic keyboard accessibility was missing across the chrome, leaving interactive elements unreachable without a mouse.
+**Details most users never notice, but I would still fix.** The active transcript line was colored in a red or pink that reads as an error state. The notifications panel header said "0 Notifications" while the body said "No notification yet", a singular and plural mismatch. The feedback modal used plain numbered boxes from 1 to 5 instead of a clear rating control. Icon tooltips opened with a noticeable lag. Additionally, basic keyboard accessibility was missing across the entire layout, leaving interactive elements unreachable without a mouse.
 
 ### Craft review
 
@@ -78,7 +78,14 @@ A side by side of the live app and the rebuild.
 
 ### Accessibility, verified
 
-This was the largest area of work. I rebuilt the chrome as real landmarks and ran the result through the WAVE evaluation tool.
+This was the largest area of work. I rebuilt all the core layout sections as proper semantic landmarks and ran the result through the WAVE evaluation tool.
+
+<p align="center">
+  <b>Live Fireflies (Before)</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>This rebuild (After)</b><br/>
+  <img src="./public/wave-before.png" width="45%" alt="Live Fireflies WAVE result" />
+  &nbsp;
+  <img src="./public/wave-after.png" width="45%" alt="This rebuild WAVE result" />
+</p>
 
 | WAVE result | Live Fireflies | This rebuild |
 | --- | --- | --- |
@@ -86,12 +93,6 @@ This was the largest area of work. I rebuilt the chrome as real landmarks and ra
 | Contrast errors | 315 | 0 |
 | Alerts | 304 | 35 |
 | AIM score | 1.3 / 10 | 9.5 / 10 |
-
-<p align="center">
-  <img src="./public/wave-before.png" width="45%" alt="Live Fireflies WAVE result" />
-  &nbsp;
-  <img src="./public/wave-after.png" width="45%" alt="This rebuild WAVE result" />
-</p>
 
 What changed to get there:
 

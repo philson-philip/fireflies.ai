@@ -1,5 +1,6 @@
 import { ArrowUp } from "lucide-react";
 import Avatar from "@components/ui/Avatar";
+import IconButton from "@components/ui/IconButton";
 import Typography from "@components/ui/Typography";
 import { comments, getParticipantImage } from "@data/meeting";
 
@@ -39,13 +40,19 @@ const CommentsView = () => (
       <div className="flex items-start gap-2.5 rounded-md border border-line bg-surface-subtle p-2 shadow-subtle focus-within:border-brand-soft transition-colors">
         <Avatar name="Philson Philip" imageUrl={getParticipantImage("Philson Philip")} size="sm" />
         <textarea
+          aria-label="Add a comment"
           className="max-h-32 min-h-[20px] w-full bg-transparent text-label text-ink placeholder:text-ink-muted focus:outline-none"
           placeholder="Comment..."
           rows={2}
         />
-        <button className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-brand-soft text-brand hover:opacity-80 transition-opacity">
+        <IconButton
+          label="Send comment"
+          size="sm"
+          variant="brand"
+          className="h-8 w-8 shrink-0 rounded-md bg-brand-soft text-brand hover:opacity-80"
+        >
           <ArrowUp size={16} strokeWidth={2.5} />
-        </button>
+        </IconButton>
       </div>
     </div>
   </div>

@@ -42,6 +42,7 @@ function StarRating({ value, onChange }) {
 const FeedbackModal = ({ onClose }) => {
   const [rating, setRating] = useState(0);
   const [feedback, setFeedback] = useState("");
+  const close = () => onClose?.();
 
   useEffect(() => {
     const prev = document.body.style.overflow;
@@ -54,18 +55,18 @@ const FeedbackModal = ({ onClose }) => {
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape") {
-        onClose();
+        close();
       }
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [onClose]);
+  }, [close]);
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-ink/60 p-4"
       onClick={(e) => {
-        if (e.target === e.currentTarget) onClose();
+        if (e.target === e.currentTarget) close();
       }}
     >
       <div
@@ -75,7 +76,7 @@ const FeedbackModal = ({ onClose }) => {
         className="relative w-full max-w-lg rounded-xl bg-surface p-6 shadow-lifted"
       >
         <div className="absolute right-4 top-4">
-          <IconButton label="Close feedback" onClick={onClose} size="sm">
+          <IconButton label="Close feedback" onClick={close} size="sm">
             <X size={20} />
           </IconButton>
         </div>
@@ -100,16 +101,17 @@ const FeedbackModal = ({ onClose }) => {
           <textarea
             value={feedback}
             onChange={(e) => setFeedback(e.target.value)}
+            aria-label="Share your feedback (optional)"
             placeholder="Help us understand more... (Optional)"
             className="h-24 w-full resize-none rounded-lg border border-line bg-surface p-3 text-body text-ink placeholder:text-ink-muted focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
           />
         </div>
 
         <div className="flex items-center justify-end gap-3">
-          <Button variant="secondary" onClick={onClose}>
+          <Button variant="secondary" onClick={close}>
             Cancel
           </Button>
-          <Button variant="primary" disabled={rating === 0} onClick={onClose}>
+          <Button variant="primary" disabled={rating === 0} onClick={close}>
             Share
           </Button>
         </div>

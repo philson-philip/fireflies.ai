@@ -1,10 +1,13 @@
 import { ToastProvider } from "@components/ui/Toast";
+import ErrorBoundary from "@components/ui/ErrorBoundary";
 import MeetingDetail from "@components/meeting/MeetingDetail";
 
 const App = () => (
-  <ToastProvider>
-    <MeetingDetail />
-  </ToastProvider>
+  <ErrorBoundary>
+    <ToastProvider>
+      <MeetingDetail />
+    </ToastProvider>
+  </ErrorBoundary>
 );
 
 export default App;

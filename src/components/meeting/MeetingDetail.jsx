@@ -65,10 +65,14 @@ const MeetingDetail = () => {
 
   useEffect(() => {
     if (!playing) return;
+    if (timer.current) clearInterval(timer.current);
     timer.current = setInterval(() => {
       setSeconds((s) => (s >= meeting.durationSeconds ? 0 : s + 1));
     }, 1000);
-    return () => clearInterval(timer.current);
+    return () => {
+      clearInterval(timer.current);
+      timer.current = null;
+    };
   }, [playing]);
 
   useEffect(() => {
@@ -79,13 +83,26 @@ const MeetingDetail = () => {
       const role = el?.getAttribute?.("role");
 
       if (isTypingTarget(el)) return;
+      // Suspend playback shortcuts while any modal dialog is open
+      if (document.querySelector('[role="dialog"][aria-modal="true"]')) return;
 
       if (e.key === " ") {
         if (tag === "BUTTON" || tag === "A" || role === "button") return;
         e.preventDefault();
         setPlaying((p) => !p);
       } else if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
-        if (role === "slider" || role === "separator") return;
+        if (
+          role === "slider" ||
+          role === "separator" ||
+          role === "tab" ||
+          el?.closest?.('[role="tablist"]') ||
+          tag === "BUTTON" ||
+          tag === "A" ||
+          role === "button" ||
+          role === "link"
+        ) {
+          return;
+        }
         e.preventDefault();
         const delta = e.key === "ArrowLeft" ? -5 : 5;
         setSeconds((s) => clamp(s + delta, 0, meeting.durationSeconds));

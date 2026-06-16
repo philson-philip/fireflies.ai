@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { cn, speakerTone, initials } from "@lib/utils";
 
 const SIZES = {
@@ -8,13 +9,15 @@ const SIZES = {
 
 const Avatar = ({ name, size = "sm", className, imageUrl }) => {
   const tone = speakerTone(name);
+  const [hasError, setHasError] = useState(false);
 
-  if (imageUrl) {
+  if (imageUrl && !hasError) {
     return (
       <img
         src={imageUrl}
         alt={name}
         title={name}
+        onError={() => setHasError(true)}
         className={cn("inline-flex shrink-0 items-center justify-center object-cover", SIZES[size], className)}
       />
     );

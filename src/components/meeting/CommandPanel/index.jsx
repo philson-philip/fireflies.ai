@@ -43,11 +43,13 @@ const PANEL_ACTIONS = {
   ),
 };
 
+const EmptyPanelWrapper = ({ label }) => <EmptyPanel label={label} />;
+
 const CommandPanel = ({ active, onClose }) => {
   const item = RAIL_ITEMS.find((i) => i.key === active);
   if (!item) return null;
 
-  const View = PANEL_VIEWS[active] || (() => <EmptyPanel label={item.label} />);
+  const ActiveView = PANEL_VIEWS[active] || EmptyPanelWrapper;
 
   return (
     <PanelShell
@@ -56,7 +58,7 @@ const CommandPanel = ({ active, onClose }) => {
       action={PANEL_ACTIONS[active]}
       onClose={onClose}
     >
-      <View />
+      <ActiveView label={item.label} />
     </PanelShell>
   );
 };

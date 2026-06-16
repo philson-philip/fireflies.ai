@@ -3,14 +3,20 @@ export function cn(...parts) {
 }
 
 export function toSeconds(ts) {
+  if (typeof ts !== "string" || !ts.trim()) return 0;
   const bits = ts.split(":").map(Number);
+  if (bits.some(Number.isNaN)) return 0;
   return bits.reduce((acc, n) => acc * 60 + n, 0);
 }
 
 export function formatClock(totalSeconds) {
-  const s = Math.max(0, Math.floor(totalSeconds));
-  const m = Math.floor(s / 60);
+  const s = Math.max(0, Math.floor(Number(totalSeconds) || 0));
+  const h = Math.floor(s / 3600);
+  const m = Math.floor((s % 3600) / 60);
   const r = s % 60;
+  if (h > 0) {
+    return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(r).padStart(2, "0")}`;
+  }
   return `${String(m).padStart(2, "0")}:${String(r).padStart(2, "0")}`;
 }
 

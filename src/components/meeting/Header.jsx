@@ -39,9 +39,17 @@ const Header = ({ onCopyLink }) => {
         </Button>
         <IconButton
           label="Copy link"
-          onClick={() => {
-            onCopyLink?.();
-            toast({ title: "Link copied", description: "Anyone with access can open this meeting.", variant: "success" });
+          onClick={async () => {
+            try {
+              if (onCopyLink) {
+                await onCopyLink();
+              } else {
+                await navigator.clipboard.writeText(window.location.href);
+              }
+              toast({ title: "Link copied", description: "Anyone with access can open this meeting.", variant: "success" });
+            } catch {
+              toast({ title: "Unable to copy link", description: "Copy the URL from your browser address bar.", variant: "danger" });
+            }
           }}
         >
           <Link2 size={16} aria-hidden />

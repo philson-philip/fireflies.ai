@@ -10,7 +10,7 @@ An improved version of the Fireflies meeting detail / transcript view, rebuilt o
 
 ## Why this screen
 
-Because my new account lacked historical seed data, the home dashboard was mostly empty and didn't give me enough surface area to judge meaningfully. In contrast, the meeting / transcript detail view is the core surface of a note taker—it is where people actually spend their time, and it is where design craft is most visible. So I picked it for both the audit and the rebuild.
+Because my new account lacked historical seed data, the home dashboard was mostly empty and didn't give me enough surface area to judge meaningfully. In contrast, the meeting / transcript detail view is the core surface of a note taker, it is where people actually spend their time, and it is where design craft is most visible. So I picked it for both the audit and the rebuild.
 
 ---
 
@@ -51,7 +51,6 @@ Most of the issues above are symptoms of missing primitives, not one off bugs. I
 
 - **Card.** One container with consistent spacing, radius, and border, used for bookmarks, AI Skills, comments, and panel rows. In the live app each of these reinvents the card.
 - **IconButton.** Every icon control routes through it, so each one is guaranteed an accessible label and a tooltip.
-- **Avatar.** Speaker color is derived deterministically from the name, so the same person reads the same color in the transcript, the talk time list, and the attendee chips.
 - **Toast.** Redesigned as a standalone primitive that natively supports semantic variants (success, warning, danger, info) with consistent layouts, background tints, and exit animations.
 - **Typography.** Centralizes the type scale, ensuring all text elements stay consistent with the defined font families (DM Sans and Inter) and responsive sizes without repeating utility classes.
 - **Layout primitive.** The three sidebar bugs (width jump, broken resize, rough motion) are really one missing layout primitive. Solving it once fixes all three.
@@ -118,7 +117,7 @@ Motion is purposeful and quiet, never decorative.
 
 ### Responsive, portrait and landscape
 
-- **Desktop.** Rail, summary, and a resizable transcript side by side, with a draggable divider.
+- **Desktop.** Left panel, summary, and a resizable transcript side by side, with a draggable divider.
 - **Mobile portrait.** A single column with a Summary and Transcript segmented switch, since the two panes cannot sit side by side on a phone. The metadata row wraps cleanly instead of collapsing into cramped columns, and the player bar reduces to its essential controls.
 - **Mobile landscape.** The same single column adapts to the short viewport height. The header, content, and player bar stay usable without clipping, which is where the live app's fixed layout falls apart.
 
